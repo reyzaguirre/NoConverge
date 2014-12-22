@@ -5,7 +5,7 @@ set.seed(1)
 nelim <- 100000
 resu <- simula(nelim)
 
-# prob de clasificar
+# probabilidad de clasificar
 (pclas <- sort(table(c(resu[[2]][,1], resu[[2]][,2], resu[[2]][,3], resu[[2]][,4], resu[[2]][,5])))/nelim)
 
 # numero esperado de clasificatorias para ir al mundial
@@ -22,7 +22,7 @@ resu <- simula(nelim)
 1 - (1-pclas["per"])^9
 1 - (1-pclas["per"])^10
 
-# prob de quedar primero, segundo, etc
+# probabilidad de quedar primero, segundo, etc
 sort(table(resu[[2]][,1]))/nelim
 sort(table(resu[[2]][,2]))/nelim
 sort(table(resu[[2]][,3]))/nelim
