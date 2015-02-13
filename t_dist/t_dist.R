@@ -13,5 +13,3 @@ muestras <- array(rbeta(5000,2,10),c(1000,5))
 medias <- apply(muestras,1,mean)
 desves <- apply(muestras,1,sd)
 plot(medias, desves, xlab=expression(bar(x)), ylab="s", main="Beta(2,10)")
-
-
