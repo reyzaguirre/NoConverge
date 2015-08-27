@@ -1,5 +1,5 @@
 ###########################################################################
-## Codigo de la entrada Descomposici�n en Valores Singulares
+## Código de la entrada Descomposición en Valores Singulares
 ## 10/02/2014
 ###########################################################################
 

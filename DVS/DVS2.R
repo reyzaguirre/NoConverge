@@ -1,5 +1,5 @@
 ###########################################################################
-## Codigo de la entrada Valores y Vectores Propios
+## Código de la entrada Valores y Vectores Propios
 ## 28/01/2014
 ###########################################################################
 
