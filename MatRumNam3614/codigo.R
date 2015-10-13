@@ -1,5 +1,5 @@
-datos <- read.csv("datos.csv")
-source("simula.R")
+datos <- read.csv("MatRumNam3614/datos.csv")
+source("MatRumNam3614/simula.R")
 
 set.seed(1)
 nelim <- 100000
