@@ -31,7 +31,7 @@ ddd <- data.frame(pais = c("Argentina", "Brasil", "Paraguay", "Colombia", "Ecuad
 # Grafico. Guardar en 950 x 600
 
 color <- "darkorange1"
-barplot(ddd$pclas, space = 0.8, names.arg = ddd$pais,
+barplot(ddd$pclas, space = 0.8, names.arg = ddd$pais, ylim = c(0,1),
         col = c(rep(color, 7), 'red', rep(color, 2)))
 title(main = "Probabilidad de clasificar a un mundial", font.main = 4)
 
