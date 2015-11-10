@@ -52,10 +52,6 @@ eigen(S)$values
 sum(eigen(S)$values)
 
 
-## ------------------------------------------------------------------------
-diag(S)
-
-
 ## ----echo=F, fig.width=5, fig.height=5-----------------------------------
 EA <- eigen(S)
 PT <- X %*% EA$vectors
@@ -64,5 +60,6 @@ plot(1, type = 'n', asp = 1, xlim = range(PT[, 1]), ylim = range(PT[, 2]),
 points(PT[, 1], PT[, 2], col = "red", lwd = 2, pch = 15)
 text(PT[, 1], PT[, 2], labels = row.names(PT), adj = c(0.5, 0.5), col = "red", pos = 1)
 abline(h = 0, v = 0, col = "green", lty = 2)
-for (i in 1:4) lines(c(0, PT[i, 1]), c(0, PT[i, 2]), col = "red", lty = 3)
+for (i in 1:4)
+  lines(c(0, PT[i, 1]), c(0, PT[i, 2]), col = "red", lty = 3)
 

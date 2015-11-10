@@ -64,4 +64,3 @@ points(-V[, 1], V[, 2], col = "blue", lwd = 2, pch = 17)
 text(-V[, 1], V[, 2], labels = colnames(X), adj = c(0.5, 0.5), col = "blue", pos = 1)
 abline(h = 0, v = 0, col = "green", lty = 2)
 
-
