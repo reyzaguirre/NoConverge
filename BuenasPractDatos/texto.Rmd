@@ -1,0 +1,73 @@
+# Buenas Prácticas para el Manejo y Análisis de Datos
+
+Mucha gente trabaja hoy en día con datos, y no unos pocos, sino grandes cantidades de datos. Quisiera compartir con ustedes en esta entrada algunas pautas que podrían ser de utilidad para hacer nuestro trabajo más sencillo, mas rápido y con menos errores.
+
+## Tenga un solo archivo de datos
+
+Típicamente cualquiera que trabaje con datos terminará teniendo varios archivos con diferentes copias de los datos y varios archivos con pasos intermedios. Si usted está trabajando con datos, debió haber un momento en el que tuvo un solo archivo, por ejemplo de nombre datos, pero ahora probablemente tenga:
+
+* datos
+* datos\_V01
+* datos\_V02
+* datos\_V02\_1
+* datos\_DDMMAA
+* datos\_final
+* datos\_ultimo y muchos otros.
+
+Además seguramente tenga algunos otros archivos con datos procesados como:
+
+* datos\_limpio
+* datos\_limpio\_ultimo
+* datos\_con\_medias
+* datosajustados
+* datosajustadoslimpios y muchos más.
+
+Esto no es una buena práctica porque incrementa la probabilidad de cometer errores y obtener resultados inconsistentes. En algún momento usted seguramente perderá la pista de qué análisis fueron hechos con qué archivos, y entonces usted tendrá (y publicará) resultados inconsistentes ya que fueron realizados con distintos datos. Este problema se complica aún más si usted trabaja con varios colegas y cada uno tiene sus propios archivos de datos.
+
+Trate de tener un solo archivo de datos, y mejor si este archivo tiene los datos brutos, sin ningún tipo de procesamiento. Si sus datos provienen de distintas fuentes entonces podría tener un archivo por cada fuente, o quizás mejor, un solo archivo de base de datos con una tabla diferente para cada fuente de datos. Si a usted le gustan las hojas de cálculo, entonces trate de tener un solo archivo con varias hojas, una para cada fuente de datos, y si este es el caso, no trate de ninguna manera de colocar todos los datos en una sola hoja utilizando copiar y pegar; es muy peligroso. Si trabaja con colegas, una buena opción es tener los datos en un repositorio al que todos tengan acceso y en el que todos puedan editar, con control de cambios, como Dropbox o GitHub, para saber quién hizo qué y poder volver a versiones anteriores de ser necesario.
+
+## El formato de tabla de datos
+
+Para datos de una sola fuente usted debe tener solo una tabla de datos. La tabla es el formato estándar para análisis de datos y es el tipo de estructura de datos que le gusta a cualquier programa estadístico. En una tabla de datos se tiene:
+
+* una fila para cada caso u observación y
+* una columna para cada variable.
+
+
+Si tiene varias tablas para datos provenientes de distintas fuentes, entonces cada tabla debe tener una columna adicional que le permita unirse con otras.
+
+## Use etiquetas estándar
+
+Para cada tabla de datos es bueno usar etiquetas cortas para nombrar las variables. Si el trabajo de investigación se realiza siempre con el mismo conjunto de variables, entonces es bueno definir un conjunto de etiquetas estándar porque esto hace que sea más fácil compartir datos con colegas y revisar en el futuro análisis hechos en el pasado. Si en su grupo de trabajo aún no han definido un conjunto de etiquetas estándar, quizá este sea el momento de hacerlo. Es una buena práctica tener un archivo de texto o un documento físico con las etiquetas estándar y sus descripciones completas. Algunas recomendaciones para las etiquetas son:
+
+* Trate de usar etiquetas tan cortas como sea posible.
+* Evite combinar mayúsculas con minúsculas, y use de preferencia minúsculas.
+* Evite los caracteres especiales.
+* Use palabras sin espacios en blanco.
+
+## Documente su análisis
+
+Para un análisis muy sencillo usted puede usar cualquier tipo de programa dirigido por menús (estos son el tipo de programas en los que usted tiene que hacer muchos clics con el ratón y no tiene que escribir mucho), pero para análisis más complicados es mejor usar programas dirigidos por comandos como por ejemplo R. ¿Qué es un análisis más complicado? Creo que un análisis es lo suficientemente complicado como para usar un programa dirigido por comandos si al tratar de hacer el análisis con un programa dirigido por menús usted necesita:
+
+* Al menos dos de estos programas (por ejemplo uno para procesar los datos y otro para el análisis estadístico).
+* Al menos dos pasos en el análisis estadístico (por ejemplo un paso para calcular ciertas estadísticas que serán usadas luego como datos de entrada para un segundo paso).
+* Demasiados clics con el ratón (creo que 10 es un buen límite superior).
+
+¿Por qué es mejor usar un programa dirigido por comandos en estas situaciones?
+
+* Cuando se usan diferentes programas con varios pasos, se necesita manipular los datos para usarlos con los diferentes programas y grabar datos procesados para los pasos intermedios. Al hacer esto, uno termina con un montón de archivos con resultados intermedios y finales que dependen unos de otros. En unos días (en algunos casos incluso en unas horas o minutos) uno pierde la pista de qué es lo que hizo y cómo lo hizo, lo que incrementa la probabilidad de cometer errores.
+* Es muy difícil documentar los procedimientos de análisis de datos cuando se utiliza un programa dirigido por menús. Cuando se usa un programa dirigido por comandos, el código para el análisis es en sí mismo la documentación del análisis.
+* Cuando se usa un programa dirigido por menús y se comete un error, debido a que lo más probable es que no se tenga documentación del análisis, uno podría nunca darse cuenta de que se cometió un error.
+* Si uno se da cuenta de que algo estaba mal con los datos brutos, entonces hay que hacer todo de nuevo. Típicamente uno tiene que hacer todo el análisis varias veces. Si se está trabajando con varios programas dirigidos por menús, esto consume mucho tiempo.
+* Con un programa dirigido por comandos no es necesario grabar los pasos intermedios ni los resultados finales, solo el archivo con el código. Si algo pasó con los datos brutos, lo único que hay que hacer es correr el código de nuevo. Esto ahorra mucho tiempo y previene cometer errores.
+
+## Reproducibilidad es la palabra clave
+
+Si usted trabaja con un programa dirigido por comandos y sigue estas instrucciones debe terminar con solo dos archivos, uno con los datos brutos y uno con el código para procesar y analizar los datos. La idea clave aquí es que cualquiera con estos dos archivos debe ser capaz de reproducir su análisis, y por lo tanto, obtener exactamente los mismos resultados que usted obtuvo, sin importar lo complicado que sea el análisis. Este es el concepto de reproducibilidad. Reproducibilidad es importante porque:
+
+* Ayuda a prevenir y corregir errores. Mientras más gente reproduzca el análisis, mayores serán las probabilidades de detectar y corregir errores.
+* Hace que el análisis sea transparente, sin cajas negras.
+* Obliga a documentar el análisis, lo cual es muy útil para futuras referencias.
+* Nos ayuda a ahorrar tiempo, mucho tiempo.
+
+Si usted todavía no está convencido sobre la importancia de la reproducibilidad, quizá debería ver [este video](http://videolectures.net/cancerbioinformatics2010_baggerly_irrh/).
