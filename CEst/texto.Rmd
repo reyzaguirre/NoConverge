@@ -1,4 +1,8 @@
-# Cuidado con la estadística
+---
+title: "Cuidado con la estadística"
+author: "Raul Eyzaguirre"
+output: html_document
+---
 
 Hace un tiempo leí la siguiente cita de Stephen Senn de su libro *Statistical Issues in Drug Development*: "Statistics - A subject which most statisticians find difficult but in which nearly all physicians are expert." La idea por supuesto va más allá de lo aplicable a los médicos, y creo que es la siguiente: La tecnología actual ha puesto en nuestras manos complicadísimos modelos estadísticos a un clic de distancia, y en cierto sentido muchos usuarios de estadística, en todas las profesiones, han de sentirse expertos en los métodos que utilizan. Sin embargo el problema es que la estadística sigue siendo muy difícil, y lo que muchas veces podemos obtener a un clic de distancia es simplemente un total sin sentido. Y no es necesario para caer en este tipo de problemas que nos enfrentemos con complicadísimos modelos, ya que muchas veces lo que en principio pudiera parecer muy simple, puede también llegar a ser muy complicado, como por ejemplo lo que les voy a mostrar a continuación, la aparentemente casi trivial tarea de calcular algunas cuantas medias.
 

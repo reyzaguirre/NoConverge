@@ -1,4 +1,8 @@
-# Descomposición en valores singulares
+---
+title: "Descomposición en valores singulares"
+author: "Raul Eyzaguirre"
+output: html_document
+---
 
 ## 1. Estructuras de datos - Las matrices
 

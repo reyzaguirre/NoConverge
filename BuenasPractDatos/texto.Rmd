@@ -1,4 +1,8 @@
-# Buenas Prácticas para el Manejo y Análisis de Datos
+---
+title: "Buenas Prácticas para el Manejo y Análisis de Datos"
+author: "Raul Eyzaguirre"
+output: html_document
+---
 
 Mucha gente trabaja hoy en día con datos, y no unos pocos, sino grandes cantidades de datos. Quisiera compartir con ustedes en esta entrada algunas pautas que podrían ser de utilidad para hacer nuestro trabajo más sencillo, mas rápido y con menos errores.
 
