@@ -11,11 +11,11 @@ medias
 
 
 ## ------------------------------------------------------------------------
-datos$y[datos$ind=='I1']
+datos$y[datos$ind == 'I1']
 
 
 ## ------------------------------------------------------------------------
-datos$y[datos$ind=='I5']
+datos$y[datos$ind == 'I5']
 
 
 ## ------------------------------------------------------------------------
@@ -32,7 +32,7 @@ library(lme4)
 
 
 ## ------------------------------------------------------------------------
-modelo.reml <- lmer(y ~ (1|ind), data=datos)
+modelo.reml <- lmer(y ~ (1|ind), data = datos)
 
 
 ## ------------------------------------------------------------------------
@@ -41,18 +41,18 @@ blups
 
 
 ## ----echo=FALSE----------------------------------------------------------
-plot(.3, mean(datos$y), xlim = c(0,3), ylim = c(50,220), xlab="", ylab="", xaxt="n")
-text(0.2, mean(datos$y), expression(hat(mu)), cex=.8)
-mtext("Medias", 3, cex=.8, at=1.6)
-points(rep(1.6,5), medias)
-text(rep(1.4,5), medias, names(medias), cex=.8)
-mtext("BLUP's", 3, cex=.8, at=2.6)
-points(rep(2.6,5), (blups)[,1])
-text(rep(2.4,5), (blups)[,1], rownames(blups), cex=.8)
+plot(0.3, mean(datos$y), xlim = c(0, 3), ylim = c(50, 220), xlab = "", ylab = "", xaxt = "n")
+text(0.2, mean(datos$y), expression(hat(mu)), cex = 0.8)
+mtext("Medias", 3, cex = 0.8, at = 1.6)
+points(rep(1.6, 5), medias)
+text(rep(1.4, 5), medias, names(medias), cex = 0.8)
+mtext("BLUP's", 3, cex = 0.8, at = 2.6)
+points(rep(2.6,5), (blups)[, 1])
+text(rep(2.4, 5), (blups)[, 1], rownames(blups), cex = 0.8)
 
 
 ## ------------------------------------------------------------------------
-datosb <- list(I=5, J=4, Y = structure(.Data = datos$y, .Dim = c(5, 4)))
+datosb <- list(I = 5, J = 4, Y = structure(.Data = datos$y, .Dim = c(5, 4)))
 
 
 ## ------------------------------------------------------------------------

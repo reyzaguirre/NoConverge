@@ -24,12 +24,13 @@ require(UsingR); data(galton)
 
 ## ------------------------------------------------------------------------
 str(galton)
-modelo <- lm(child ~ parent, data=galton)
+modelo <- lm(child ~ parent, data = galton)
 coef(modelo)
 anova(modelo)
 
 
 ## ----fig.width=5, fig.height=5-------------------------------------------
-plot(galton$parent, galton$child, xlab="Talla padres", ylab="Talla hijos", pch=19, col="blue")
-lines(galton$parent, modelo$fitted, col="green",lwd=3)
+plot(galton$parent, galton$child, xlab = "Talla padres", ylab = "Talla hijos",
+     pch = 19, col = "blue")
+lines(galton$parent, modelo$fitted, col = "green", lwd = 3)
 
