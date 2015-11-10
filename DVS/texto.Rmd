@@ -1,0 +1,418 @@
+# Descomposición en valores singulares
+
+## 1. Estructuras de datos - Las matrices
+
+Quienes trabajamos con datos reconocemos en las matrices a la estructura más importante para representarlos. La idea no es complicada. Una matriz, denotada generalmente por una letra mayúscula (a algunos nos gusta usar mayúsculas en negrita), no es más que un arreglo bidimensional de números (números en filas y columnas) que nos permite acomodar información de acuerdo con dos criterios de clasificación. Por ejemplo si tengo los pesos en kilogramos y las tallas en centímetros de 3 personas, estos datos podrían acomodarse usando una matriz como la que se muestra a continuación:
+
+$$
+\mathbf{X} = \begin{bmatrix} 70 & 174 \\ 75 & 172 \\ 97 & 181 \end{bmatrix}
+$$
+
+En general una matriz con $n$ filas y $p$ columnas, a la que usualmente se llama matriz $n \times p$, puede usarse para representar información correspondiente a $p$ variables registradas sobre $n$ individuos o unidades. En el ejemplo anterior, $\mathbf{X}$ es una matriz $3\times 2$, y representa información de dos variables, el peso y la talla, registradas sobre 3 individuos.
+
+En estadística usualmente $n$ es mucho más grande que $p$, aunque en los últimos tiempos las cosas han empezado a cambiar un poco y cada vez son más las situaciones en las que nos enfrentamos a casos donde $p>n$ (cosas de la modernidad). Estas situaciones, donde $p>n$, han propiciado el desarrollo de métodos estadísticos relativamente nuevos sobre los que seguramente ya habrá oportunidad de comentar.
+
+## 2. Valores y vectores propios
+
+Supongamos que tenemos una matriz $\mathbf{X}$ que representa los pesos y las tallas de una muestra de 10 personas:
+$$
+\mathbf{X} = \begin{bmatrix} 70 & 174 \\ 75 & 172 \\ 97 & 181 \\ 87 & 187 \\ 63 & 164\\ 79 & 169 \\ 74 & 170 \\ 85 & 182 \\ 88 & 189\\ 73 & 177 \end{bmatrix}
+$$
+De aquí en adelante usaremos [R](http://www.r-project.org/) para hacer nuestros cálculos. Podemos ingresar esta matriz en R como se muestra a continuación. Una buena característica de R para trabajo con matrices es que nos permite darle nombre a las filas y columnas.
+
+```{r}
+X <- matrix(c(70, 75, 97, 87, 63, 79, 74, 85, 88, 73, 174, 172, 181, 185, 163,
+              176, 169, 180, 187, 177), nrow = 10, ncol = 2,
+            dimnames = list(c("P01", "P02", "P03", "P04", "P05", "P06", "P07",
+                              "P08", "P09", "P10"), c("peso", "talla")))
+X
+```
+
+Si colocamos estos datos en un gráfico de dispersión veremos que, como es de esperar, hay cierta correlación entre ambas variables, esto es, que las personas más altas tienden también a ser las de mayor peso.
+
+```{r fig.height=5, fig.width=5}
+plot(X[,"peso"], X[,"talla"], xlab="Peso", ylab="Talla", pch=19, col="blue", asp=1)
+```
+
+Calculemos ahora las varianzas de los pesos y las tallas. Recordemos que la varianza de los datos de una variable $X$ está dada por:
+$$
+s^2 = \frac{\sum_{i=1}^n (x_i-\bar x)^2}{n-1}
+$$
+donde $n$ es el número de datos y $\bar x$ la media de los datos. Podemos calcular las varianzas de los pesos y tallas en R de la siguiente manera:
+
+```{r}
+var(X[, "peso"])
+var(X[, "talla"])
+```
+
+La varianza total en nuestros datos es entonces 102.1 + 53.38 = 155.48 (seguro alguno ya estará pensando que no se pueden sumar kilos con centímetros, y pues sí, tiene toda la razón, pero para fines de este ejemplo tomémonos esa libertad, que daño no le hará al punto que quiero tratar). Podemos también decir que la varianza de los pesos corresponde al 65.7\% (102.1/155.48 = 0.657) de la varianza total de los datos mientras que la de las tallas corresponde al 34.3\% (53.38/155.48 = 0.343).
+
+En el siguiente gráfico vemos los mismos datos pero ahora he incluido una línea horizontal y una vertical para indicar la dirección de los ejes. Para hacer las cosas tan simples como sea posible he colocado ambas líneas a la altura de las medias de las variables.
+
+```{r fig.height=5, fig.width=5}
+plot(X[, "peso"], X[, "talla"], xlab = "Peso", ylab = "Talla", pch = 19, col = "blue", asp = 1)
+abline(h = mean(X[, "talla"]), v = mean(X[, "peso"]), col = "green", lty = 2)
+```
+
+La varianza de los pesos se calcula a partir de la suma de los cuadrados de las distancias con respecto a la media sobre el eje horizontal. Lo que importa entonces no es la ubicación del punto en el plano sino solo su proyección sobre la horizontal.
+
+```{r fig.height=5, fig.width=5}
+plot(X[, "peso"], X[, "talla"], xlab = "Peso", ylab = "Talla", pch = 19, col = "blue", asp = 1)
+abline(h = mean(X[, "talla"]), v = mean(X[, "peso"]), col = "green", lty = 2)
+for (i in 1:10)
+  lines(c(X[i, "peso"], X[i, "peso"]), c(mean(X[, "talla"]), X[i, "talla"]), col = "red", lty = 3)
+```
+
+Lo mismo para el cálculo de la varianza de las tallas. Lo que importa no es la ubicación del punto sobre el plano sino las proyecciones sobre la vertical.
+
+```{r fig.height=5, fig.width=5}
+plot(X[, "peso"], X[, "talla"], xlab = "Peso", ylab = "Talla", pch = 19, col = "blue", asp = 1)
+abline(h = mean(X[, "talla"]), v = mean(X[, "peso"]), col = "green", lty = 2)
+for (i in 1:10)
+  lines(c(mean(X[, "peso"]), X[i, "peso"]), c(X[i, "talla"], X[i, "talla"]), col = "red", lty = 3)
+```
+
+Noten que con una simple rotación de los ejes podríamos hacer dos cosas:
+
+1. Maximizar la variabilidad en uno de los ejes, dejándole probablemente mínima importancia al otro, con lo cual quizá podríamos reducir un problema bidimensional a uno en una sola dimensión con una mínima pérdida de información.
+2. Eliminar la correlación entre las dos variables.
+
+Si la idea no le queda del todo clara vea el siguiente gráfico donde los ejes ya han sido rotados.
+
+```{r fig.height=5, fig.width=5}
+S <- cov(X)
+ES <- eigen(S)
+plot(X[, "peso"], X[, "talla"], xlab = "Peso", ylab = "Talla", pch = 19, col = "blue", asp = 1)
+b1 <- ES$vectors[2, 1] / ES$vectors[1, 1]
+a1 <- mean(X[, "talla"]) - b1 * mean(X[, "peso"])
+abline(c(a1, b1), col = "green", lty = 2)
+b2 <- ES$vectors[2, 2] / ES$vectors[1, 2]
+a2 <- mean(X[, "talla"]) - b2 * mean(X[, "peso"])
+abline(c(a2, b2), col = "green", lty = 2)
+```
+
+Si calculamos la varianza de los datos considerando las distancias sobre el primer eje (vea las proyecciones en el siguiente gráfico)
+
+```{r fig.height=5, fig.width=5}
+plot(X[, "peso"], X[, "talla"], xlab = "Peso", ylab = "Talla", pch = 19, col = "blue", asp = 1)
+abline(c(a1, b1), col = "green", lty = 2)
+abline(c(a2, b2), col = "green", lty = 2)
+for (i in 1:10){
+  x <- (mean(X[, "peso"]) * b1 - X[i, "peso"] * b2 + X[i, "talla"] - mean(X[, "talla"])) / (b1 - b2)
+  y <- b2 * (x - X[i, "peso"]) + X[i, "talla"]
+  lines(c(X[i, "peso"], x), c(X[i, "talla"], y), col = "red", lty = 3)
+}  
+```
+
+obtenemos 144.1 que corresponde al 92.7\% (144.1/155.48 = 0.927) de la varianza total. Si calculamos la varianza de los datos considerando las distancias sobre el segundo eje (vea las proyecciones en el siguiente gráfico)
+
+```{r fig.height=5, fig.width=5}
+plot(X[, "peso"], X[, "talla"], xlab = "Peso", ylab = "Talla", pch = 19, col = "blue", asp = 1)
+abline(c(a1, b1), col = "green", lty = 2)
+abline(c(a2, b2), col = "green", lty = 2)
+for (i in 1:10){
+  x <- (mean(X[, "peso"]) * b2 - X[i, "peso"] * b1 + X[i, "talla"] - mean(X[, "talla"])) / (b2 - b1)
+  y <- b1 * (x - X[i, "peso"]) + X[i, "talla"]
+  lines(c(X[i, "peso"], x), c(X[i, "talla"], y), col = "red", lty = 3)
+}  
+```
+
+obtenemos 11.4 que corresponde al 7.3\% (11.4/155.48 = 0.073) de la varianza total.
+
+Para terminar, la pregunta que seguro muchos se estarán haciendo. ¿Cómo determinamos la dirección en la cual deben ir los ejes tal que, luego de hacer la rotación, las nuevas variables definidas por las proyecciones sobre esos nuevos ejes no estén correlacionadas y con el agregado de que el primer eje concentre la mayor cantidad posible de la varianza? La respuesta viene desde el álgebra lineal y es la siguiente: cálculo de los valores y vectores propios (tema obligatorio en los cursos de matemática básica en cualquier carrera universitaria y sospecho que debe ser tratado incluso en el último año de la secundaria en varios colegios). En R podemos hacer esto en dos pasos:
+
+1. Calculamos la matriz de varianzas y covarianzas de $\mathbf{X}$
+2. Calculamos los valores y vectores propios de la matriz de varianzas y covarianzas.
+
+A continuación el código en R.
+
+```{r}
+S <- cov(X)
+eigen(S)
+```
+
+Noten que los valores propios, 144.11 y 11.37, nos dan las varianzas de las nuevas variables luego de rotar los ejes, y que los vectores propios nos dan las direcciones de estos ejes. Así, el primer eje va en la dirección (-0.8268, -0.5626), esto es, sigue la recta con pendiente -0.5626/(-0.8268) = 0.68, y el segundo eje sigue la dirección (0.5626, -0.8268), esto es, sigue la recta con pendiente -0.8268/0.5626 = -1.47.
+
+## 3. Componentes principales
+
+Sea $\mathbf{X}$ una matriz $n \times p$ con ambos valores, $n$ y $p$, muy grandes. Por ejemplo $\mathbf{X}$ podría representar los datos de cientos o miles de personas sobre varias decenas de variables como peso, talla, edad, hábitos de vida y consumo, etc. Si todas las variables fueran cuantitativas, para representar estos datos en un gráfico necesitaríamos $p$ dimensiones lo cual no es muy amigable con el ojo humano (bueno, con ningún ojo para ser preciso). La pregunta ahora es ¿cómo disminuir la dimensión de este problema? La respuesta corresponde a una herramienta muy conocida en estadística, los Componentes Principales, y si tenemos suerte, quizá incluso logremos disminuir la dimensión de nuestro problema *p*-dimensional a solo 2 o 3 dimensiones con una mínima pérdida de información.
+
+El análisis de componentes principales usa un concepto bastante conocido del álgebra lineal, que por supuesto es el que todos están pensando: el cálculo de los valores y vectores propios. La idea es la siguiente: Supongamos que la matriz $\mathbf{X}$ de orden $n \times p$ con $n>p$ representa nuestros datos, tomados sobre una muestra de $n$ elementos con $p$ variables sobre cada elemento de la muestra. Para hacer las cosas más simples supongamos que los datos han sido previamente centrados en cero restándole a cada dato la media (recuerde la fórmula para el cálculo de la varianza para tener una idea de por qué esto hace las cosas más simples), de modo que para cualquier columna de $\mathbf{X}$ la media ahora es cero. Calculemos ahora la matriz $\mathbf{S} = \mathbf{X}^\text{T}\mathbf{X}$, que será una matriz cuadrada de orden $p \times p$. Además, dado que la media de cada columna de $\mathbf{X}$ es cero, $\mathbf{S}$ es también proporcional a la matriz de varianzas y covarianzas de $\mathbf{X}$. Si estudió el tema de los valores y vectores propios en la universidad o en el colegio seguro recordará que el cálculo es directo. Calculemos entonces los valores y vectores propios de la matriz $\mathbf{S}$. ¿Qué logramos con este cálculo? Pues hay varios detalles interesantes, pero quizá sea más sencillo ilustrarlos con un ejemplo.
+
+Supongamos que nuestra matriz $\mathbf{X}$ es
+
+$$
+\mathbf{X} = \begin{bmatrix} 5 & -1 & -2 \\ 4 & 4 & -1 \\ -2 & 5 & -3 \\ -7 & -8 & 6 \end{bmatrix}.
+$$
+
+De aquí en adelante usaremos R para hacer nuestros cálculos. Podemos ingresar esta matriz en R como se muestra a continuación. Una buena característica de R para con las matrices es que nos permite nombrar las filas y las columnas. Supongamos entonces que los datos corresponden a 3 variables (V1, V2 y V3) registradas sobre 4 personas (P1, P2, P3 y P4).
+```{r}
+X <- matrix(c( 5, -1, -2,
+               4,  4, -1,
+              -2,  5, -3,
+              -7, -8,  6),
+            byrow = T, nrow = 4, ncol = 3,
+            dimnames = list(c("P1", "P2", "P3", "P4"), c("V1", "V2", "V3")))
+X
+```
+
+Calculamos ahora la matriz $\mathbf{S}$
+
+```{r}
+S <- t(X) %*% X
+S
+```
+
+y sus valores y vectores propios.
+
+```{r}
+eigen(S)
+```
+
+Ahora los detalles interesantes. Empecemos por calcular las varianzas de las 3 variables:
+
+```{r}
+var(X[, "V1"])
+var(X[, "V2"])
+var(X[, "V3"])
+```
+
+La suma de estas 3 varianzas es 31.33 + 35.33 + 16.67 = 83.33. Recordemos que la varianza de una muestra está dada por una suma de cuadrados entre el número de datos menos 1 (4-1=3 en nuestro caso). En nuestro ejemplo la suma de cuadrados total es 83.33 $\times$ 3 = 250. Usemos este valor, 250, como una medida de la variabilidad total de nuestros datos.
+
+Los elementos de la diagonal de la matriz $\mathbf{S}$ (recordemos que $\mathbf{S}$ es proporcional a la matriz de varianzas y covarianzas de $\mathbf{X}$ por lo que los elementos de su diagonal son las sumas de cuadrados utilizadas en el cálculo de las varianzas) son
+
+```{r}
+diag(S)
+```
+
+y su suma es 94 + 106 + 50 = 250. Si mira unas líneas arriba verá que los valores propios de $\mathbf{S}$ son
+
+```{r}
+eigen(S)$values
+```
+
+y su suma es también 250. Pero hay un detalle. La variabilidad total se distribuye de manera más uniforme entre las 3 variables originales que entre los 3 valores propios. La variable 2 es la que tiene la mayor suma de cuadrados, 106, que representa el 42.4% del total (106/250 = 0.424), mientras que el primer valor propio, 201.51, representa el 80.6% del total.
+
+Nuestros datos vienen en una matriz de orden $4 \times 3$ por lo que si quisiéramos ubicar a las 4 personas en un diagrama de dispersión necesitaríamos un gráfico en 3 dimensiones. Si quisiéramos graficar esta información en 2 dimensiones tendríamos que sacrificar uno de los 3 ejes. Considerando los datos quizá lo más sensato sería eliminar la variable V3, que es la que tiene menor variabilidad (en consecuencia aporta menos información), pero esto implicaría una pérdida del 20% de la información (50/250=0.2). Sin embargo si tuviéramos que sacrificar a uno de los 3 valores propios podríamos escoger al tercero, 5.036, y perder solo el 2% de la información original (5.036/250 = 0.02).
+
+Cada valor propio está asociado con un vector propio. Un vector marca una dirección en un espacio vectorial. Nuestros datos por contener información de 3 variables podrían representarse en un gráfico de dispersión tridimensional. El primer valor propio, 201.51, representa el 80.6% de la variabilidad de nuestros datos y está asociado con el primer vector propio (0.5744, 0.6664, -0.4754), que marca la dirección en la cual los datos muestran esta variabilidad. El segundo valor propio, 43.453, representa el 17.4% de la variabilidad de nuestros datos y está asociado con el segundo vector propio (0.7927, -0.5977, 0.12), que marca la dirección en la cual los datos muestran esta variabilidad. Estos dos valores propios juntos suman 201.51 + 43.453 = 244.934 lo que corresponde al 98% (244.934/250) de la variabilidad total. Entonces, podríamos representar nuestros datos sobre estos dos ejes con una mínima pérdida de información (2%) como se muestra a continuación:
+
+```{r fig.height=5, fig.width=5}
+EA <- eigen(S)
+PT <- X %*% EA$vectors
+plot(1, type = 'n', asp = 1, xlim = range(PT[, 1]), ylim = range(PT[, 2]),
+     xlab = "PC1 (80.6%)", ylab = "PC2 (17.4%)")
+points(PT[, 1], PT[, 2], col = "red", lwd = 2, pch = 15)
+text(PT[, 1], PT[, 2], labels = row.names(PT), adj = c(0.5, 0.5), col = "red", pos = 1)
+abline(h = 0, v = 0, col = "green", lty = 2)
+for (i in 1:4)
+  lines(c(0, PT[i, 1]), c(0, PT[i, 2]), col = "red", lty = 3)
+```
+
+En el gráfico vemos a las 4 personas y la posición de cada una en el plano es determinada por información de las 3 variables. Las líneas verdes y rojas son más adorno que nada. De acuerdo con sus posiciones podemos ver que la persona P4 difiere bastante de las otras 3 al menos en lo que se refiere a las 3 variables estudiadas. Por otro lado las personas P1, P2 y P3 muestran características similares, y quizá P1 y P2 son las más similares dentro del grupo. Los ejes han sido etiquetados siguiendo la costumbre como PC1 y PC2, donde las letras PC son las iniciales de Principal Components, el inglés para Componentes Principales. Entre paréntesis al lado del nombre de cada eje se ha colocado el porcentaje de la variabilidad total que es explicada sobre cada eje que, como ya se dijo, alcanza a un 98%.
+
+## 4. Descomposición en valores singulares
+
+El cálculo de valores y vectores propios se efectúa sobre matrices cuadradas como nuestra matriz $\mathbf{S}$. Sin embargo podríamos también hacer un cálculo similar sobre la matriz de datos $\mathbf{X}$ que no es cuadrada: la descomposición en valores singulares, DVS de ahora en adelante.
+
+Una DVS es una factorización de cualquier matriz real o compleja. Para nuestra matriz real de datos $\mathbf{X}$ de orden $n \times p$, la DVS es
+
+$$
+\mathbf{X} = \mathbf{U} \boldsymbol{\Sigma} \mathbf{V}^\text{T}
+$$
+
+donde $\mathbf{U}$ es una matriz unitaria $n \times n$, $\boldsymbol{\Sigma}$ es una matriz diagonal rectangular $n \times p$ con valores no negativos, y $\mathbf{V}^\text{T}$ es la transpuesta de $\mathbf{V}$, una matriz unitaria $p \times p$. Los elementos de la diagonal de $\boldsymbol{\Sigma}$ son los valores singulares de $\mathbf{X}$, las $n$ columnas de $\mathbf{U}$ son los vectores singulares izquierdos de $\mathbf{X}$ y las $p$ columnas de $\mathbf{V}$ son los vectores singulares derechos de $\mathbf{X}$.
+
+Hay una relación más que estrecha entre los valores y vectores propios y los resultados de una DVS. Considerando siempre nuestra matriz de datos $\mathbf{X}$ y su matriz asociada $\mathbf{S}$ se tiene que:
+
+1. Los vectores singulares izquierdos de $\mathbf{X}$ son los vectores propios de $\mathbf{X}\mathbf{X}^\text{T}$.
+2. Los vectores singulares derechos de $\mathbf{X}$ son los vectores propios de $\mathbf{S} = \mathbf{X}^\text{T}\mathbf{X}$.
+3. Los valores singulares de $\mathbf{X}$ son las raíces cuadradas de los valores propios de $\mathbf{S}$.
+
+Volvamos ahora a la matriz $\mathbf{X}$ que usamos de ejemplo en la sección anterior:
+
+$$
+\mathbf{X} = \begin{bmatrix} 5 & -1 & -2 \\ 4 & 4 & -1 \\ -2 & 5 & -3 \\ -7 & -8 & 6 \end{bmatrix}.
+$$
+
+Recordemos que esta matriz representaba los datos de 3 variables (V1, V2 y V3) registradas sobre 4 personas (P1, P2, P3 y P4). A continuación introducimos esta matriz en R y calculamos la matriz $\mathbf{S}$ y sus valores y vectores propios:
+
+```{r}
+X <- matrix(c( 5, -1, -2,
+               4,  4, -1,
+              -2,  5, -3,
+              -7, -8,  6),
+            byrow = T, nrow = 4, ncol = 3,
+            dimnames = list(c("P1", "P2", "P3", "P4"), c("V1", "V2", "V3")))
+X
+S <- t(X) %*% X
+S
+eigen(S)
+```
+
+Calculamos ahora la DVS de la matriz $\mathbf{X}$. En R tenemos el comando svd, por Singular Value Decomposition, para hacer esta operación:
+
+```{r}
+svd(X)
+```
+
+Si comparamos los valores y vectores propios de $\mathbf{S}$ con los resultados de la DVS de $\mathbf{X}$ verificamos que:
+
+1. Los valores propios son iguales a los valores singulares al cuadrado:
+```{r}
+eigen(S)$values
+svd(X)$d^2
+```
+
+2. Los vectores propios son iguales a los vectores singulares derechos (el primer vector propio de hecho resulta igual al primer vector singular derecho multiplicado por -1, pero dado que estos vectores definen la dirección de un eje en un espacio vectorial, podríamos multiplicarlos por cualquier constante sin cambiar su dirección):
+```{r}
+eigen(S)$vectors
+svd(X)$v
+```
+
+Recordemos el gráfico:
+
+```{r fig.height=5, fig.width=5}
+EA <- eigen(S)
+PT <- X %*% EA$vectors
+plot(1, type = 'n', asp = 1, xlim = range(PT[, 1]), ylim = range(PT[, 2]),
+     xlab = "PC1 (80.6%)", ylab = "PC2 (17.4%)")
+points(PT[, 1], PT[, 2], col = "red", lwd = 2, pch = 15)
+text(PT[, 1], PT[, 2], labels = row.names(PT), adj = c(0.5, 0.5), col = "red", pos = 1)
+abline(h = 0, v = 0, col = "green", lty = 2)
+for (i in 1:4)
+  lines(c(0, PT[i, 1]), c(0, PT[i, 2]), col = "red", lty = 3)
+```
+
+En este gráfico lo que vemos es la ubicación de las 4 personas sobre los ejes definidos por los dos primeros vectores propios. ¿Cómo se calculan las coordenadas usadas para ubicar a las 4 personas en este gráfico? Recordemos que la matriz $\mathbf{V}$ contiene los vectores propios de $\mathbf{S}$.
+
+```{r}
+V <- eigen(S)$vectors
+V
+```
+
+Las coordenadas sobre los nuevos ejes están dadas por la multiplicación $\mathbf{X}\mathbf{V}$.
+
+```{r}
+X %*% V
+```
+
+Las coordenadas de las cuatro personas sobre los primeros dos ejes, usadas en el gráfico anterior, corresponden a las primeras dos columnas de la matriz $\mathbf{X}\mathbf{V}$. Noten ahora que podríamos obtener estas mismas coordenadas a partir de la DVS de $\mathbf{X}$ multiplicando la matriz $\mathbf{U}$ de vectores singulares izquierdos de $\mathbf{X}$ con la matriz de valores singulares $\boldsymbol{\Sigma}$:
+
+$$
+\mathbf{X}\mathbf{V} = \mathbf{U} \boldsymbol{\Sigma} \mathbf{V}^\text{T}\mathbf{V} = \mathbf{U} \boldsymbol{\Sigma}.
+$$
+
+De manera similar, se pueden obtener coordenadas para graficar a las tres variables usando los vectores singulares derechos:
+
+$$
+\mathbf{X}^\text{T}\mathbf{U} = \mathbf{V} \boldsymbol{\Sigma} \mathbf{U}^\text{T}\mathbf{U} = \mathbf{V} \boldsymbol{\Sigma}.
+$$
+
+En el siguiente gráfico se muestra a las cuatro personas y a las tres variables en el plano definido por los dos primeros vectores singulares:
+
+```{r fig.height=5, fig.width=5}
+DVS <- svd(X)
+D <- diag(DVS$d)
+P <- DVS$u %*% D
+V <- DVS$v %*% D
+plot(1, type = 'n', asp = 1, xlim = range(c(-P[, 1], -V[, 1])),
+     ylim = range(c(P[,2], V[,2])), xlab = "PC1 (80.6%)", ylab = "PC2 (17.4%)")
+points(-P[, 1], P[, 2], col = "red", lwd = 2, pch = 15)
+text(-P[, 1], P[, 2], labels = row.names(X), adj = c(0.5, 0.5), col = "red", pos = 1)
+points(-V[, 1], V[, 2], col = "blue", lwd = 2, pch = 17)
+text(-V[, 1], V[, 2], labels = colnames(X), adj = c(0.5, 0.5), col = "blue", pos = 1)
+abline(h = 0, v = 0, col = "green", lty = 2)
+```
+
+Además de las conclusiones ya mencionadas en la sección anterior, podríamos a partir de este último gráfico también decir que hay cierta asociación positiva entre las personas 1 y 2 con la variable 1, las personas 2 y 3 con la variable 2, y la persona 4 con la variable 3. El contraste entre la persona 4 y las personas 1, 2 y 3, es explicado por el contraste que existe en sus valores entre la variable 3 y las variables 1 y 2. Si las tres variables representaran por ejemplo los tiempos que tardan las cuatro personas en realizar tres tipos diferentes de tarea, definitivamente pondría a la persona 4 a trabajar en la tarea 3, y quizá a la persona 3 en la tarea 2, y a las personas 1 y 2 en la tarea 1.
+
+## 5. DVS, AMMI y GGE
+
+La DVS tiene muchas aplicaciones en estadística. Encontarmos un buen ejemplo en un área que está como a medio camino entre la estadística y la agronomía: el mejoramiento genético convencional de plantas. En particular hay dos técnicas bastante populares entre los mejoradores que se basan en una DVS:
+
+1. AMMI: Additive Main effect Multiplicative Interaction.
+2. GGE: Genotype main effects and Genotype $\times$ Environment interaction effects.
+
+Desde una perspectiva matemática la diferencia entre AMMI y GGE es realmente una sutileza por lo que, para hacer las cosas simples, de aquí en adelante nos concentraremos solo en AMMI, que al parecer es la técnica que va ganando en la carrera de la popularidad.
+
+La idea detrás de AMMI no es nueva y creo que podríamos situar sus orígenes en el año 1968 con el artículo de Harry Gollob, [A Statistical Model which combines Features of Factor Analytic and Analysis of Variance Techniques](http://deepblue.lib.umich.edu/bitstream/handle/2027.42/45727/11336_2005_Article_BF02289676.pdf?sequence=1), publicado en la revista Psychometrika (Vol 33(1): 73-114). Pero antes de hablar de AMMI tenemos que ponernos en los zapatos del mejorador. Lo que hace el mejorador en sus experimentos de campo es básicamente sembrar un grupo de genotipos en distintos ambientes, esto debido a que por lo general existe una fuerte interacción entre los genotipos y los ambientes (gran dolor de cabeza para los mejoradores), de modo que genotipos a los que les va muy bien en determinadas condiciones, podría no irles tan bien en otras. Los resultados del experimento corresponden a un conjunto de variables donde la más importante quizá sea el rendimiento. Así, si el mejorador está evaluando $n$ genotipos en $p$ ambientes, al final va a terminar con un modelo como el siguiente (famoso modelo de análisis de varianza o diseño experimental):
+
+$$
+y_{ijk} = \mu + \alpha_i + \beta_j + \delta_{ij} + \epsilon_{ijk}
+$$
+
+donde $y_{ijk}$ podría ser el rendimiento de la parcela número $k$ sembrada con el genotipo $i$ en el ambiente $j$, $\mu$ el rendimiento medio sobre todos los genotipos y ambientes, $\alpha_i$ el efecto del genotipo $i$, $\beta_j$ el efecto del ambiente $j$, $\delta_{ij}$ el efecto de la interacción entre el genotipo $i$ y el ambiente $j$, y $\epsilon_{ijk}$ un término de error aleatorio que usualmente se modela con una distribución normal.
+
+Noten ahora que, si el objetivo es estudiar la interacción, los resultados del experimento podrían representarse con una matriz $\mathbf{X}$ (lo de $\mathbf{X}$ solo para seguir con la notación de las secciones anteriores) con $n$ filas y $p$ columnas, donde cada fila corresponde a un genotipo y cada columna a un ambiente. Las entradas de esta matriz podrían ser las medias para cada combinación genotipo ambiente, o los efectos de la interacción. La idea de AMMI es descomponer la matriz de efectos de interacción mediante una DVS con el objetivo de lograr una explicación más parsimoniosa de la interacción, con menos grados de libertad y, si se tiene suerte, lograr disminuir la dimensión del problema a dos, con lo que se podría hacer un bonito gráfico como los que les he mostrado en las secciones anteriores para ver las relaciones entre los genotipos y los ambientes.
+
+Vamos con un ejemplo. Los datos los voy a tomar del artículo de Andrea Onofri y Egidio Ciriciofolo, [Using R to Perform the AMMI Analysis on Agriculture Variety Trials](https://cran.r-project.org/doc/Rnews/Rnews_2007-1.pdf), publicado en R News (Vol 7(1): 14-19). El artículo además de una buena descripción de la técnica incluye el código R para efectuar el análisis AMMI, que seguro será apreciado por muchos de ustedes. Los datos corresponden a ocho variedades de trigo duro evaluadas en campo durante siete años en el centro de Italia utilizando un diseño de bloques completos al azar con tres réplicas. Los siete años constituyen los diferentes ambientes.
+
+Lo que nos interesa a nosotros son los efectos de interacción, por lo que a continuación, sin más demora, los introducimos en R:
+
+```{r}
+X <- matrix(c( 0.35, -0.62,  0.00, -0.45,  0.74, -0.34,  0.33,
+               0.04, -0.54, -0.13,  0.14,  0.82, -0.52,  0.20,
+              -0.54,  0.80,  0.28,  0.38, -0.70,  0.29, -0.51,
+               0.60, -0.01, -0.02, -0.27, -0.62,  0.21,  0.10,
+              -0.24,  0.37, -0.59,  0.28,  0.07,  0.01,  0.11, 
+              -0.10, -0.11,  0.31,  0.17,  0.16, -0.55,  0.12,
+              -0.43,  0.60,  0.23,  0.13, -0.40,  0.62, -0.75,
+               0.33, -0.50, -0.07, -0.38, -0.07,  0.29,  0.40),
+            byrow = T, nrow = 8, ncol = 7,
+            dimnames=list(c("COLOSSEO", "CRESO", "DUILIO", "GRAZIA", "IRIDE", "SANCARLO", "SIMETO", "SOLEX"),
+                          c("1996", "1997", "1998", "1999", "2000", "2001", "2002")))
+X
+```
+
+Efectuamos la DVS
+
+```{r}
+DVS <- svd(X)
+DVS
+```
+
+y procedemos a graficar las ocho variedades junto con los siete años o ambientes en un diagrama de dispersión definido por los dos primeros vectores singulares. Noten que los dos primeros valores singulares son 2.478840 y 1.355024, y que juntos contribuyen al 86.2% de la variabilidad total.
+
+```{r fig.height=6, fig.width=6}
+D <- diag(DVS$d)
+U <- DVS$u %*% D
+V <- DVS$v %*% D
+plot(1, type = 'n', asp = 1, xlim = range(c(U[, 1], V[, 1])) * 1.06, ylim = range(c(U[, 2], V[, 2])),
+     xlab = "PC1 (66.4%)", ylab = "PC2 (19.8%)")
+points(U[, 1], U[, 2], col = "red", lwd = 2, pch = 15)
+text(U[, 1], U[, 2], labels = row.names(X), adj = c(0.5, 0.5), col = "red", pos = 1)
+points(V[, 1], V[, 2], col = "blue", lwd = 2, pch = 17)
+text(V[, 1], V[, 2], labels = colnames(X), adj = c(0.5, 0.5), col = "blue", pos = 1)
+abline(h = 0, v = 0, col = "green", lty = 2)
+```
+
+Recordemos que la DVS de $\mathbf{X}$ está dada por
+
+$$
+\mathbf{X} = \mathbf{U} \boldsymbol{\Sigma} \mathbf{V}^\text{T}
+$$
+
+y que las coordenadas transformadas para los elementos que definen las filas y columnas de $\mathbf{X}$ están dadas por $\mathbf{U} \boldsymbol{\Sigma}$ y $\mathbf{V} \boldsymbol{\Sigma}$ respectivamente. Precisamente, son las dos primeras columnas de $\mathbf{U} \boldsymbol{\Sigma}$ y $\mathbf{V} \boldsymbol{\Sigma}$ las que he usado para ubicar las variedades y los años en el gráfico anterior. Puede ver estos valores a continuación.
+
+```{r}
+DVS$u %*% diag(DVS$d)[, 1:2]
+DVS$v %*% diag(DVS$d)[, 1:2]
+```
+
+Sin embargo, por alguna razón desconocida para mí, la práctica usual en AMMI es utilizar $\mathbf{U} \boldsymbol{\Sigma}^{1/2}$ y $\mathbf{V} \boldsymbol{\Sigma}^{1/2}$ en lugar de $\mathbf{U} \boldsymbol{\Sigma}$ y $\mathbf{V} \boldsymbol{\Sigma}$ para definir las coordenadas. En el siguiente gráfico puede ver el resultado con esta pequeña variación.
+
+```{r fig.height=6, fig.width=6}
+D <- diag(DVS$d)
+U <- DVS$u %*% D^.5
+V <- DVS$v %*% D^.5
+plot(1, type = 'n', asp = 1, xlim = range(c(U[, 1], V[, 1])) * 1.06, ylim = range(c(U[, 2], V[, 2])),
+     xlab = "PC1 (66.4%)", ylab = "PC2 (19.8%)")
+points(U[, 1], U[, 2], col = "red", lwd = 2, pch = 15)
+text(U[, 1], U[, 2], labels = row.names(X), adj = c(0.5, 0.5), col = "red", pos = 1)
+points(V[, 1], V[, 2], col = "blue", lwd = 2, pch = 17)
+text(V[, 1], V[, 2], labels = colnames(X), adj = c(0.5, 0.5), col = "blue", pos = 1)
+abline(h = 0, v = 0, col = "green", lty = 2)
+```
+
+El efecto de sacarle la raíz cuadrada a los valores singulares es hacer que las coordenadas se contraigan hacía cero. Por ejemplo el primer elemento del primer vector singular en $\mathbf{U}$ es -0.47438. Si multiplicamos este valor por su correspondiente valor singular, 2.47884, tenemos -1.1759, pero si lo multiplicamos por la raíz cuadrada de 2.47884 tenemos -0.7469, que es más cercano a cero. Dado que el primer valor singular es siempre mayor que el segundo, y por lo general bastante más grande (recordemos que una propiedad de esta transformación es maximizar la varianza de los datos sobre el primer eje, para luego maximizar al varianza restante sobre el segundo eje, y así sucesivamente), trabajar con la raíz cuadrada de estos valores ejercerá una concentración hacia cero mucho mayor en el primer eje que en el segundo por lo que, a mi juicio, el segundo eje estaría mostrando una variabilidad mayor de la que realmente le corresponde. Este efecto es evidente si comparamos los dos gráficos anteriores.
