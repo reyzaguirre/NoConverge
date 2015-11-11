@@ -1,0 +1,82 @@
+---
+title: "Matemáticamente rumbo a Namekuseí 3614"
+author: "Raul Eyzaguirre"
+output: html_document
+---
+
+Hay una frase muy frecuente en el fútbol peruano: "matemáticamente todavía se puede". A lo que se refiere esta frase es a que el equipo en cuestión, ya sea la selección o algún club, ya no depende de sí mismo, y que para lograr el objetivo (clasificar al mundial, pasar a la siguiente fase, o incluso campeonar, que la ilusión es lo que siempre sobra) requiere de ciertos resultados en los partidos de los otros equipos. Lamentablemente para los hinchas del futbol peruano, tanto la selección, en todas sus categorías, como los clubes profesionales, rápidamente entran en el terreno del famoso "matemáticamente".
+
+No sé desde cuándo viene esta frase, pero lo que sí sé es que las matemáticas aguantan todo. Por eso, y para poner las cosas en una perspectiva un poquito más objetiva, se me ocurrió ir un poquito más allá en esto de matemáticamente es posible. Por supuesto, el torneo elegido tiene que ser el más importante para el hincha peruano: la clasificatoria sudamericana. ¿Qué tal si en vez de buscar cómo podrían cuadrar los números para sostener una vana esperanza cuando las cosas ya están complicadas en una clasificatoria, tratamos de ver cómo nos podría ir en una clasificatoria futura? Talvez este ejercicio nos ayude a ponderar las cosas alguito mejor, y así dejar de echarle la culpa al árbitro, al entrenador, o al jugador de moda en la farándula. ¿Tenemos equipo para ir a un mundial? Es la hora de recurrir a los números o, para ser más exacto, a la construcción de un modelo estadístico.
+
+El primer paso en la construcción de un modelo estadístico es definir supuestos, y el mío es esencialmente el siguiente: Si evaluamos la actuación de Perú en las clasificatorias desde 1998, año en que empezó el sistema de todos contra todos, veremos que nos ha ido, en cada caso, más o menos igual. Nos han ganado más de lo que hemos ganado y siempre hemos quedado dentro de los cinco primeros, vista la tabla de abajo para arriba. Siempre hemos tenido algunos jugadores buenos, pero los otros equipos han tenido más y mejores, y si no me cree compare el valor comercial del equipo en cada ocasión con el de nuestros rivales, que felizmente la economía no cree en pasiones. Con lo dicho en el párrafo anterior creo que se podría asumir que la información que aportan los resultados de estas cinco clasificatorias (1998, 2002, 2006, 2010 y 2014), apunta toda ella a describir una situación común, y en consecuencia se podrían juntar todos los resultados de estas cinco en un solo saco. Dado que en los últimos 20 años la cosa ha cambiado poco, bien podríamos asumir que no hay razones por las que deba cambiar en un futuro cercano, y entonces la información de los últimos años podría ser buena para predecir el futuro en un buen número de las siguientes clasificatorias.
+
+El segundo paso en la construcción de un modelo es recoger datos. En esto internet nos ayuda mucho. Nos vamos a Wikipedia y listo, ahí tenemos los resultados, partido por partido, de todas las clasificatorias desde 1998.
+
+El tercer paso es definir el modelo. Aquí vienen unos detalles un poquito técnicos por lo que si a usted no le interesan, bien se los puede saltar sin comprometer la idea de esta entrada. Lo que hice fue lo siguiente:
+
+* Registré todos los resultados y los usé para calcular proporciones de triunfos, empates y derrotas para cada combinación local-visitante. Por ejemplo para Perú-Argentina tenemos 3 empates y 2 derrotas como local. Entonces las proporciones de triunfo, empate y derrota son 0, 0.6 y 0.4 respectivamente.
+* Usé estas proporciones para estimar la probabilidad de que el local gane, empate o pierda con el visitante en el futuro. Como en algunos casos la proporción es cero, esto implicaría una probabilidad nula para dicho resultado. Esto no tiene mucho sentido pues siempre hay una probabilidad de ganar, empetar o perder (ahí reside gran parte del negocio del fútbol, la venta de ilusiones), así que para no cerrar posibilidades, asumí, desde una perspectiva Bayesiana, una priori uniforme para estas proporciones. Esto es equivalente a sumarle un triunfo, un empate y una derrota a cada uno.
+* Con las probabilidades en mano simulé resultados y calculé las tablas de posiciones. No me preocupé por el asunto de los goles porque si bien pueden ser decisivos en una clasificatoria en particular, a la larga no creo que sean fundamentales en la proporción de clasificatorias en las que un equipo clasifica; esto es, a veces nos favorecerán, a veces no, y a la larga los efectos se compensan. Entonces para romper empates por puntos utilicé el viejo truco de lanzar una moneda.
+* Corrí el modelo 100 000 veces. Con esas 100 000 clasificatorias simuladas estimé la probabilidad de que cada uno de los equipos vaya al mundial.
+* Como buen peruano y mejor padre de familia lo que más me preocupa es si mis hijos, que ya llevo varios, verán o no a Perú en un mundial (o quizá mis nietos). Entonces una cantidad de interés es el número esperado de clasificatorias para que Perú clasifique. Para estos cálculos usamos una distribución geométrica.
+
+El cuarto paso es correr el modelo y evaluar sus resultados. La priori uniforme resultó ser muy bondadosa con los equipos chicos y les dio probabilidades algo altas de clasificar, e incluso alguna probabilidad de terminar primeros en la clasificatoria. Decidí entonces bajar el peso de la priori a un tercio y correr el modelo de nuevo. Los resultados obtenidos me parecieron más realistas y se los cuento a continuación.
+
+```{r echo=FALSE, fig.height=6, fig.width=10}
+nelim <- 100000
+
+load("simulaciones.RData")
+
+pclas <- sort(table(c(resu[[2]][, 1], resu[[2]][, 2], resu[[2]][, 3], resu[[2]][, 4], resu[[2]][, 5])),
+              decreasing = TRUE) / nelim
+ddd <- data.frame(pais = c("Argentina", "Brasil", "Paraguay", "Colombia", "Ecuador",
+                           "Uruguay", "Chile", "Perú", "Venezuela", "Bolivia"),
+                  pclas = pclas)
+
+color <- "darkorange1"
+barplot(ddd$pclas, space = 0.8, names.arg = ddd$pais, ylim = c(0, 1),
+        col = c(rep(color, 7), 'red', rep(color, 2)))
+title(main = "Probabilidad de clasificar a un mundial", font.main = 4)
+```
+
+```{r echo=FALSE, fig.height=6, fig.width=10}
+ddd <- data.frame(pais = c("Argentina", "Brasil", "Paraguay", "Colombia", "Ecuador",
+                           "Uruguay", "Chile", "Venezuela", "Perú", "Bolivia"),
+                  pprim = sort(table(resu[[2]][, 1]), decreasing = TRUE) / nelim)
+
+barplot(ddd$pprim, space = 0.8, names.arg = ddd$pais,
+        col = c(rep(color, 8), 'red', color, 2))
+title(main = "Probabilidad de quedar primero en la clasificatoria", font.main = 4)
+```
+
+* La probabilidad de que Perú clasifique a un mundial es 10%. Con esta probabilidad, el número esperado de clasificatorias para que Perú vaya a un mundial es 9.96, redondeemos a 10, lo que equivale a 40 años y le da pronósticos regulares a mis hijos y algo mejores a mis futuros nietos.
+* La probabilidad de que Perú clasifique al menos a uno de los dos siguientes mundiales es 19.1%, al menos a uno de los tres siguientes 27.2%, y al menos a uno de los cuatro, cinco... diez siguientes es 34.5%, 41.1%, 47.0%, 52.3%, 57.1%, 61.4% y 65.3%. Entonces dentro de 7 mundiales o 28 años ya tendremos una probabilidad superior al 50% de ir al menos a un mundial, y de nuevo, números aceptables para mis hijos.
+* Como en la comparación está el gusto, las probabilidades de que cada uno de los equipos de la confederación clasifiquen a un mundial serían las siguientes: Argentina 94.4%, Brasil 89.4% (ojo que Brasil tiene dos clasificatorias menos, y por lo tanto menos datos para hacer buenas estimaciones), Paraguay 66.6%, Colombia 64.5%, Ecuador 62.5%, Uruguay 52.0%, Chile 48.0%, Perú 10.0%, Venezuela 7.3%, y Bolivia 5.2%.
+* Como la ilusión es lo más bonito del fútbol, las probabilidades de que cada uno de los equipos de la confederación terminen primeros en una clasificatoria son las siguientes: Argentina 45.5%, Brasil 25.4%, Paraguay 8.0%, Colombia 7.5%, Ecuador 5.2%, Uruguay 4.2%, Chile 3.9%, Perú 0.2%, Venezuela 0.2% y Bolivia 0.1%.
+* La probabilidad de que Perú quede primero es 0.2%, segundo 0.6%, tercero 1.4%, cuarto 2.8%, quinto 5.1%, sexto 8.3%, séptimo 13.9%, octavo 22.1%, noveno 24.2% y décimo 21.5%. Vemos entonces que las probabilidades apuntan a que lo normal es que Perú termine entre séptimo y décimo.
+* ¿Hizo Perú una campaña mala, regular o buena para el 2014? En las clasificatorias de 1998, 2002, 2006, 2010 y 2014 Perú hizo 25, 16, 18, 13 y 15 puntos (ojo que Brasil no participó en las clasificatorias de 1998 y 2014 por lo que para estos mundiales se jugaron dos partidos menos). El número esperado de puntos para Perú en una clasificatoria con 10 equipos es 19, con una probabilidad de 95% de terminar con entre 11 y 28 puntos. Por lo tanto 15 puntos en una clasificatoria con dos partidos menos está muy cerca de lo esperado. De hecho la mejor actuación de Perú fue la del mundial de 1998 en la que, a pesar de jugar dos partidos menos, terminó con 25 puntos.
+
+Ciertamente todo modelo se puede mejorar y este no es una excepción, y prometo mejorarlo si me da el tiempo (si a algún colega le interesa aportar, puede descargar los datos y el código [aquí](https://github.com/reyzaguirre/NoConverge/tree/master/MatRumNam3614)). Sin embargo, dado que lo que nos interesa son probabilidades a la larga, creo que los números obtenidos son bastante razonables. Como vemos no hay que ser tan optimistas, que no nos vendan ilusiones, pero tampoco tan pesimistas como para esperar a Namekuseí 3614. Y un detallito final para todos mis amigos que respiran fútbol. Considerando que el último mundial al que fue Perú fue el de 1982 y que nuestro tiempo esperado para ir a un mundial es de 40 años, 1982 + 40 = 2022, así que lo siento, disculpen lo aguafiestas, pero no se hagan muchas ilusiones para el 2018 (de hecho yo tampoco me haría muchas ilusiones para el 2022 ya que la distribución geométrica tiene una propiedad llamada pérdida de memoria, pero mejor lo dejo ahí, que de aguafiestas ya estuvo bueno).
+
+Nota final: Dado que ya se está jugando la clasificatoria a Rusia 2018, podríamos incluir los resultados de los partidos ya jugados para ir pensando en Qatar 2022:
+
+```{r echo=FALSE, fig.height=6, fig.width=10}
+load("simulaciones2.RData")
+
+pclas <- sort(table(c(resu[[2]][, 1], resu[[2]][, 2], resu[[2]][, 3], resu[[2]][, 4], resu[[2]][, 5])),
+              decreasing = TRUE) / nelim
+
+ddd <- data.frame(pais = c("Argentina", "Brasil", "Paraguay", "Ecuador", "Colombia",
+                           "Uruguay", "Chile", "Perú", "Venezuela", "Bolivia"),
+                  pclas = pclas)
+
+barplot(ddd$pclas, space = 0.8, names.arg = ddd$pais, ylim = c(0, 1),
+        col = c(rep(color, 7), 'red', rep(color, 2)))
+title(main = "Probabilidad de clasificar a Qatar 2022", font.main = 4)
+mtext("(El modelo incluye hasta los resultados de la fecha 2 de la clasificatoria Rusia 2018)",
+      side = 3, line = 0.4, cex = 0.9)
+mtext("AR: 0.929, BR: 0.884, PA: 0.660, EC: 0.641, CO: 0.640, UR: 0.542, CH: 0.518, PE: 0.080, VEN: 0.062, BO: 0.043",
+      side = 1, line = 3, cex = 0.9)
+```
+
+

@@ -1,0 +1,240 @@
+---
+title: "Cuidado con la estadística"
+author: "Raul Eyzaguirre"
+output: html_document
+---
+
+Hace un tiempo leí la siguiente cita de Stephen Senn de su libro *Statistical Issues in Drug Development*: "Statistics - A subject which most statisticians find difficult but in which nearly all physicians are expert." La idea por supuesto va más allá de lo aplicable a los médicos, y creo que es la siguiente: La tecnología actual ha puesto en nuestras manos complicadísimos modelos estadísticos a un clic de distancia, y en cierto sentido muchos usuarios de estadística, en todas las profesiones, han de sentirse expertos en los métodos que utilizan. Sin embargo el problema es que la estadística sigue siendo muy difícil, y lo que muchas veces podemos obtener a un clic de distancia es simplemente un total sin sentido. Y no es necesario para caer en este tipo de problemas que nos enfrentemos con complicadísimos modelos, ya que muchas veces lo que en principio pudiera parecer muy simple, puede también llegar a ser muy complicado, como por ejemplo lo que les voy a mostrar a continuación, la aparentemente casi trivial tarea de calcular algunas cuantas medias.
+
+## Los datos
+
+Los datos corresponden a cierta medida (`y`) evaluada en 5 individuos (`ind`), cada individuo evaluado 4 veces. Vamos a cargar estos datos en R en un objeto con nombre `datos`.
+
+```{r}
+datos <- data.frame(ind = rep(c("I1", "I2", "I3", "I4", "I5"), 4),
+                    y = c(61, 164, 124, 205, 210, 53, 97, 139, 144, 242,
+                          48, 121, 151, 196, 256, 115, 135, 175, 159, 92))	
+```
+Por ejemplo estos datos podrían representar alguna medida de rendimiento observada en 5 individuos o en 5 procesos, cada individuo o proceso evaluado 4 veces, y el objetivo sería estimar la media de cada individuo, así de fácil, para tratar de inferir cuál de los 5 podría ser en el futuro más productivo (y por supuesto predecir también su rendimiento).
+
+## Cálculo de medias
+
+Dado que todo luce muy simple, lo que cualquiera haría sería calcular las medias para cada uno de los 5 individuos, sumando sus 4 datos y dividiendo entre cuatro:
+
+```{r}
+medias <- tapply(datos$y, datos$ind, mean)
+medias
+```
+
+## Modelo de efectos fijos
+
+Este simple cálculo de medias por supuesto se puede justificar mediante un modelo estadístico, modelo que necesitaríamos luego si quisiéramos hacer inferencia. Para este caso el modelo es muy sencillo, el conocido diseño completamente al azar con efectos fijos, que podemos representar con la ecuación
+$$
+y_{ij} = \mu_i + \epsilon_{ij}
+$$
+donde $\mu_i$ representa la media del individuo $i$ y $\epsilon_{ij}$ el error del modelo, que generalmente se asume que tiene distribución $N(0, \sigma^2)$. ¿Y cómo se justifica la estimación de las medias? Pues simple cálculo matemático, el estimador de máxima verosimilitud nos dice que las medias poblacionales $\mu_i$ son estimadas por las respectivas medias muestrales $\bar y_i$:
+$$
+\hat \mu_i = \bar y_i = \frac{\sum_j y_{ij}}{n}
+$$
+
+## ¿Hay alguna relación entre los 5?
+
+Hasta aquí vamos viendo por ejemplo que el individuo 1 obtuvo la media más baja (69.25) y que el individuo 5 obtuvo la media más alta (200). Pero, ¿y qué tal si los 5 individuos tienen algo en común, pertenecen al mismo grupo, fueron entrenados en la misma escuela, o si hablamos de procesos, fueron todos desarrollados con la misma tecnología? Si existe alguna razón para pensar que los 5 pertenecen a un mismo grupo, los resultados de los 5 debieran decirnos algo sobre la calidad de dicho grupo, lo cual a su vez debiera tener un efecto en los 5. Si calculamos la media de todos los datos, sobre los 5 individuos, tenemos:
+```{r}
+mean(datos$y)
+```
+lo cual nos dice que al individuo 1 le fue bastante mal y al individuo 5 bastante bien. Considerando que los 5 pertenecen al mismo grupo, ¿no podría ser que simplemente el individuo 1 tuvo muy mala suerte en la evaluación y el 5 muy buena suerte? ¿Y si de hecho los 5 individuos son idénticos y no presentan diferencias reales entre sí, salvo las propias del azar y las circunstancias particulares de la evaluación? Esto nos plantea tres posibilidades, dos extremas y una intermedia:
+
+1. Asumir que los 5 son diferentes y que no tienen ninguna relación, en cuyo caso cada individuo es estimado con la media de sus 4 observaciones.
+2. Asumir que los 5 individuos son iguales y que todas la diferencias observadas son producto del azar, en cuyo caso cada individuo es estimado con la media global, `r mean(datos$y)`.
+3. La posición intermedia, que consiste en pensar que los 5 son diferentes pero miembros del mismo grupo, y que por tener algo en común, los resultados de cada individuo debieran influir en cierta medida en los resultados de los demás.
+
+La opción 3 da lugar a lo que se conoce como modelo de efectos al azar.
+
+## Modelo con efectos al azar
+
+En el modelo al azar lo que hacemos es extender el modelo anterior un poquito, asumiendo ahora que los $\mu_i$ no son parámetros fijos sino variables aleatorias, con cierta distribución de probabilidad. Si asumimos que esta distribución también es normal, lo que tenemos es lo siguiente:
+$$
+y_{ij} = \mu_i + \epsilon_{ij} 
+$$
+con
+$$
+\mu_i \sim N(\mu, \sigma^2_{\mu}) \qquad \epsilon_{ij} \sim N(0, \sigma^2_{\epsilon})
+$$
+Lo que vemos ahora es que la media de cada individuo, $\mu_i$, está relacionada con la de los demás a través de la media global $\mu$. ¿Y cómo se estima ahora la media de cada individuo?
+
+## BLUP's
+
+Para empezar habría que decir que acá ya no hablamos de estimación. No señor, los $\mu_i$ ya no son parámetros sino variables aleatorias, y las variables aleatorias no se estiman, se predicen. Esto da origen a los llamados BLUP's, Best Linear Unbiased Predictions, lo que en castellano sonaría como los mejores predictores linealmente insesgados, acrónimo muy bonito y que ha calado ondo en la comunidad de usuarios de este tipo de modelos, tanto así que su fama ha traspasado el ámbito del modelo lineal normal, del cual nos estamos ocupando acá, para posicionarse en otros lares en los que al parecer ya no son ni insesgados ni lineales, además de no quedar claro en qué sentido serían los mejores (ver cita abajo).
+```{r}
+library(fortunes)
+fortune('BLUP')
+```
+Para este sencillo modelo los BLUP's quedan definidos por:
+$$
+    \hat \mu_i = \frac{\bar y_i \times \frac{n}{\hat \sigma^2_{\epsilon}} +
+      \bar y \times \frac{1}{\hat \sigma^2_{\mu}}}{\frac{n}{\hat \sigma^2_{\epsilon}} + 
+      \frac{1}{\hat \sigma^2_{\mu}}}
+$$
+esto es, una media ponderada de la media del individuo $i$ y la media general, donde las ponderaciones vienen dadas por las precisiones de estas dos medias. Asi, si los datos del individuo $i$ son muy variables con respecto a la variabilidad entre individuos, la fórmula le da más peso a la media general, y si los datos del individuo $i$ son poco variables con respecto a la variabilidad entre individuos, entonces la fórmula le da más peso a la media del individuo. Eso sí, en cualquier caso la fórmula siempre empujará la media de los individuos hacia la media general, con más fuerza conforme más variables sean los datos del individuo con respecto a la variabilidad entre individuos.
+
+Para estimar este modelo necesitamos la libreria `lme4`:
+```{r message=FALSE}
+library(lme4)
+```
+Luego ajustar el modelo es muy sencillo:
+```{r}
+modelo.reml <- lmer(y ~ (1|ind), data = datos)
+```
+Podemos obtener los famosos BLUP's con el comando `ranef`:
+```{r}
+blups <- mean(datos$y) + ranef(modelo.reml)$ind
+blups
+```
+Como vemos, los blups están más concentrados que las medias individuales.
+```{r}
+plot(0.3, mean(datos$y), xlim = c(0, 3), ylim = c(50, 220), xlab = "", ylab = "", xaxt = "n")
+text(0.2, mean(datos$y), expression(hat(mu)))
+mtext("Medias", 3, at = 1.6)
+points(rep(1.6, 5), medias)
+text(rep(1.4, 5), medias, names(medias))
+mtext("BLUP's", 3, at = 2.6)
+points(rep(2.6, 5), (blups)[, 1])
+text(rep(2.4, 5), (blups)[, 1], rownames(blups))
+```
+
+## Modelo bayesiano
+En el modelo de efectos al azar introducimos una idea que no cuadra mucho con la filosofía de la estadística clásica, la de considerar a las medias de los individuos como si fueran variables aleatorias. Esta idea sin embargo sí encaja bien en el contexto de la estadística bayesiana, en donde todos los parámetros son considerados como variables aleatorias. Por esto, vamos a ajustar nuestros modelos ahora utilizando la perspectiva bayesiana, y para no perder el hilo empezaremos con el primer modelo, el de los efectos fijos.
+
+Si recordamos nuestro modelo teníamos que
+
+$$
+y_{ij} = \mu_i + \epsilon_{ij}
+$$
+con
+$$
+\epsilon_{ij} \sim N(0, \sigma^2)
+$$
+En este modelo hay 6 parámetros, las 5 medias $\mu_1$, $\mu_2$, $\mu_3$, $\mu_4$ y $\mu_5$, y la varianza del error $\sigma^2_{\epsilon}$. Para poder ajustar un modelo bayesiano debemos especificar distribuciones de probabilidad para todos los parámetros, las llamadas distribuciones a priori, y para nuestro modelo especificaremos lo siguiente (hay razones técnicas para esta elección pero esto ya se escapa del alcance de esta entrada):
+$$
+\mu_i \sim N(0,\infty), \qquad \sigma^2_{\epsilon} \sim IG(0,0)
+$$
+En la práctica algunos programas, como el que vamos a usar, no permiten especificar varianzas infinitas o valores 0 para los parámetros de la distribución gamma inversa. Esto lo solucionamos, sin efectos importantes en los resultados, colocando un número grande para la varianza y un número muy pequeño para los parámetros de la distribución gamma inversa, con lo que nuestra especificación queda así:
+$$
+\mu_i \sim N(0, 10^6), \qquad \sigma^2_{\epsilon} \sim IG(0.001, 0.001)
+$$
+Para poder ajustar este modelo debemos primero darle un formato diferente a los datos:
+```{r}
+datosb <- list(I = 5, J = 4, Y = structure(.Data = datos$y, .Dim = c(5, 4)))
+```
+y guardar el modelo en un [archivo](https://github.com/reyzaguirre/NoConverge/blob/master/CEst/modelo_1.R). Hecho esto, procedemos al ajuste utilizando el paquete `R2OpenBUGS`:
+```{r}
+library(R2OpenBUGS)
+parameters <- c("mu", "s2")
+inits1 <- list(mu = rep(120, 5), t2 = 1/1000)
+inits2 <- list(mu = rep(140, 5), t2 = 1/2000)
+inits3 <- list(mu = rep(160, 5), t2 = 1/3000)
+inits <- list(inits1, inits2, inits3)
+modelo.bfix <- bugs(datosb, inits, parameters, "modelo_1.R", n.chains = 3, n.thin = 10,
+                    n.iter = 10000, n.burnin = 1000, debug = F, bugs.seed = 1)
+```
+Abajo vemos las medias posteriores que resultan casi iguales a las que obtuvimos cuando ajustamos el modelo desde el enfoque clásico (como era de esperar).
+```{r}
+print(modelo.bfix$summary[1:5, 1], digits = 4)
+medias
+```
+
+## Modelo bayesiano de efectos al azar
+Lo importante sin embargo, y que motivó que nos metamos con Mr. Bayes, fue el modelo de efectos al azar. Podemos ajustar este modelo ampliando un poquito más el modelo que venimos trabajando. Lo que hacemos ahora es asumir que todas la medias presentes en
+$$
+y_{ij} = \mu_i + \epsilon_{ij}
+$$
+tienen una distribución normal con cierta media y cierta varianza:
+$$
+\mu_i \sim N(\mu, \sigma^2_{\mu})
+$$
+Así, la media $\mu$ será la encargada de poner a todos los $\mu_i$ sobre la misma vereda. Finalmente para especificar completamente el [modelo](https://github.com/reyzaguirre/NoConverge/blob/master/CEst/modelo_2.R) nos falta definir distribuciones para 3 parámetros, $\mu$, $\sigma^2_{\mu}$ y $\sigma^2_{\epsilon}$, las cuales siguiendo las mismas consideraciones prácticas del caso anterior quedan definidas por:
+$$
+\mu \sim N(0, 10^6), \qquad \sigma^2_{\epsilon} \sim IG(0.001, 0.001), \qquad \sigma^2_{\mu} \sim IG(0.001,0.001)
+$$
+```{r}
+parameters <- c("u", "mu", "s2u", "s2")
+inits1 <- list(u = 120, mu = rep(120, 5), t2u = 1/2000, t2 = 1/2000)
+inits2 <- list(u = 140, mu = rep(140, 5), t2u = 1/3000, t2 = 1/3000)
+inits3 <- list(u = 160, mu = rep(160, 5), t2u = 1/4000, t2 = 1/4000)
+inits <- list(inits1, inits2, inits3)
+modelo.bran <- bugs(datosb, inits, parameters, "modelo_2.R", n.chains = 3, n.thin = 10,
+                    n.iter = 10000, n.burnin = 1000, debug = F, bugs.seed = 1)
+print(modelo.bran$summary[2:6, 1], digits = 4)
+t(blups)
+```
+Recordemos que la fórmula de los BLUP's empujaba un poco las medias de los individuos hacia la media general. Acá vemos el mismo efecto pero con un detalle, el modelo bayesiano las ha empujado mucho más.
+```{r}
+plot(0.3, mean(datos$y), xlim = c(0, 3), ylim = c(50, 220), xlab = "", ylab = "", xaxt = "n")
+text(0.2, mean(datos$y), expression(hat(mu)))
+mtext("Medias", 3, at = 1.1)
+points(rep(1.1, 5), medias)
+text(rep(0.95, 5), medias, names(medias))
+mtext("BLUP's", 3, at = 1.9)
+points(rep(1.9, 5), (blups)[, 1])
+text(rep(1.75, 5), (blups)[, 1], rownames(blups))
+mtext("Bayes", 3, at = 2.7)
+points(rep(2.7, 5), modelo.bran$summary[2:6, 1])
+text(rep(2.55, 5), modelo.bran$summary[2:6, 1], rownames(blups))
+```
+
+¿Qué pasó? ¿Por qué los resultados no coinciden con los BLUP's? Yo tengo una idea, pero les dejo a ustedes la tarea de sacar sus propias conclusiones. Quizás sea el momento de decir que estos números, que debieran comportarse como los BLUP's, en estadística bayesiana no se llaman BLUP's sino modas condicionales. También habría que decir que lo que hemos mostrado en el gráfico no son las modas condicionales sino las medias posteriores, pero bueno, asumiendo que la distribución de las medias es normal, la moda debiera coincidir con la media (¿o quizá no? Dejemos esto como la tarea número dos).
+
+## Una mirada a los datos
+Quizá sea el momento de hacer lo que debimos hacer en un principio: ver los datos en un gráfico.
+```{r}
+library(lattice)
+stripplot(y ~ ind, xlab = "Individuo", ylab = "y", type = c("p", "a"), data = datos)
+```
+
+Un detalle acá, y que bien podría echar por tierra todo lo hecho hasta ahora, es que hay valores extremos, uno para el individuo 1 y uno para el individuo 5, a simple vista lo suficientemente extremos como para desentonar con la distribución normal. Fijémosnos en el individuo 5, en donde la cosa es más extrema. ¿Confiarían ustedes en ese dato menor a 100, cuando los otros tres son mayores que 200? Acá de nuevo nos encontramos en una situación complicada que nos ofrece tres posibilidades, dos extremas y una intermedia:
+
+1. Seguir con el modelo normal con todos los datos. En este caso cada uno de los 4 valores de cada individuo tiene el mismo peso o importancia.
+2. Eliminar los valores extremos y trabajar solo con los 3 valores restantes.
+3. La posición intermedia, que consiste en usar los 4 datos, pero dándoles diferentes pesos, más peso a los datos más confiables y menos a los menos confiables.
+
+## La distribución *t* 
+La opción 3 la podemos manejar usando una distribución *t* en lugar de la normal. Empezemos por decir que la distribución *t* se puede definir a partir de una distribución normal y una gamma de la siguiente manera. Si datos ciertos pesos $w_i$ los datos $y_i$ tienen una distribución normal
+$$
+y_i | w_i \sim N(\mu, \sigma^2/w_i)
+$$
+y los pesos tienen una distribución gamma
+$$
+w_i \sim Gamma(v/2, v/2)
+$$
+entonces la distribución marginal de los $y_i$ es una *t* con $v$ grados de libertad:
+$$
+y_i \sim t_v(\mu, \sigma^2)
+$$
+Para ver cómo afectan estos pesos $w_i$ a la estimación de la media, procedemos a estimarla. Para este caso la cosa no es complicada, y el algoritmo EM nos da lo siguiente:
+
+1. Paso M:
+$$
+\hat \mu = \frac{\sum w_i y_i}{\sum w_i}
+$$
+2. Paso E:
+$$
+w_i = \frac{(v+1)\sigma^2}{(y_i - \mu)^2 + v\sigma^2}
+$$
+
+Vemos entonces que a mayor diferencia entre un dato y la media (fíjese en el término $(y_i - \mu)^2$ en el paso E), menor será el peso $w_i$ que obtendrá el dato $y_i$ en la estimación de la media (fíjese en el término $w_i y_i$ en el paso M)
+
+## Modelo bayesiano con distribución *t* y efectos al azar
+Para terminar esta historia, que ya va como medio larga, estimaremos nuestro [modelo](https://github.com/reyzaguirre/NoConverge/blob/master/CEst/modelo_3.R) usando una distribución *t* con 5 grados de libertad. (¿Por qué 5 y no otro número? Dejemos esto como la última tarea).
+
+```{r}
+parameters <- c("u", "mu", "s2u", "s2")
+inits1 <- list(u = 120, mu = rep(120, 5), t2u = 1/2000, t2 = 1/2000)
+inits2 <- list(u = 140, mu = rep(140, 5), t2u = 1/3000, t2 = 1/3000)
+inits3 <- list(u = 160, mu = rep(160, 5), t2u = 1/4000, t2 = 1/4000)
+inits <- list(inits1, inits2, inits3)
+modelo.brant <- bugs(datosb, inits, parameters, "modelo_3.R", n.chains = 3, n.thin = 10,
+                     n.iter = 10000, n.burnin = 1000, debug = F, bugs.seed = 1)
+print(modelo.brant$summary[2:6, 1], digits = 4)
+```
+Vemos ahora por ejemplo que la estimación del individuo 5 resulta 202.65, bastante más alta que la obtenida con los BLUP's (190.39) e incluso algo más alta que la obtenida al promediar sus 4 datos (200), pero no tan alta como la que obtendríamos si elimináramos el dato extremo y solo promediáramos los 3 valores restantes (236). Si bien la especificación de un modelo de efectos al azar empuja la media del individuo 5 hacia la media general, el modelo con distribución *t* le da poco peso al valor extremo pequeño, haciendo que la media suba. Para este caso particular estos dos ajustes casi se compensan.
