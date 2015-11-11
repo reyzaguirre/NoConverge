@@ -1,0 +1,71 @@
+---
+title: "Use R, resistance is futile, you will be assimilated"
+author: "Raul Eyzaguirre"
+output: html_document
+---
+
+Hace unos 10 años empecé a usar [R](https://www.r-project.org/), y desde entonces su uso ha crecido sostenidamente en detrimento de otras aplicaciones. El título de esta entrada está inspirado en la siguiente cita tomada con R usando el paquete fortunes:
+
+```{r message=FALSE}
+library(fortunes)
+fortune("resistance")
+```
+
+Hace algún tiempo leí, no recuerdo donde, aunque seguramente con cierto espíritu de broma, que en ciertos lugares del mundo hasta se podía pedir una pizza con R. Empiezo a creer que es cierto. En mis inicios usaba R directamente desde su consola con un archivo de texto, usando Notepad, para guardar mi código. Para hacer mis reportes usaba Word y para mis presentaciones Power Point como casi todo el mundo. Como mi trabajo implica datos, obviamente tenía que incluir salidas de análisis de datos y gráficos en mis informes y presentaciones. Para eso usaba el famosísimo *copy and paste*. Y la vida siguió así su curso, casi sin alteraciones por algunos años, hasta que me presentaron a [LaTeX](http://www.latex-project.org/).
+
+Debo decir que en un principio LaTeX no me gustó. Me pareció muy engorroso, y aunque la calidad del resultado era espectacular, consideré que no valía la pena el esfuerzo de aprender este código para hacer un reporte. Todo esto cambió sin embargo cuando me presentaron a [Sweave](http://www.statistik.lmu.de/~leisch/Sweave/), porque Sweave permite, óigalo bien, incrustar código R en un documento LaTeX. De esta manera podía hacer dos cosas importantes:
+
+1. Controlar LaTeX, o para ser más preciso [MiKTeX](http://miktex.org/), desde R, y hasta la vista Word.
+2. Colocar directamente y sin pasos intermedios los resultados de mis análisis de datos y gráficos en mi documento final, y hasta la vista *copy and paste*.
+
+Poco tiempo después Power Point siguió la misma suerte que Word, pues conocí a [Beamer](https://es.wikipedia.org/wiki/Beamer), una clase de documentos en LaTeX para crear presentaciones y entonces, eso mismo, adivinaron, empecé a hacer mis presentaciones de diapositivas desde R usando Sweave y Beamer.
+
+En este punto hay que decir que toda la experiencia se hizo más sencilla cuando aparecieron en mi vida los entornos de desarrollo integrado, IDE, por sus siglas en inglés. Primero conocí a [Eclipse](http://www.eclipse.org/) con su [StatET](http://www.walware.de/goto/statet) plug-ins para desarrollo de código en R. Eclipse debe ser una herramienta maravillosa para los desarrolladores de software, pero dado que yo no lo soy, debo decir que tenía algunos detalles que me resultaban algo tediosos. Todo esto cambio con [RStudio](https://www.rstudio.com/) que es lo que uso ahora, y que es mucho más amigable para quienes estamos interesados principalmente en R.
+
+Sweave es genial, creo que ya lo dije, pues permite generar un bonito documento en formato pdf para los informes y publicaciones, pero hoy la moda es publicar en la web, y para eso tenemos [Markdown](https://es.wikipedia.org/wiki/Markdown). Hace un tiempo que tenía a Markdown en la mira, principalmente porque hay un formato, [R Markdown](http://rmarkdown.rstudio.com/), de fácil uso en RStudio, que permite incrustar código R en código Markdown usando el paquete [Knitr](http://yihui.name/knitr/), que cumple el rol de Sweave con R y LaTeX. Entonces empecé a curiosear cómo usar Markdown en WordPress, y ví que la cosa no era complicada, ya que basta con ir al *escritorio* en WordPress, luego a *ajustes*, de ahí a *escritura*, y marcar con un check la casilla que dice *Use Markdown for posts and pages*. Ya estaba entonces listo para empezar a leer un poco de Markdown y tratar de hacer mis pininos con este lenguaje en WordPress, cuando me topé con algo que no me esperaba: [RWordPress](http://www.omegahat.org/RWordPress/). Y ahora resulta que puedo publicar en el blog de WordPress usando R Markdown, lo que me permite no solo trabajar el texto sino también incrustar graciosamente mis análisis y gráficos.
+
+Bueno, seguro ya estarán adivinando. Esta entrada la estoy escribiendo desde RStudio, usando R Markdown, y si ya la están leyendo es porque ya la publiqué usando RWordPress, así que al parecer, hasta la vista WordPress (al menos su editor). La experiencia ha sido en parte sencilla y en parte complicada, que vamos, nada está exento de alguna complicación.
+
+Primero lo sencillo: Markdown definitivamente lo es. Este es el primer texto que escribo usando Markdown y casi no me ha dado complicaciones. Comparado con LaTeX, Markdown es muy sencillo, al menos por lo pronto.
+
+Ahora las complicaciones. La primera fue instalar RWordpress. No hay distribución binaria para RWordPress por lo que tiene que empezar por instalar las dependencias RCurl y XML:
+
+```{r, eval=FALSE}
+install.packages("RCurl")
+install.packages("XML")
+```
+
+Luego puede instalar RWordPress desde [http://www.omegahat.org/R](http://www.omegahat.org/R/):
+
+```{r, eval=FALSE}
+install.packages("RWordPress", repos = "http://www.omegahat.org/R", type = "source")
+```
+
+La segunda complicación fue quizá la que me dio más dolor de cabeza: Cómo incluir imágenes. La sabiduría popular nos dice que una imagen vale más que mil palabras (aunque para que valga eso, alguien dijo por ahí, se necesita acompañar la imagen con al menos unas 100 palabras). Cuando uno usa Sweave o Knitr, ya sea con LaTeX o Markdown, las imágenes se almacenan en la carpeta de trabajo y son tomadas de ahí para generar el documento final, ya sea un pdf o un html. El problema es que esa carpeta local de trabajo no está a la vista de WordPress. Encontré varias propuestas de solución en la web, y al final la que me pareció más sencilla fue usando [Dropbox](https://www.dropbox.com/) (felizmente ya hace un tiempo me había convertido en un fanático de Dropbox). La idea es mandar las imágenes a una carpeta en Dropbox y luego usar la URL que genera Dropbox para compartir las imágenes en la web para decirle a RWordPress donde buscar:
+
+```{r eval=FALSE}
+opts_knit$set(base.url = "https://dl.dropboxusercontent.com/u/72126317/wp/", 
+    base.dir = "C:/Users/Raul/Dropbox/Public/wp/")
+```
+Ya estamos listos para publicar. Aunque quizá, antes de proceder, debiera incluir algún análisis estadístico con su gráfico correspondiente para mostrar lo bonito que queda esto. Para darle mayor realce al hecho usemos un conjunto de datos famosos. Hay muchos conjuntos de datos famosos en R, y en esta oportunidad me voy a inclinar por los datos de Francis Galton sobre tallas de padres e hijos. Podemos acceder a estos datos en R con los siguientes comandos:
+
+```{r message=FALSE}
+library(UsingR)
+data(galton)
+```
+
+Estos datos nos muestran cómo la talla de los hijos depende linealmente de la talla de los padres, con un detalle interesante, que al parecer motivó a Francis Galton a acuñar el término regresión a la media, que le da origen al nombre de uno de los métodos estadísticos más usados (y peor usados también) en el mundo, la regresión lineal. Padres muy altos tienden a tener hijos altos, pero en promedio no tan altos como ellos, mientras que padres muy bajos tienden a tener hijos bajos, pero en promedio no tan bajos como ellos, lo que muestra una tendencia a que las observaciones extremas tiendan a regresar a la media de la población. Los registros corresponden a 928 observaciones de tallas de padres e hijos y la línea de regresión por supuesto es significativa.
+
+```{r}
+str(galton)
+modelo <- lm(child ~ parent, data = galton)
+coef(modelo)
+anova(modelo)
+```
+
+Para terminar esta entrada, aquí un diagrama de dispersión de los datos con su línea de regresión ajustada.
+
+```{r fig.height=5, fig.width=5}
+plot(galton$parent, galton$child, xlab = "Talla padres", ylab = "Talla hijos", pch = 19, col = "blue")
+lines(galton$parent, modelo$fitted, col = "green", lwd = 3)
+```
