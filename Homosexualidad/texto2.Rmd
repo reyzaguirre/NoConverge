@@ -1,0 +1,26 @@
+---
+title: "¿Cuántos congresistas gays hay en el Perú?"
+author: "Raul Eyzaguirre"
+output: html_document
+---
+
+Finalmente el congresista [Carlos Bruce decidió hacer pública su condición de homosexual](http://elcomercio.pe/politica/actualidad/carlos-bruce-minoria-pide-derechos-que-mayoria-le-niega-noticia-1730229), lo cual debo decir, me parece genial. En una de las preguntas de la entrevista indica que en el congreso actual debe de haber gays, "es imposible que no los haya" dice. Entonces a mí me entró la curiosidad, ¿cuántos congresistas gays habrá en el actual congreso? ¿Y si todos siguieran el ejemplo de Carlos Bruce?
+
+Para responder a esta pregunta primero necesitamos saber cuántos gays hay en el país, pues no creo que el congreso se diferencie de la población en general en este aspecto, pero esta pregunta no es tan fácil de responder. Hace un tiempo publiqué [una entrada](https://reyzaguirre.wordpress.com/2013/09/17/homosexualidad-una-estimacion/) que básicamente era una referencia a otra de alguien que había hecho la tarea de investigación y que mostraba una buena revisión de los estudios y estimaciones más importantes efectuados hasta el momento. Leída la nota me pareció que un 3% era un porcentaje razonable aunque hay quienes minimizan el asunto diciendo que no llegan ni al 1% y quienes exageran hablando hasta de 10% e incluso más. Felizmente para estos casos polémicos tenemos la estadística, y en particular los métodos bayesianos, que nos permiten incorporar toda la información e incertidumbre disponible en un modelo, al menos para este caso bastante sencillo, para hacer nuestra estimación. Vamos con los detalles, solo para los interesados:
+
+* Asumimos una distribución beta(3.3, 92) para la proporción $\pi$ de homosexuales en el país o en el mundo, que creo que es lo mismo. Esta distribución nos da una probabilidad de 95% de que dicha proporción esté entre 0.8% y 7.9%, una probabilidad de 99% de que esté entre 0.5% y 10%, y un valor esperado de 3.5%. Esta especificación me parece razonable para describir tanto la información como la incertidumbre que se tiene sobre el tema.
+* Simulamos 100 000 valores desde esta distribución.
+* Simulamos 100 000 valores desde una distribución binomial(130, $\pi$), donde los valores de $\pi$ son los simulados en el paso anterior. Con esto obtenemos 100 000 valores simulados para la variable número de congresistas gays.
+* Utilizamos los 100 000 valores anteriores para calcular probabilidades y cuantiles.
+
+Ahora los resultados, todos ellos por supuesto bajo el supuesto de que nuestro modelo sea apropiado (al menos yo le tengo fe):
+
+* El número de congresistas gays debe estar, con una probabilidad del 95%, entre 0 y 12, y con una probabilidad del 99% entre 0 y 16.
+* La probabilidad de que haya al menos un congresista gay es 0.943, esto y lo anterior claro, suponiendo que no se conociera lo de Carlos Bruce.
+* Como ya se sabe lo de Carlos Bruce, quizá sea más informativo calcular la probabilidad de que haya al menos dos. En este caso tenemos una probabilidad de 0.835, pero este número no tiene mucho sentido, y es que lo que realmente tendríamos que calcular son probabilidades condicionales, esto es, la probabilidad de que haya al menos dos dado que se sabe que hay al menos uno, que resulta ser 0.886.
+* En valor esperado del número de congresistas gays es 4.51, y el mismo esperado dado que ya se sabe lo de Bruce es 4.79.
+* Sabiendo que hay al menos un congresista gay se tiene una probabilidad del 95% de que en el congreso haya entre 1 y 12 y una probabilidad del 99% de que haya entre 1 y 16.
+* ¿Tiene Bruce razón cuando dice que "es imposible que no los haya"? No. La probabilidad de que no haya nadie más es 11.4%, pero el valor más probable es tres, incluido él, y como ya dijimos el valor esperado es 4.79, cercano a cinco.
+* Si reducimos las opciones solo a los números más probables, digamos con una probabilidad mayor a 5%, el número de congresistas gays, dado que se sabe que hay al menos uno, debería estar entre 1 y 8.
+
+Bueno, esos son los números y hablan por sí solos. Cualquier opinión o comentario se los dejo a ustedes.
