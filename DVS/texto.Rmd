@@ -6,7 +6,7 @@ output: html_document
 
 ## 1. Estructuras de datos - Las matrices
 
-Quienes trabajamos con datos reconocemos en las matrices a la estructura más importante para representarlos. La idea no es complicada. Una matriz, denotada generalmente por una letra mayúscula (a algunos nos gusta usar mayúsculas en negrita), no es más que un arreglo bidimensional de números (números en filas y columnas) que nos permite acomodar información de acuerdo con dos criterios de clasificación. Por ejemplo si tengo los pesos en kilogramos y las tallas en centímetros de 3 personas, estos datos podrían acomodarse usando una matriz como la que se muestra a continuación:
+Quienes trabajamos con datos reconocemos en las [matrices](https://es.wikipedia.org/wiki/Matriz_(matemáticas)) a la estructura más importante para representarlos. La idea no es complicada. Una matriz, denotada generalmente por una letra mayúscula (a algunos nos gusta usar mayúsculas en negrita), no es más que un arreglo bidimensional de números (números en filas y columnas) que nos permite acomodar información de acuerdo con dos criterios de clasificación. Por ejemplo si tengo los pesos en kilogramos y las tallas en centímetros de 3 personas, estos datos podrían acomodarse usando una matriz como la que se muestra a continuación:
 
 $$
 \mathbf{X} = \begin{bmatrix} 70 & 174 \\ 75 & 172 \\ 97 & 181 \end{bmatrix}
@@ -32,13 +32,13 @@ X <- matrix(c(70, 75, 97, 87, 63, 79, 74, 85, 88, 73, 174, 172, 181, 185, 163,
 X
 ```
 
-Si colocamos estos datos en un gráfico de dispersión veremos que, como es de esperar, hay cierta correlación entre ambas variables, esto es, que las personas más altas tienden también a ser las de mayor peso.
+Si colocamos estos datos en un gráfico de dispersión veremos que, como es de esperar, hay cierta [correlación](https://es.wikipedia.org/wiki/Correlación) entre ambas variables, esto es, que las personas más altas tienden también a ser las de mayor peso.
 
 ```{r fig.height=5, fig.width=5}
 plot(X[,"peso"], X[,"talla"], xlab="Peso", ylab="Talla", pch=19, col="blue", asp=1)
 ```
 
-Calculemos ahora las varianzas de los pesos y las tallas. Recordemos que la varianza de los datos de una variable $X$ está dada por:
+Calculemos ahora las [varianzas](https://es.wikipedia.org/wiki/Varianza) de los pesos y las tallas. Recordemos que la varianza de los datos de una variable $X$ está dada por:
 $$
 s^2 = \frac{\sum_{i=1}^n (x_i-\bar x)^2}{n-1}
 $$
@@ -49,7 +49,7 @@ var(X[, "peso"])
 var(X[, "talla"])
 ```
 
-La varianza total en nuestros datos es entonces 102.1 + 53.38 = 155.48 (seguro alguno ya estará pensando que no se pueden sumar kilos con centímetros, y pues sí, tiene toda la razón, pero para fines de este ejemplo tomémonos esa libertad, que daño no le hará al punto que quiero tratar). Podemos también decir que la varianza de los pesos corresponde al 65.7\% (102.1/155.48 = 0.657) de la varianza total de los datos mientras que la de las tallas corresponde al 34.3\% (53.38/155.48 = 0.343).
+La varianza total en nuestros datos es entonces 102.1 + 53.38 = 155.48 (seguro alguno ya estará pensando que no se pueden sumar kilos con centímetros, y pues sí, tiene toda la razón, pero para fines de este ejemplo tomémonos esa libertad, que daño no le hará al punto que quiero tratar). Podemos también decir que la varianza de los pesos corresponde al 65.7% (102.1/155.48 = 0.657) de la varianza total de los datos mientras que la de las tallas corresponde al 34.3% (53.38/155.48 = 0.343).
 
 En el siguiente gráfico vemos los mismos datos pero ahora he incluido una línea horizontal y una vertical para indicar la dirección de los ejes. Para hacer las cosas tan simples como sea posible he colocado ambas líneas a la altura de las medias de las variables.
 
@@ -108,7 +108,7 @@ for (i in 1:10){
 }  
 ```
 
-obtenemos 144.1 que corresponde al 92.7\% (144.1/155.48 = 0.927) de la varianza total. Si calculamos la varianza de los datos considerando las distancias sobre el segundo eje (vea las proyecciones en el siguiente gráfico)
+obtenemos 144.1 que corresponde al 92.7% (144.1/155.48 = 0.927) de la varianza total. Si calculamos la varianza de los datos considerando las distancias sobre el segundo eje (vea las proyecciones en el siguiente gráfico)
 
 ```{r fig.height=5, fig.width=5}
 plot(X[, "peso"], X[, "talla"], xlab = "Peso", ylab = "Talla", pch = 19, col = "blue", asp = 1)
@@ -121,11 +121,11 @@ for (i in 1:10){
 }  
 ```
 
-obtenemos 11.4 que corresponde al 7.3\% (11.4/155.48 = 0.073) de la varianza total.
+obtenemos 11.4 que corresponde al 7.3% (11.4/155.48 = 0.073) de la varianza total.
 
-Para terminar, la pregunta que seguro muchos se estarán haciendo. ¿Cómo determinamos la dirección en la cual deben ir los ejes tal que, luego de hacer la rotación, las nuevas variables definidas por las proyecciones sobre esos nuevos ejes no estén correlacionadas y con el agregado de que el primer eje concentre la mayor cantidad posible de la varianza? La respuesta viene desde el álgebra lineal y es la siguiente: cálculo de los valores y vectores propios (tema obligatorio en los cursos de matemática básica en cualquier carrera universitaria y sospecho que debe ser tratado incluso en el último año de la secundaria en varios colegios). En R podemos hacer esto en dos pasos:
+Para terminar, la pregunta que seguro muchos se estarán haciendo. ¿Cómo determinamos la dirección en la cual deben ir los ejes tal que, luego de hacer la rotación, las nuevas variables definidas por las proyecciones sobre esos nuevos ejes no estén correlacionadas y con el agregado de que el primer eje concentre la mayor cantidad posible de la varianza? La respuesta viene desde el álgebra lineal y es la siguiente: cálculo de los [valores y vectores propios](https://es.wikipedia.org/wiki/Vector_propio_y_valor_propio) (tema obligatorio en los cursos de matemática básica en cualquier carrera universitaria y sospecho que debe ser tratado incluso en el último año de la secundaria en varios colegios). En R podemos hacer esto en dos pasos:
 
-1. Calculamos la matriz de varianzas y covarianzas de $\mathbf{X}$
+1. Calculamos la matriz de [varianzas y covarianzas](https://es.wikipedia.org/wiki/Matriz_de_covarianza) de $\mathbf{X}$
 2. Calculamos los valores y vectores propios de la matriz de varianzas y covarianzas.
 
 A continuación el código en R.
@@ -139,7 +139,7 @@ Noten que los valores propios, 144.11 y 11.37, nos dan las varianzas de las nuev
 
 ## 3. Componentes principales
 
-Sea $\mathbf{X}$ una matriz $n \times p$ con ambos valores, $n$ y $p$, muy grandes. Por ejemplo $\mathbf{X}$ podría representar los datos de cientos o miles de personas sobre varias decenas de variables como peso, talla, edad, hábitos de vida y consumo, etc. Si todas las variables fueran cuantitativas, para representar estos datos en un gráfico necesitaríamos $p$ dimensiones lo cual no es muy amigable con el ojo humano (bueno, con ningún ojo para ser preciso). La pregunta ahora es ¿cómo disminuir la dimensión de este problema? La respuesta corresponde a una herramienta muy conocida en estadística, los Componentes Principales, y si tenemos suerte, quizá incluso logremos disminuir la dimensión de nuestro problema *p*-dimensional a solo 2 o 3 dimensiones con una mínima pérdida de información.
+Sea $\mathbf{X}$ una matriz $n \times p$ con ambos valores, $n$ y $p$, muy grandes. Por ejemplo $\mathbf{X}$ podría representar los datos de cientos o miles de personas sobre varias decenas de variables como peso, talla, edad, hábitos de vida y consumo, etc. Si todas las variables fueran cuantitativas, para representar estos datos en un gráfico necesitaríamos $p$ dimensiones lo cual no es muy amigable con el ojo humano (bueno, con ningún ojo para ser preciso). La pregunta ahora es ¿cómo disminuir la dimensión de este problema? La respuesta corresponde a una herramienta muy conocida en estadística, los [Componentes Principales](https://es.wikipedia.org/wiki/An%C3%A1lisis_de_componentes_principales), y si tenemos suerte, quizá incluso logremos disminuir la dimensión de nuestro problema *p*-dimensional a solo 2 o 3 dimensiones con una mínima pérdida de información.
 
 El análisis de componentes principales usa un concepto bastante conocido del álgebra lineal, que por supuesto es el que todos están pensando: el cálculo de los valores y vectores propios. La idea es la siguiente: Supongamos que la matriz $\mathbf{X}$ de orden $n \times p$ con $n>p$ representa nuestros datos, tomados sobre una muestra de $n$ elementos con $p$ variables sobre cada elemento de la muestra. Para hacer las cosas más simples supongamos que los datos han sido previamente centrados en cero restándole a cada dato la media (recuerde la fórmula para el cálculo de la varianza para tener una idea de por qué esto hace las cosas más simples), de modo que para cualquier columna de $\mathbf{X}$ la media ahora es cero. Calculemos ahora la matriz $\mathbf{S} = \mathbf{X}^\text{T}\mathbf{X}$, que será una matriz cuadrada de orden $p \times p$. Además, dado que la media de cada columna de $\mathbf{X}$ es cero, $\mathbf{S}$ es también proporcional a la matriz de varianzas y covarianzas de $\mathbf{X}$. Si estudió el tema de los valores y vectores propios en la universidad o en el colegio seguro recordará que el cálculo es directo. Calculemos entonces los valores y vectores propios de la matriz $\mathbf{S}$. ¿Qué logramos con este cálculo? Pues hay varios detalles interesantes, pero quizá sea más sencillo ilustrarlos con un ejemplo.
 
@@ -217,7 +217,7 @@ En el gráfico vemos a las 4 personas y la posición de cada una en el plano es de
 
 ## 4. Descomposición en valores singulares
 
-El cálculo de valores y vectores propios se efectúa sobre matrices cuadradas como nuestra matriz $\mathbf{S}$. Sin embargo podríamos también hacer un cálculo similar sobre la matriz de datos $\mathbf{X}$ que no es cuadrada: la descomposición en valores singulares, DVS de ahora en adelante.
+El cálculo de valores y vectores propios se efectúa sobre matrices cuadradas como nuestra matriz $\mathbf{S}$. Sin embargo podríamos también hacer un cálculo similar sobre la matriz de datos $\mathbf{X}$ que no es cuadrada: la [descomposición en valores singulares](https://es.wikipedia.org/wiki/Descomposición_en_valores_singulares), DVS de ahora en adelante.
 
 Una DVS es una factorización de cualquier matriz real o compleja. Para nuestra matriz real de datos $\mathbf{X}$ de orden $n \times p$, la DVS es
 
@@ -225,7 +225,7 @@ $$
 \mathbf{X} = \mathbf{U} \boldsymbol{\Sigma} \mathbf{V}^\text{T}
 $$
 
-donde $\mathbf{U}$ es una matriz unitaria $n \times n$, $\boldsymbol{\Sigma}$ es una matriz diagonal rectangular $n \times p$ con valores no negativos, y $\mathbf{V}^\text{T}$ es la transpuesta de $\mathbf{V}$, una matriz unitaria $p \times p$. Los elementos de la diagonal de $\boldsymbol{\Sigma}$ son los valores singulares de $\mathbf{X}$, las $n$ columnas de $\mathbf{U}$ son los vectores singulares izquierdos de $\mathbf{X}$ y las $p$ columnas de $\mathbf{V}$ son los vectores singulares derechos de $\mathbf{X}$.
+donde $\mathbf{U}$ es una [matriz unitaria](https://es.wikipedia.org/wiki/Matriz_unitaria) $n \times n$, $\boldsymbol{\Sigma}$ es una [matriz diagonal](https://es.wikipedia.org/wiki/Matriz_diagonal) rectangular $n \times p$ con valores no negativos, y $\mathbf{V}^\text{T}$ es la transpuesta de $\mathbf{V}$, una matriz unitaria $p \times p$. Los elementos de la diagonal de $\boldsymbol{\Sigma}$ son los valores singulares de $\mathbf{X}$, las $n$ columnas de $\mathbf{U}$ son los vectores singulares izquierdos de $\mathbf{X}$ y las $p$ columnas de $\mathbf{V}$ son los vectores singulares derechos de $\mathbf{X}$.
 
 Hay una relación más que estrecha entre los valores y vectores propios y los resultados de una DVS. Considerando siempre nuestra matriz de datos $\mathbf{X}$ y su matriz asociada $\mathbf{S}$ se tiene que:
 
@@ -333,22 +333,22 @@ Además de las conclusiones ya mencionadas en la sección anterior, podríamos a pa
 
 ## 5. DVS, AMMI y GGE
 
-La DVS tiene muchas aplicaciones en estadística. Encontarmos un buen ejemplo en un área que está como a medio camino entre la estadística y la agronomía: el mejoramiento genético convencional de plantas. En particular hay dos técnicas bastante populares entre los mejoradores que se basan en una DVS:
+La DVS tiene muchas aplicaciones en estadística. Encontarmos un buen ejemplo en un área que está como a medio camino entre la estadística y la agronomía: el [mejoramiento genético convencional de plantas](https://en.wikipedia.org/wiki/Plant_breeding#Classical_plant_breeding). En particular hay dos técnicas bastante populares entre los mejoradores que se basan en una DVS:
 
 1. AMMI: Additive Main effect Multiplicative Interaction.
 2. GGE: Genotype main effects and Genotype $\times$ Environment interaction effects.
 
 Desde una perspectiva matemática la diferencia entre AMMI y GGE es realmente una sutileza por lo que, para hacer las cosas simples, de aquí en adelante nos concentraremos solo en AMMI, que al parecer es la técnica que va ganando en la carrera de la popularidad.
 
-La idea detrás de AMMI no es nueva y creo que podríamos situar sus orígenes en el año 1968 con el artículo de Harry Gollob, [A Statistical Model which combines Features of Factor Analytic and Analysis of Variance Techniques](http://deepblue.lib.umich.edu/bitstream/handle/2027.42/45727/11336_2005_Article_BF02289676.pdf?sequence=1), publicado en la revista Psychometrika (Vol 33(1): 73-114). Pero antes de hablar de AMMI tenemos que ponernos en los zapatos del mejorador. Lo que hace el mejorador en sus experimentos de campo es básicamente sembrar un grupo de genotipos en distintos ambientes, esto debido a que por lo general existe una fuerte interacción entre los genotipos y los ambientes (gran dolor de cabeza para los mejoradores), de modo que genotipos a los que les va muy bien en determinadas condiciones, podría no irles tan bien en otras. Los resultados del experimento corresponden a un conjunto de variables donde la más importante quizá sea el rendimiento. Así, si el mejorador está evaluando $n$ genotipos en $p$ ambientes, al final va a terminar con un modelo como el siguiente (famoso modelo de análisis de varianza o diseño experimental):
+La idea detrás de AMMI no es nueva y creo que podríamos situar sus orígenes en el año 1968 con el artículo de Harry Gollob, [A Statistical Model which combines Features of Factor Analytic and Analysis of Variance Techniques](http://deepblue.lib.umich.edu/bitstream/handle/2027.42/45727/11336_2005_Article_BF02289676.pdf?sequence=1), publicado en la revista Psychometrika (Vol 33(1): 73-114). Pero antes de hablar de AMMI tenemos que ponernos en los zapatos del mejorador. Lo que hace el mejorador en sus experimentos de campo es básicamente sembrar un grupo de genotipos en distintos ambientes, esto debido a que por lo general existe una fuerte interacción entre los genotipos y los ambientes (gran dolor de cabeza para los mejoradores), de modo que genotipos a los que les va muy bien en determinadas condiciones, podría no irles tan bien en otras. Los resultados del experimento corresponden a un conjunto de variables donde la más importante quizá sea el rendimiento. Así, si el mejorador está evaluando $n$ genotipos en $p$ ambientes, al final va a terminar con un modelo como el siguiente (famoso modelo de [análisis de varianza](https://es.wikipedia.org/wiki/Análisis_de_la_varianza) o [diseño experimental](https://es.wikipedia.org/wiki/Diseño_experimental)):
 
 $$
 y_{ijk} = \mu + \alpha_i + \beta_j + \delta_{ij} + \epsilon_{ijk}
 $$
 
-donde $y_{ijk}$ podría ser el rendimiento de la parcela número $k$ sembrada con el genotipo $i$ en el ambiente $j$, $\mu$ el rendimiento medio sobre todos los genotipos y ambientes, $\alpha_i$ el efecto del genotipo $i$, $\beta_j$ el efecto del ambiente $j$, $\delta_{ij}$ el efecto de la interacción entre el genotipo $i$ y el ambiente $j$, y $\epsilon_{ijk}$ un término de error aleatorio que usualmente se modela con una distribución normal.
+donde $y_{ijk}$ podría ser el rendimiento de la parcela número $k$ sembrada con el genotipo $i$ en el ambiente $j$, $\mu$ el rendimiento medio sobre todos los genotipos y ambientes, $\alpha_i$ el efecto del genotipo $i$, $\beta_j$ el efecto del ambiente $j$, $\delta_{ij}$ el efecto de la interacción entre el genotipo $i$ y el ambiente $j$, y $\epsilon_{ijk}$ un término de error aleatorio que usualmente se modela con una [distribución normal](https://es.wikipedia.org/wiki/Distribución_normal).
 
-Noten ahora que, si el objetivo es estudiar la interacción, los resultados del experimento podrían representarse con una matriz $\mathbf{X}$ (lo de $\mathbf{X}$ solo para seguir con la notación de las secciones anteriores) con $n$ filas y $p$ columnas, donde cada fila corresponde a un genotipo y cada columna a un ambiente. Las entradas de esta matriz podrían ser las medias para cada combinación genotipo ambiente, o los efectos de la interacción. La idea de AMMI es descomponer la matriz de efectos de interacción mediante una DVS con el objetivo de lograr una explicación más parsimoniosa de la interacción, con menos grados de libertad y, si se tiene suerte, lograr disminuir la dimensión del problema a dos, con lo que se podría hacer un bonito gráfico como los que les he mostrado en las secciones anteriores para ver las relaciones entre los genotipos y los ambientes.
+Noten ahora que, si el objetivo es estudiar la interacción, los resultados del experimento podrían representarse con una [matriz](https://reyzaguirre.wordpress.com/2014/01/22/estructuras-de-datos-las-matrices/) $\mathbf{X}$ (lo de $\mathbf{X}$ solo para seguir con la notación de las secciones anteriores) con $n$ filas y $p$ columnas, donde cada fila corresponde a un genotipo y cada columna a un ambiente. Las entradas de esta matriz podrían ser las medias para cada combinación genotipo ambiente, o los efectos de la interacción. La idea de AMMI es descomponer la matriz de efectos de interacción mediante una DVS con el objetivo de lograr una explicación más [parsimoniosa](https://es.wikipedia.org/wiki/Navaja_de_Ockham) de la interacción, con menos [grados de libertad](https://es.wikipedia.org/wiki/Grado_de_libertad_%28estad%C3%ADstica%29) y, si se tiene suerte, lograr disminuir la dimensión del problema a dos, con lo que se podría hacer un bonito gráfico como los que les he mostrado en las secciones anteriores para ver las relaciones entre los genotipos y los ambientes.
 
 Vamos con un ejemplo. Los datos los voy a tomar del artículo de Andrea Onofri y Egidio Ciriciofolo, [Using R to Perform the AMMI Analysis on Agriculture Variety Trials](https://cran.r-project.org/doc/Rnews/Rnews_2007-1.pdf), publicado en R News (Vol 7(1): 14-19). El artículo además de una buena descripción de la técnica incluye el código R para efectuar el análisis AMMI, que seguro será apreciado por muchos de ustedes. Los datos corresponden a ocho variedades de trigo duro evaluadas en campo durante siete años en el centro de Italia utilizando un diseño de bloques completos al azar con tres réplicas. Los siete años constituyen los diferentes ambientes.
 
