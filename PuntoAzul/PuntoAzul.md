@@ -1,0 +1,15 @@
+---
+title: "La arrogancia del puntito azul"
+author: "Raul Eyzaguirre"
+output: html_document
+---
+
+Cuando el hombre, luego de un largo y lento proceso evolutivo, empezó a andar sobre la faz de la tierra, y a la luz de su incipiente conciencia vio al sol y a la luna girando alrededor suyo, se sintió importante. Luego, cuando gracias a su cerebro y al conocimiento que iba acumulando sobre su entorno reconoció la importancia y el poder del sol y de la luna, se sintió sin duda alguna, más importante aún. No es difícil entender en ese contexto que cuando el hombre empezó a desarrollar sus primeras teorías - a las que luego llamaría religiones - para explicar el origen, funcionamiento y destino de todo cuanto lo rodeaba, el ser y la razón del ser, se haya puesto a sí mismo como el elemento central de la creación, como protagonista en el universo, dando origen a lo que luego llamaríamos antropocentrismo. Tampoco es difícil entender que, al entrar en contacto dos culturas diferentes, cada una con su propia interpretación del universo, por el convencimiento de cada una sobre la validez de su propia teoría - esto es a lo que llamamos fe - se hayan iniciado guerras entre las dos y se hayan justificado todo tipo de atrocidades en nombre del Dios verdadero. No es difícil entender que entonces el hombre haya derivado, desde su antropocentrismo, una moralidad absoluta, acorde con su religiosidad, y que haya tratado de imponer, sin miramientos, esta moralidad a todo aquel con quien entrara en contacto. No es difícil entender que el hombre haya discriminado a todos aquellos que no siguieran aquella moralidad y que les haya deparado los más terribles martirios.
+
+En 1990 el Voyager 1 tomó la siguiente foto de la tierra desde unos 6000 millones de kilómetros de distancia, poco más allá de la órbita de Plutón. En esta foto la tierra aparece como un pequeño e insignificante puntito azul visto desde el más exterior de los planetas del sistema solar, sistema solar que a su vez se podría representar como un pequeño e insignificante puntito en la vía láctea, nuestra galaxia, que no es más que un pequeño e insignificante puntito en el universo (que algunos sostienen no es más que un universo en una sopa de infinitos universos).
+
+![Pale Blue Dot Picture][Pale_Blue_Dot]
+
+Es difícil entender que luego de ver esta foto el hombre se siga sintiendo tan importante. Es difícil entender que después de ver esta foto y de darnos cuenta de que en el vasto universo somos simplemente invisibles, se siga derramando sangre en nombre de algún Dios, que un pueblo siga cometiendo atrocidades contra otro bajo la consigna de ser el pueblo elegido, y que el hombre siga discriminando al hombre bajo la premisa de una moralidad absoluta, resultado de un plan divino según el cual nosotros somos la obra maestra de la creación, el fin último. En el universo debe haber miles, sino millones, o quizás miles de millones de planetas con vida. Que no nos hayamos encontrado aún con otros seres inteligentes es una cuestión de distancias.
+
+[Pale_Blue_Dot]: Pale_Blue_Dot.png "Pale Blue Dot"
