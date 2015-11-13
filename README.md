@@ -1,33 +1,37 @@
 No Converge
 ===========
-
 Código y datos usados en el blog [No Converge](http://reyzaguirre.wordpress.com/) de WordPress.
-
-CEst
-----
-CÃ³digo de la entrada [Cuidado con la EstadÃ­stica](https://reyzaguirre.wordpress.com/2015/02/13/cuidado-con-la-estadistica/).
 
 CongresoGay
 -----------
-CÃ³digo de la entrada [Â¿CuÃ¡ntos congresistas gays hay en el PerÃº?](https://reyzaguirre.wordpress.com/2014/05/18/cuantos-congresistas-gay-hay-en-el-peru/).
+Entrada [¿Cuántos congresistas gays hay en el Perú?](https://reyzaguirre.wordpress.com/2014/05/18/cuantos-congresistas-gay-hay-en-el-peru/).
+
+CuidadoEstadistica
+------------------
+Entrada [Cuidado con la Estadística](https://reyzaguirre.wordpress.com/2015/02/13/cuidado-con-la-estadistica/).
 
 DVS
 ---
-CÃ³digo de las entradas [Valores y vectores propios](https://reyzaguirre.wordpress.com/2014/01/28/valores-y-vectores-propios/),
+Entradas [Estructuras de datos - Las matrices](https://reyzaguirre.wordpress.com/2014/01/22/estructuras-de-datos-las-matrices/), [Valores y vectores propios](https://reyzaguirre.wordpress.com/2014/01/28/valores-y-vectores-propios/),
 [Componentes Principales](https://reyzaguirre.wordpress.com/2014/02/03/componentes-principales/),
-[DescomposiciÃ³n en Valores Singulares](https://reyzaguirre.wordpress.com/2014/02/10/descomposicion-de-valor-singular/) y
+[Descomposicón en Valores Singulares](https://reyzaguirre.wordpress.com/2014/02/10/descomposicion-de-valor-singular/) y
 [DVS, AMMI y GGE](https://reyzaguirre.wordpress.com/2014/02/17/dvs-ammi-y-gge/).
+
+EstadisticaIntuicion
+--------------------
+Entrada [La estadística y la intuición](https://reyzaguirre.wordpress.com/2014/04/01/la-estadistica-y-la-intuicion/).
 
 MatRumNam3614
 -------------
-CÃ³digo de la entrada [MatemÃ¡ticamente rumbo a NamekuseÃ­ 3614](https://reyzaguirre.wordpress.com/2013/09/09/matematicamente-rumbo-a-namekusei-3614/).
+Entrada [Matemáticamente rumbo a Namekuseí 3614](https://reyzaguirre.wordpress.com/2013/09/09/matematicamente-rumbo-a-namekusei-3614/).
+
+SoloTexto
+---------
+Entradas con solo archivo de texto.
 
 UseR
 ----
-CÃ³digo de la entrada [Use R, resistance is futile, you will be assimilated](https://reyzaguirre.wordpress.com/2013/12/18/use-r-resistance-is-futile-you-will-be-assimilated-2/).
+Entrada [Use R, resistance is futile, you will be assimilated](https://reyzaguirre.wordpress.com/2013/12/18/use-r-resistance-is-futile-you-will-be-assimilated-2/).
 
-t_dist
-------
-CÃ³digo de la entrada [La estadÃ­stica y la intuiciÃ³n](https://reyzaguirre.wordpress.com/2014/04/01/la-estadistica-y-la-intuicion/).
 
 
