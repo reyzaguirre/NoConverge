@@ -1,6 +1,7 @@
 ---
 title: "Y dale con la medicina"
 author: "Raul Eyzaguirre"
+date: "28/10/2013"
 output: html_document
 ---
 

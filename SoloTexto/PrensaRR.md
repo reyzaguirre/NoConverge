@@ -1,6 +1,7 @@
 ---
 title: "La prensa y los riesgos relativos"
 author: "Raul Eyzaguirre"
+date: "25/11/2013"
 output: html_document
 ---
 

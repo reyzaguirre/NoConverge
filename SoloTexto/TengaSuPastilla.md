@@ -1,6 +1,7 @@
 ---
 title: "Tenga su pastilla"
 author: "Raúl Eyzaguirre"
+date: "23/08/2013"
 output: html_document
 ---
 

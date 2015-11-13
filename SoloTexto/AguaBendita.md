@@ -1,6 +1,7 @@
 ---
 title: "El agua bendita causa cáncer"
 author: "Raul Eyzaguirre"
+date: "11/10/2013"
 output: html_document
 ---
 

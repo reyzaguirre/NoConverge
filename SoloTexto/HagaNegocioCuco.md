@@ -1,6 +1,7 @@
 ---
 title: "Haga negocio con cuco"
 author: "Raúl Eyzaguirre"
+date: "22/08/2013"
 output: html_document
 ---
 

@@ -1,6 +1,7 @@
 ---
 title: "Cuidado con las condicionales"
 author: "Raul Eyzaguirre"
+date: "06/09/2013"
 output: html_document
 ---
 

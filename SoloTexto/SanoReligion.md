@@ -1,6 +1,7 @@
 ---
 title: "Lo sano de la religión"
 author: "Raul Eyzaguirre"
+date: "04/04/2014"
 output: html_document
 ---
 

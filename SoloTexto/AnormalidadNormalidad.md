@@ -1,6 +1,7 @@
 ---
 title: "La anormalidad de la normalidad"
 author: "Raúl Eyzaguirre"
+date: "09/08/2013"
 output: html_document
 ---
 

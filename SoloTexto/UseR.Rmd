@@ -1,6 +1,7 @@
 ---
 title: "Use R, resistance is futile, you will be assimilated"
 author: "Raul Eyzaguirre"
+date: "18/12/2013"
 output: html_document
 ---
 

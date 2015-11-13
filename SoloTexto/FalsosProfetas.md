@@ -1,6 +1,7 @@
 ---
 title: "Cuidado con los falsos profetas"
 author: "Raul Eyzaguirre"
+date: "13/09/2013"
 output: html_document
 ---
 

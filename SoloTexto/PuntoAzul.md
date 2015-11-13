@@ -1,6 +1,7 @@
 ---
 title: "La arrogancia del puntito azul"
 author: "Raul Eyzaguirre"
+date: "15/07/2014"
 output: html_document
 ---
 

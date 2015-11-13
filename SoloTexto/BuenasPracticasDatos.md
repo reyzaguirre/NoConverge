@@ -1,6 +1,7 @@
 ---
 title: "Buenas Prácticas para el Manejo y Análisis de Datos"
 author: "Raul Eyzaguirre"
+date: "01/06/2014"
 output: html_document
 ---
 

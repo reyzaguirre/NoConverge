@@ -1,6 +1,7 @@
 ---
 title: "Una nota etimológica"
 author: "Raul Eyzaguirre"
+date: "14/11/2013"
 output: html_document
 ---
 

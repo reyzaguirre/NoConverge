@@ -1,6 +1,7 @@
 ---
 title: "La importancia del respeto a los contratos"
 author: "Raul Eyzaguirre"
+date: "07/01/2014"
 output: html_document
 ---
 

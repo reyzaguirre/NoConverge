@@ -1,7 +1,7 @@
 ---
 title: "Entropía e información"
 author: "Raul Eyzaguirre"
-date: "November 11, 2015"
+date: "27/09/2013"
 output: html_document
 ---
 

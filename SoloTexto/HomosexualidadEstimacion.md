@@ -1,7 +1,7 @@
 ---
 title: "Homosexualidad, una estimación"
 author: "Raul Eyzaguirre"
-date: "November 11, 2015"
+date: "17/09/2013"
 output: html_document
 ---
 

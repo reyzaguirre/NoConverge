@@ -1,6 +1,7 @@
 ---
 title: "¿Cuántos congresistas gays hay en el Perú?"
 author: "Raul Eyzaguirre"
+date: "18/05/2014"
 output: html_document
 ---
 
