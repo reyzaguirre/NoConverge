@@ -17,8 +17,8 @@ Entradas [Estructuras de datos - Las matrices](https://reyzaguirre.wordpress.com
 [Descomposicón en Valores Singulares](https://reyzaguirre.wordpress.com/2014/02/10/descomposicion-de-valor-singular/) y
 [DVS, AMMI y GGE](https://reyzaguirre.wordpress.com/2014/02/17/dvs-ammi-y-gge/).
 
-EstadisticaIntuicion
---------------------
+EstInt
+------
 Entrada [La estadística y la intuición](https://reyzaguirre.wordpress.com/2014/04/01/la-estadistica-y-la-intuicion/).
 
 MatRumNam3614
