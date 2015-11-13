@@ -12,4 +12,4 @@ En 1990 el Voyager 1 tomó la siguiente foto de la tierra desde unos 6000 millone
 
 Es difícil entender que luego de ver esta foto el hombre se siga sintiendo tan importante. Es difícil entender que después de ver esta foto y de darnos cuenta de que en el vasto universo somos simplemente invisibles, se siga derramando sangre en nombre de algún Dios, que un pueblo siga cometiendo atrocidades contra otro bajo la consigna de ser el pueblo elegido, y que el hombre siga discriminando al hombre bajo la premisa de una moralidad absoluta, resultado de un plan divino según el cual nosotros somos la obra maestra de la creación, el fin último. En el universo debe haber miles, sino millones, o quizás miles de millones de planetas con vida. Que no nos hayamos encontrado aún con otros seres inteligentes es una cuestión de distancias.
 
-[Pale_Blue_Dot]: Pale_Blue_Dot.png "Pale Blue Dot"
+[Pale_Blue_Dot]: figuras/Pale_Blue_Dot.png "Pale Blue Dot"
