@@ -1,6 +1,7 @@
 No Converge
 ===========
-CÃ³digo y datos usados en el blog [No Converge](http://reyzaguirre.wordpress.com/) de WordPress.
+
+Código y datos usados en el blog [No Converge](http://reyzaguirre.wordpress.com/) de WordPress.
 
 CEst
 ----
