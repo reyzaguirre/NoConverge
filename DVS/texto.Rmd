@@ -35,7 +35,7 @@ X
 Si colocamos estos datos en un gráfico de dispersión veremos que, como es de esperar, hay cierta [correlación](https://es.wikipedia.org/wiki/Correlación) entre ambas variables, esto es, que las personas más altas tienden también a ser las de mayor peso.
 
 ```{r fig.height=5, fig.width=5}
-plot(X[,"peso"], X[,"talla"], xlab="Peso", ylab="Talla", pch=19, col="blue", asp=1)
+plot(X[, "peso"], X[, "talla"], xlab = "Peso", ylab = "Talla", pch = 19, col = "blue", asp = 1)
 ```
 
 Calculemos ahora las [varianzas](https://es.wikipedia.org/wiki/Varianza) de los pesos y las tallas. Recordemos que la varianza de los datos de una variable $X$ está dada por:
@@ -321,7 +321,7 @@ D <- diag(DVS$d)
 P <- DVS$u %*% D
 V <- DVS$v %*% D
 plot(1, type = 'n', asp = 1, xlim = range(c(-P[, 1], -V[, 1])),
-     ylim = range(c(P[,2], V[,2])), xlab = "PC1 (80.6%)", ylab = "PC2 (17.4%)")
+     ylim = range(c(P[, 2], V[, 2])), xlab = "PC1 (80.6%)", ylab = "PC2 (17.4%)")
 points(-P[, 1], P[, 2], col = "red", lwd = 2, pch = 15)
 text(-P[, 1], P[, 2], labels = row.names(X), adj = c(0.5, 0.5), col = "red", pos = 1)
 points(-V[, 1], V[, 2], col = "blue", lwd = 2, pch = 17)
@@ -364,8 +364,9 @@ X <- matrix(c( 0.35, -0.62,  0.00, -0.45,  0.74, -0.34,  0.33,
               -0.43,  0.60,  0.23,  0.13, -0.40,  0.62, -0.75,
                0.33, -0.50, -0.07, -0.38, -0.07,  0.29,  0.40),
             byrow = T, nrow = 8, ncol = 7,
-            dimnames=list(c("COLOSSEO", "CRESO", "DUILIO", "GRAZIA", "IRIDE", "SANCARLO", "SIMETO", "SOLEX"),
-                          c("1996", "1997", "1998", "1999", "2000", "2001", "2002")))
+            dimnames = list(c("COLOSSEO", "CRESO", "DUILIO", "GRAZIA", "IRIDE",
+                              "SANCARLO", "SIMETO", "SOLEX"),
+                            c("1996", "1997", "1998", "1999", "2000", "2001", "2002")))
 X
 ```
 
