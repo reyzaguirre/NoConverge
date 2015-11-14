@@ -35,7 +35,7 @@ ddd <- data.frame(pais = c("Argentina", "Brasil", "Paraguay", "Colombia", "Ecuad
 barplot(ddd$pclas, space = 0.8, names.arg = ddd$pais, ylim = c(0, 1),
         col = c(rep(color, 7), 'red', rep(color, 2)))
 title(main = "Probabilidad de clasificar a un mundial", font.main = 4)
-mtext("AR: 0.944, BR: 0.894, PA: 0.666, CO: 0.645, EC: 0.625, UR: 0.520, CH: 0.480, PE: 0.100, VE: 0.074, BO: 0.052",
+mtext("AR: 0.944, BR: 0.894, PA: 0.666, CO: 0.645, EC: 0.625, UR: 0.520, CH: 0.480, PE: 0.100, VE: 0.073, BO: 0.052",
       side = 1, line = 3, cex = 0.9)
 ```
 
