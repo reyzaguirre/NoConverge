@@ -12,14 +12,16 @@ set.seed(1)
 nelim <- 100000
 resu <- simula(nelim)
 
-# Guardar simulaciones para usar luego
+# Guardar simulaciones
 
-save(resu, file = "MatRumNam3614/simulaciones.RData") # considera resultados hasta 2014
-save(resu, file = "MatRumNam3614/simulaciones2.RData") # considera resultados hasta la ultima fecha
+color <- "darkorange1"
+
+save(resu, nelim, color, file = "MatRumNam3614/simulaciones.RData") # considera resultados hasta 2014
+save(resu, nelim, color, file = "MatRumNam3614/simulaciones2.RData") # considera resultados hasta la ultima fecha
+
+# Probabilidad de clasificar
+
 load("MatRumNam3614/simulaciones.RData")
-load("MatRumNam3614/simulaciones2.RData")
-
-# probabilidad de clasificar
 
 pclas <- sort(table(c(resu[[2]][, 1], resu[[2]][, 2], resu[[2]][, 3], resu[[2]][, 4], resu[[2]][, 5])),
               decreasing = TRUE) / nelim
@@ -28,18 +30,19 @@ ddd <- data.frame(pais = c("Argentina", "Brasil", "Paraguay", "Colombia", "Ecuad
                            "Uruguay", "Chile", "Perú", "Venezuela", "Bolivia"),
                   pclas = pclas)
 
-# Grafico. Guardar en 950 x 600
+# Grafico (950 x 600)
 
-color <- "darkorange1"
 barplot(ddd$pclas, space = 0.8, names.arg = ddd$pais, ylim = c(0, 1),
         col = c(rep(color, 7), 'red', rep(color, 2)))
 title(main = "Probabilidad de clasificar a un mundial", font.main = 4)
+mtext("AR: 0.944, BR: 0.894, PA: 0.666, CO: 0.645, EC: 0.625, UR: 0.520, CH: 0.480, PE: 0.100, VE: 0.073, BO: 0.052",
+      side = 1, line = 3, cex = 0.9)
 
-# numero esperado de clasificatorias para ir al mundial
+# Numero esperado de clasificatorias para ir al mundial
 
 1 / pclas["per"]
 
-# al menos a uno de los proximos 2, 3, 4...
+# Al menos a uno de los proximos 2, 3, 4...
 
 1 - (1 - pclas["per"])^2
 1 - (1 - pclas["per"])^3
@@ -51,7 +54,7 @@ title(main = "Probabilidad de clasificar a un mundial", font.main = 4)
 1 - (1 - pclas["per"])^9
 1 - (1 - pclas["per"])^10
 
-# probabilidad de quedar primero, segundo, etc
+# Probabilidad de quedar primero, segundo, etc
 
 sort(table(resu[[2]][, 1])) / nelim
 sort(table(resu[[2]][, 2])) / nelim
@@ -69,10 +72,12 @@ ddd <- data.frame(pais = c("Argentina", "Brasil", "Paraguay", "Colombia", "Ecuad
                   pprim = sort(table(resu[[2]][, 1]), decreasing = TRUE) / nelim)
 
 barplot(ddd$pprim, space = 0.8, names.arg = ddd$pais,
-        col = c(rep(color, 8), 'red', color, 2))
+        col = c(rep(color, 8), 'red', color))
 title(main = "Probabilidad de quedar primero en la clasificatoria", font.main = 4)
+mtext("AR: 0.455, BR: 0.254, PA: 0.080, CO: 0.075, EC: 0.052, UR: 0.042, CH: 0.039, VE: 0.002, PE: 0.002, BO: 0.001",
+      side = 1, line = 3, cex = 0.9)
 
-# media de puntos por pais
+# Media de puntos por pais
 
 apply(resu[[1]], 2, mean)
 
@@ -80,20 +85,21 @@ apply(resu[[1]], 2, mean)
 
 quantile(resu[[1]][, 8], probs = c(0.025, 0.975), type = 7)
 
-# Considerando los datos de Rusia 2018 para Qatar 2022
+# Grafico incluyendo resultados Rusia 2018
+
+load("MatRumNam3614/simulaciones2.RData")
 
 pclas <- sort(table(c(resu[[2]][, 1], resu[[2]][, 2], resu[[2]][, 3], resu[[2]][, 4], resu[[2]][, 5])),
               decreasing = TRUE) / nelim
 
-ddd <- data.frame(pais = c("Argentina", "Brasil", "Paraguay", "Ecuador", "Colombia",
+ddd <- data.frame(pais = c("Argentina", "Brasil", "Ecuador", "Paraguay", "Colombia",
                            "Uruguay", "Chile", "Perú", "Venezuela", "Bolivia"),
                   pclas = pclas)
 
 barplot(ddd$pclas, space = 0.8, names.arg = ddd$pais, ylim = c(0, 1),
         col = c(rep(color, 7), 'red', rep(color, 2)))
 title(main = "Probabilidad de clasificar a Qatar 2022", font.main = 4)
-mtext("(El modelo incluye hasta los resultados de la fecha 2 de la clasificatoria Rusia 2018)",
+mtext("(El modelo incluye hasta los resultados de la fecha 3 de la clasificatoria Rusia 2018)",
       side = 3, line = 0.4, cex = 0.9)
-mtext("AR: 0.929, BR: 0.884, PA: 0.660, EC: 0.641, CO: 0.640, UR: 0.542, CH: 0.518, PE: 0.080, VEN: 0.062, BO: 0.043",
+mtext("AR: 0.926, BR: 0.885, EC: 0.661, PA: 0.658, CO: 0.637, UR: 0.530, CH: 0.515, PE: 0.083, VEN: 0.060, BO: 0.046",
       side = 1, line = 3, cex = 0.9)
-      

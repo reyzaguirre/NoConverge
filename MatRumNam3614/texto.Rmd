@@ -24,8 +24,6 @@ El tercer paso es definir el modelo. Aquí vienen unos detalles un poquito técnic
 El cuarto paso es correr el modelo y evaluar sus resultados. La priori uniforme resultó ser muy bondadosa con los equipos chicos y les dio probabilidades algo altas de clasificar, e incluso alguna probabilidad de terminar primeros en la clasificatoria. Decidí entonces bajar el peso de la priori a un tercio y correr el modelo de nuevo. Los resultados obtenidos me parecieron más realistas y se los cuento a continuación.
 
 ```{r echo=FALSE, fig.height=6, fig.width=10}
-nelim <- 100000
-
 load("simulaciones.RData")
 
 pclas <- sort(table(c(resu[[2]][, 1], resu[[2]][, 2], resu[[2]][, 3], resu[[2]][, 4], resu[[2]][, 5])),
@@ -34,10 +32,11 @@ ddd <- data.frame(pais = c("Argentina", "Brasil", "Paraguay", "Colombia", "Ecuad
                            "Uruguay", "Chile", "Perú", "Venezuela", "Bolivia"),
                   pclas = pclas)
 
-color <- "darkorange1"
 barplot(ddd$pclas, space = 0.8, names.arg = ddd$pais, ylim = c(0, 1),
         col = c(rep(color, 7), 'red', rep(color, 2)))
 title(main = "Probabilidad de clasificar a un mundial", font.main = 4)
+mtext("AR: 0.944, BR: 0.894, PA: 0.666, CO: 0.645, EC: 0.625, UR: 0.520, CH: 0.480, PE: 0.100, VE: 0.074, BO: 0.052",
+      side = 1, line = 3, cex = 0.9)
 ```
 
 ```{r echo=FALSE, fig.height=6, fig.width=10}
@@ -46,8 +45,10 @@ ddd <- data.frame(pais = c("Argentina", "Brasil", "Paraguay", "Colombia", "Ecuad
                   pprim = sort(table(resu[[2]][, 1]), decreasing = TRUE) / nelim)
 
 barplot(ddd$pprim, space = 0.8, names.arg = ddd$pais,
-        col = c(rep(color, 8), 'red', color, 2))
+        col = c(rep(color, 8), 'red', color))
 title(main = "Probabilidad de quedar primero en la clasificatoria", font.main = 4)
+mtext("AR: 0.455, BR: 0.254, PA: 0.080, CO: 0.075, EC: 0.052, UR: 0.042, CH: 0.039, VE: 0.002, PE: 0.002, BO: 0.001",
+      side = 1, line = 3, cex = 0.9)
 ```
 
 * La probabilidad de que Perú clasifique a un mundial es 10%. Con esta probabilidad, el número esperado de clasificatorias para que Perú vaya a un mundial es 9.96, redondeemos a 10, lo que equivale a 40 años y le da pronósticos regulares a mis hijos y algo mejores a mis futuros nietos.
@@ -67,17 +68,15 @@ load("simulaciones2.RData")
 pclas <- sort(table(c(resu[[2]][, 1], resu[[2]][, 2], resu[[2]][, 3], resu[[2]][, 4], resu[[2]][, 5])),
               decreasing = TRUE) / nelim
 
-ddd <- data.frame(pais = c("Argentina", "Brasil", "Paraguay", "Ecuador", "Colombia",
+ddd <- data.frame(pais = c("Argentina", "Brasil", "Ecuador", "Paraguay", "Colombia",
                            "Uruguay", "Chile", "Perú", "Venezuela", "Bolivia"),
                   pclas = pclas)
 
 barplot(ddd$pclas, space = 0.8, names.arg = ddd$pais, ylim = c(0, 1),
         col = c(rep(color, 7), 'red', rep(color, 2)))
 title(main = "Probabilidad de clasificar a Qatar 2022", font.main = 4)
-mtext("(El modelo incluye hasta los resultados de la fecha 2 de la clasificatoria Rusia 2018)",
+mtext("(El modelo incluye hasta los resultados de la fecha 3 de la clasificatoria Rusia 2018)",
       side = 3, line = 0.4, cex = 0.9)
-mtext("AR: 0.929, BR: 0.884, PA: 0.660, EC: 0.641, CO: 0.640, UR: 0.542, CH: 0.518, PE: 0.080, VEN: 0.062, BO: 0.043",
+mtext("AR: 0.926, BR: 0.885, EC: 0.661, PA: 0.658, CO: 0.637, UR: 0.530, CH: 0.515, PE: 0.083, VE: 0.060, BO: 0.046",
       side = 1, line = 3, cex = 0.9)
 ```
-
-
