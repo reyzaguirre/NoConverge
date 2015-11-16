@@ -101,5 +101,5 @@ barplot(ddd$pclas, space = 0.8, names.arg = ddd$pais, ylim = c(0, 1),
 title(main = "Probabilidad de clasificar a Qatar 2022", font.main = 4)
 mtext("(El modelo incluye hasta los resultados de la fecha 3 de la clasificatoria Rusia 2018)",
       side = 3, line = 0.4, cex = 0.9)
-mtext("AR: 0.926, BR: 0.885, EC: 0.661, PA: 0.658, CO: 0.637, UR: 0.530, CH: 0.515, PE: 0.083, VEN: 0.060, BO: 0.046",
+mtext("AR: 0.926, BR: 0.885, EC: 0.661, PA: 0.658, CO: 0.637, UR: 0.530, CH: 0.515, PE: 0.083, VE: 0.060, BO: 0.046",
       side = 1, line = 3, cex = 0.9)
