@@ -1,0 +1,12 @@
+---
+title: "Tía María ¿va o no va?"
+author: "Raul Eyzaguirre"
+date: "12/05/2015"
+output: html_document
+---
+
+Uno de los temas del momento es el del proyecto minero Tía María, que trata de abrirse camino entre las protestas de la población, emulando lo que hace unos años fue el proyecto Conga. No conozco los detalles ni del proyecto ni de las demandas de la población, por lo que no estoy en condiciones de opinar sobre qué lado es dueño de la justicia y la razón, pero sí voy a decir una cosa, y es que si este proyecto va o no va, me importa poco.
+
+Me importa poco porque creo que la riqueza de un pueblo y la promesa de su desarrollo futuro no están en sus recursos naturales sino en su gente ([idea que ya he tratado con anterioridad](https://reyzaguirre.wordpress.com/2014/07/26/feliz-28/)). No conozco nación que se haya desarrollado única y exclusivamente a partir de sus recursos naturales. Si los recursos se utilizaran para invertir en nuestra educación, que es a mi juicio el único motor real del progreso, estaría a favor de hipotecar hasta el aire que respiramos, pero realmente creo que esto no es lo que se está haciendo. Los recursos naturales, cuando son usados solo con fines económicos inmediatos, no son solución de nada; por el contrario, son fuente de muchos problemas, como el populismo y la corrupción, fomentan la ineficiencia, crean una falsa impresión de desarrollo, y producen conflictos sociales que cuestan vidas y ofrecen terreno fértil para el surgimiento de agitadores oportunistas. Los recursos naturales, cuando no son usados sabiamente, son más una maldición que una bendición, y la historia de la humanidad está plagada de estos ejemplos.
+
+La verdadera riqueza no es solo económica. Para lograr un verdadero estado de bienestar social se necesitan sin duda recursos, pero se requiere además de un desarrollo personal que solo se logra con educación. La sola riqueza económica, aparecida por accidente de la noche a la mañana, puede ser más fuente de tragedia que de dicha. Un ejemplo que me gusta mucho, pues creo que ilustra magistralmente esta situación, es el que trata John Steinbeck en su novela La Perla, un libro corto que bien puede leer en uno o dos días. Lea el libro, si no lo ha leído ya, y le auguro una alta probabilidad de que cambie su apreciación sobre Tía María y todos los conflictos similares que estamos viviendo.
