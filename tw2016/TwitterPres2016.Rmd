@@ -1,14 +1,14 @@
 ---
 title: "La carrera presidencial 2016 en Twitter"
 author: "Raul Eyzaguirre"
-date: "December 15, 2015"
+date: "15/12/2015"
 output: html_document
 ---
 
 ```{r fig.height=6, fig.width=10}
 library(ggplot2)
 
-load("tw2016data.RData")
+load(url("https://github.com/reyzaguirre/NoConverge/blob/master/tw2016/tw2016data.RData?raw=true"))
 
 qplot(fecha, conteo, data = datos, geom = c("point", "line"),
       colour = candidato, main = "Carrera Presidencial 2016 en Twitter",
