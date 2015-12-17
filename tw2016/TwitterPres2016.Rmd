@@ -1,7 +1,6 @@
 ---
 title: "La carrera presidencial 2016 en Twitter"
 author: "Raul Eyzaguirre"
-date: "15/12/2015"
 output: html_document
 ---
 
