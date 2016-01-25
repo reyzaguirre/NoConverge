@@ -14,4 +14,9 @@ twplot <- qplot(fecha, conteo, data = datos, colour = candidato, geom = "line",
                 main = "Carrera Presidencial 2016 en Twitter",
                 xlab = "Fecha", ylab = "Número de seguidores")
 twplot + scale_y_continuous(labels = comma)
+
+twplot <- qplot(fecha, log(conteo), data = datos, colour = candidato, geom = "line",
+                main = "Carrera Presidencial 2016 en Twitter",
+                xlab = "Fecha", ylab = "log(Número de seguidores)")
+twplot + scale_y_continuous(labels = comma)
 ```
