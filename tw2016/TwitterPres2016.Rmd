@@ -10,8 +10,8 @@ library(scales)
 
 load(url("https://github.com/reyzaguirre/NoConverge/blob/master/tw2016/tw2016data.RData?raw=true"))
 
-twplot <- qplot(fecha, conteo, data = datos, geom = c("point", "line"),
-                colour = candidato, main = "Carrera Presidencial 2016 en Twitter",
+twplot <- qplot(fecha, conteo, data = datos, colour = candidato, geom = "line",
+                main = "Carrera Presidencial 2016 en Twitter",
                 xlab = "Fecha", ylab = "Número de seguidores")
 twplot + scale_y_continuous(labels = comma)
 ```
