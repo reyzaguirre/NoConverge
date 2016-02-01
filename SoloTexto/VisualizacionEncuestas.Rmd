@@ -22,13 +22,12 @@ p <- sapply(t(p[, 1:9]), c)
 
 candidato <- rep(c("K. Fujimori", "PPK", "C. Acuña", "A. García", "A. Toledo",
                    "J. Guzmán", "D. Urresti", "V. Mend.", "R. Regg."), 1000)
-candidato <- factor(candidato,
-                    levels = c("K. Fujimori", "PPK", "C. Acuña", "A. García", "A. Toledo",
-                               "J. Guzmán", "D. Urresti", "V. Mend.", "R. Regg."))
+candidato <- factor(candidato, levels = c("K. Fujimori", "PPK", "C. Acuña", "A. García", "A. Toledo",
+                                          "J. Guzmán", "D. Urresti", "V. Mend.", "R. Regg."))
 
 datos <- data.frame(p = p, candidato = candidato)
 
-qp <- qplot(candidato, p*100, data = datos, position = position_jitter(w = 0.05), alpha = I(1/8),
+qp <- qplot(candidato, p * 100, data = datos, position = position_jitter(w = 0.05), alpha = I(1/8),
             color = candidato, xlab = "Candidato", ylab = "Intención de voto (%)")
 qp + theme(legend.position = "none")
 ```
@@ -44,13 +43,12 @@ p <- sapply(t(p[, 1:9]), c)
 
 candidato <- rep(c("K. Fujimori", "J. Guzmán", "C. Acuña", "PPK", "A. García",
                    "A. Toledo", "V. Mend.", "R. Regg.", "D. Urresti"), 1000)
-candidato <- factor(candidato,
-                    levels = c("K. Fujimori", "J. Guzmán", "C. Acuña", "PPK", "A. García",
-                               "A. Toledo", "V. Mend.", "R. Regg.", "D. Urresti"))
+candidato <- factor(candidato, levels = c("K. Fujimori", "J. Guzmán", "C. Acuña", "PPK", "A. García",
+                                          "A. Toledo", "V. Mend.", "R. Regg.", "D. Urresti"))
 
 datos <- data.frame(p = p, candidato = candidato)
 
-qp <- qplot(candidato, p*100, data = datos, position = position_jitter(w = 0.05), alpha = I(1/8),
+qp <- qplot(candidato, p * 100, data = datos, position = position_jitter(w = 0.05), alpha = I(1/8),
             color = candidato, xlab = "Candidato", ylab = "Intención de voto (%)")
 qp + theme(legend.position = "none")
 ```
