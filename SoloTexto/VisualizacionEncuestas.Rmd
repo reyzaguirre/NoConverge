@@ -49,19 +49,38 @@ qp <- qplot(candidato, p * 100, data = datos, position = position_jitter(w = 0.0
 qp + theme(legend.position = "none")
 ```
 
+[Encuesta nacional urbano rural de Ipsos - Encuestas del 12 al 14 de enero del 2016](http://www.ipsos.pe/sites/default/files/opinion_data/Opinion%20Data%20Enero%202016.pdf)
+
+```{r fig.height=6, fig.width=10}
+set.seed(1)
+y <- c(604, 238, 238, 146, 92, 55, 37, 37, 37, 37, 310)
+x <- t(array(rgamma(11000, y, 1), c(11, 1000)))
+p <- x / apply(x, 1, sum)
+p <- sapply(t(p[, 1:10]), c)
+
+candidato <- rep(c("KF", "CA", "PPK", "AG", "JG", "AT", "VM", "DU", "RR", "NGG"), 1000)
+candidato <- factor(candidato, levels = c("KF", "CA", "PPK", "AG", "JG", "AT", "VM", "DU", "RR", "NGG"))
+
+datos <- data.frame(p = p, candidato = candidato)
+
+qp <- qplot(candidato, p * 100, data = datos, position = position_jitter(w = 0.05), alpha = I(1/8),
+            color = candidato, xlab = "Candidato", ylab = "Intención de voto (%)")
+qp + theme(legend.position = "none")
+```
+
 [Encuesta nacional urbano rural de GFK - Encuestas del 22 al 26 de enero del 2016](http://www.gfk.com/fileadmin/user_upload/dyna_content/PE/GfK_OP_Enero_2016_-_Gobierno_y_Lima.pdf)
 
 ```{r fig.height=6, fig.width=10}
 set.seed(1)
-y <- c(510, 163, 156, 148, 102, 42, 30, 22, 14, 9, 8, 6, 5, 2, 2)
-x <- t(array(rgamma(10000, y, 1), c(10, 1000)))
+y <- c(510, 163, 156, 148, 102, 42, 30, 22, 14, 9, 8, 6, 5, 2, 2, 344)
+x <- t(array(rgamma(16000, y, 1), c(16, 1000)))
 p <- x / apply(x, 1, sum)
-p <- sapply(t(p[, 1:9]), c)
+p <- sapply(t(p[, 1:15]), c)
 
 candidato <- rep(c("KF", "JG", "CA", "PPK", "AG", "AT", "VM", "RR", "DU", "GS", "AB", "VC", "NGG",
                    "AF", "YS"), 1000)
-candidato <- factor(candidato, levels = c("K. Fujimori", "J. Guzmán", "C. Acuña", "PPK", "A. García",
-                                          "A. Toledo", "V. Mend.", "R. Regg.", "D. Urresti"))
+candidato <- factor(candidato, levels = c("KF", "JG", "CA", "PPK", "AG", "AT", "VM", "RR", "DU",
+                                          "GS", "AB", "VC", "NGG", "AF", "YS"))
 
 datos <- data.frame(p = p, candidato = candidato)
 
