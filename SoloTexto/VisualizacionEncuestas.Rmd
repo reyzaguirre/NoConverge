@@ -7,23 +7,40 @@ output: html_document
 
 ¿Cómo interpretar los resultados de una encuesta presidencial? Cualquier resultado obtenido a partir de una muestra tiene un margen de error. Eventualmente los medios de comunicación indican el margen de error y mencionan algo sobre cierto nivel de confianza, pero estos datos suelen ser incomprendidos por la mayoría. ¿Por qué hay un margen de error? Pues porque los números que se muestran son el resultado de una encuesta en la que solo se ha consultado a una pequeña parte de la población. Suponga por ejemplo que usted toma una muestra al azar de 100 personas y que en esa muestra encuentra que 30 tienen intención de votar por el candidato A. Entonces puede decir que el 30% de su muestra piensa votar por A, pero eso no quiere decir que el 30% de la población vaya a votar por A, y tampoco quiere decir que en otra muestra de 100 nuevamente 30 vayan a indicar que piensan votar por A. Si se sacaran muchas muestras de tamaño 100, en cada muestra se podrían obtener resultados distintos a favor de A; quizá 30 en algunas, 28 en otras, o 29, 33, 32 o 25, en fin, números distintos pero que, si se hicieron bien las cosas en el muestreo, debieran estar todos ellos alrededor de la intención de voto poblacional (lo que se observa finalmente el día de las elecciones), desconocida, a favor de dicho candidato. Esta variabilidad de muestra a muestra es la que tiene que ver con el margen de error.
 
-¿Cómo visualizar entonces el resultado de una encuesta junto con su correspondiente margen de error? Una forma es calcular un intervalo de confianza. Otra forma, y la que me permito mostrar aquí, podría ser mostrando una posible distribución de los resultados que podrían obtenerse si se repitiera la encuesta muchas veces, en el supuesto, claro está, de que la única encuesta que sí se hizo, se hizo bien. La idea es, a partir de los resultados de la encuesta que sí se hizo, simular resultados de otras posibles encuestas para poder visualizar el famoso margen de error. Los resultados de estas simulaciones se pueden graficar de varias maneras: en este caso he escogido un gráfico de puntos. Abajo puede ver los resultados obtenido con la simulación de 1000 encuestas.
+¿Cómo visualizar entonces el resultado de una encuesta junto con su correspondiente margen de error? Una forma es calcular un intervalo de confianza. Otra forma, y la que me permito mostrar aquí, podría ser mostrando una posible distribución de los resultados que podrían obtenerse si se repitiera la encuesta muchas veces, en el supuesto, claro está, de que la única encuesta que sí se hizo, se hizo bien. La idea es, a partir de los resultados de la encuesta que sí se hizo, simular resultados de otras posibles encuestas para poder visualizar el famoso margen de error. Los resultados de estas simulaciones se pueden graficar de varias maneras: en este caso he escogido un gráfico de puntos. Abajo puede ver los resultados obtenidos con la simulación de 1000 encuestas. Las abreviaturas usadas en los gráficos son las siguientes:
 
-[Encuesta nacional urbano rural de GFK - Diciembre 2015.](http://larepublica.pe/politica/727453-elecciones-2016-keiko-fujimori-y-alan-garcia-bajan-puntos-en-intencion-de-voto)
+* AB: Alfredo Barnechea
+* AF: Antero Flores
+* AG: Alan García
+* AT: Alejandro Toledo
+* CA: César Acuña
+* DU: Daniel Urresti
+* GS: Gregorio Santos
+* JG: Julio Guzmán
+* KF: Keiko Fujimori
+* MH: Miguel Hilario
+* NGG: Nano Guerra García
+* PPK: Pedro Pablo Kuczynski
+* RB: Ricardo Belmont
+* RR: Renzo Reggiardo
+* VC: Vladimir Cerrón
+* VM: Verónika Mendoza
+* YS: Yehude Simon 
+
+[Encuesta nacional urbano rural de GFK - Encuestas del 11 al 15 de Diciembre del 2015](http://www.gfk.com/fileadmin/user_upload/dyna_content/PE/GfK_OP_Diciembre_2015_-_Gobierno_y_Lima.pdf)
 
 ```{r fig.height=6, fig.width=10}
 library(ggplot2)
 
 set.seed(1)
-y <- c(380, 139, 101, 63, 38, 25, 25, 25, 13, 458)
-x <- t(array(rgamma(10000, y, 1), c(10, 1000)))
+y <- c(380, 139, 101, 63, 38, 25, 25, 25, 13, 8, 5, 3, 3, 439)
+x <- t(array(rgamma(14000, y, 1), c(14, 1000)))
 p <- x / apply(x, 1, sum)
-p <- sapply(t(p[, 1:9]), c)
+p <- sapply(t(p[, 1:13]), c)
 
-candidato <- rep(c("K. Fujimori", "PPK", "C. Acuña", "A. García", "A. Toledo",
-                   "J. Guzmán", "D. Urresti", "V. Mend.", "R. Regg."), 1000)
-candidato <- factor(candidato, levels = c("K. Fujimori", "PPK", "C. Acuña", "A. García", "A. Toledo",
-                                          "J. Guzmán", "D. Urresti", "V. Mend.", "R. Regg."))
+candidato <- rep(c("KF", "PPK", "CA", "AG", "AT", "JG", "DU", "VM", "RR", "NGG", "RB", "AF", "MH"), 1000)
+candidato <- factor(candidato, levels = c("KF", "PPK", "CA", "AG", "AT", "JG", "DU", "VM", "RR",
+                                          "NGG", "RB", "AF", "MH"))
 
 datos <- data.frame(p = p, candidato = candidato)
 
@@ -32,17 +49,17 @@ qp <- qplot(candidato, p * 100, data = datos, position = position_jitter(w = 0.0
 qp + theme(legend.position = "none")
 ```
 
-[Encuesta nacional urbano rural de GFK - Enero 2016.](http://larepublica.pe/politica/737903-encuesta-gfk-muestra-la-gran-escalada-de-julio-guzman-y-mas-novedades)
+[Encuesta nacional urbano rural de GFK - Encuestas del 22 al 26 de enero del 2016](http://www.gfk.com/fileadmin/user_upload/dyna_content/PE/GfK_OP_Enero_2016_-_Gobierno_y_Lima.pdf)
 
 ```{r fig.height=6, fig.width=10}
 set.seed(1)
-y <- c(510, 163, 156, 148, 102, 42, 30, 22, 14, 376)
+y <- c(510, 163, 156, 148, 102, 42, 30, 22, 14, 9, 8, 6, 5, 2, 2)
 x <- t(array(rgamma(10000, y, 1), c(10, 1000)))
 p <- x / apply(x, 1, sum)
 p <- sapply(t(p[, 1:9]), c)
 
-candidato <- rep(c("K. Fujimori", "J. Guzmán", "C. Acuña", "PPK", "A. García",
-                   "A. Toledo", "V. Mend.", "R. Regg.", "D. Urresti"), 1000)
+candidato <- rep(c("KF", "JG", "CA", "PPK", "AG", "AT", "VM", "RR", "DU", "GS", "AB", "VC", "NGG",
+                   "AF", "YS"), 1000)
 candidato <- factor(candidato, levels = c("K. Fujimori", "J. Guzmán", "C. Acuña", "PPK", "A. García",
                                           "A. Toledo", "V. Mend.", "R. Regg.", "D. Urresti"))
 
