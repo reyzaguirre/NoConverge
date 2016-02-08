@@ -1,0 +1,33 @@
+---
+title: "Seguidores en Twitter e intención de voto"
+author: "Raul Eyzaguirre"
+date: "10 de febrero del 2016"
+output: html_document
+---
+
+Todos o casi todos (no me he dado el trabajo de buscar a los 19) los candidatos a la presidencia tienen una cuenta en Twitter. Desde hace un tiempo he venido registrando el [número de seguidores de la mayoría de ellos](https://reyzaguirre.wordpress.com/2015/12/15/la-carrera-presidencial-2016-en-twitter/), así que ahora la pregunta es, ¿sirve para algo esta información? La respuesta corta es: yo creo que sí. Pero ahora vamos a desmenuzar un poco el asunto, o sea, vamos con la respuesta larga.
+
+Primero hay que separar a los que van arriba: KeikoFujimori, ppkamigo, AlanGarciaPeru, AlejandroToledo, DanielUrresti1, YehudeSimonM. Estos candidatos ya llevan tiempo en Twitter y consiguieron sus seguidores hace tiempo, por razones ajenas a esta coyuntura electoral. Sobre estos candidatos el análisis de la tendencia actual no dice nada, así que los removemos.
+
+```{r}
+load(url("https://github.com/reyzaguirre/NoConverge/blob/master/tw2016/tw2016data.RData?raw=true"))
+keep <- c('Vero_Mendoza_F', 'julioguzmanperu', 'CesarAcunaP', 'renzoreggiardo',
+          'nanoguerra', 'ABarnecheaG')
+temp <- subset(datos, candidato %in% keep)
+```
+
+Ahora sí, con los que quedan se pueden ver algunas cosas que nos permiten hacer algunos pronósticos. El próximo fin de semana salen varias encuestas y ahí veremos si dimos en el clavo o no. Primero el gráfico:
+
+```{r fig.height=6, fig.width=10}
+library(ggplot2)
+library(scales)
+
+twplot <- qplot(fecha, log(conteo), data = temp, colour = candidato, geom = "line",
+                main = "Carrera Presidencial 2016 en Twitter",
+                xlab = "Fecha", ylab = "log(Número de seguidores)")
+twplot + scale_y_continuous(labels = comma)
+```
+
+* Julio Guzmán tuvo un gran crecimiento de número de seguidores en la primera quincena de enero, y eso se vio reflejado en su gran subida en la intención de voto a 10% en [la encuesta de GFK que se mostró a fines de enero](http://www.gfk.com/fileadmin/user_upload/dyna_content/PE/GfK_OP_Enero_2016_-_Gobierno_y_Lima.pdf). Vemos sin embargo que luego de esa gran crecida se ha estancado un poco, lo cual indicaría que no debiera sorprendernos con un crecimiento similar para las encuestas del próximo fin de semana. Me animo a pensar que debería rondar un 12 - 13%, quedando ya claramente como segundo.
+* El efecto de los plagios de Acuña también es claro. Acuña iba creciendo bien en Twitter, y ya estaba por alcanzar a Julio Guzmán, hasta que salió el asunto de los plagios a inicios de febrero. Se ve con claridad en el gráfico cómo su curva se dobló para seguir en la horizontal. Mi pronóstico para las próximas encuestas es que esto le debe costar un par de puntos, y que debe estar por debajo del 10%.
+* Barnechea, el candidato que arrancó tarde, recién apareció en la [última encuesta de GFK con un tímido 0.5%](http://www.gfk.com/fileadmin/user_upload/dyna_content/PE/GfK_OP_Enero_2016_-_Gobierno_y_Lima.pdf). Vemos un crecimiento notable en sus seguidores en Twitter, con lo que me arriesgo a predecirle un 3% en las encuestas del próximo fin de semana.
