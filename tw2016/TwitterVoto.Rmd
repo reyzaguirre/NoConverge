@@ -1,7 +1,7 @@
 ---
 title: "Seguidores en Twitter e intención de voto"
 author: "Raul Eyzaguirre"
-date: "11 de febrero del 2016"
+date: "10 de febrero del 2016"
 output: html_document
 ---
 
@@ -16,7 +16,7 @@ keep <- c('Vero_Mendoza_F', 'julioguzmanperu', 'CesarAcunaP', 'renzoreggiardo',
 temp <- subset(datos, candidato %in% keep)
 ```
 
-Ahora sí, con los que quedan se pueden ver algunas cosas que nos permiten hacer algunos pronósticos. El próximo fin de semana salen varias encuestas y ahí veremos si dimos en el clavo o no. Primero el gráfico:
+Ahora sí, con los que quedan se pueden ver algunas cosas que nos permiten hacer algunos comentarios. Este  fin de semana salen varias encuestas ([ya hoy salió el simulacro de votación de Datum](http://cde.peru21.pe/ima/0/0/3/5/2/352448.jpg)) y ahí confirmaremos si dimos en el clavo o no. Primero el gráfico:
 
 ```{r fig.height=6, fig.width=10}
 library(ggplot2)
@@ -28,7 +28,7 @@ twplot <- qplot(fecha, conteo, data = temp, colour = candidato, geom = "line",
 twplot + scale_y_continuous(labels = comma)
 ```
 
-1. Julio Guzmán tuvo un gran crecimiento en el número de seguidores en la primera quincena de enero, y eso se vio reflejado en su gran subida en la intención de voto a 10% en [la encuesta de GFK que se mostró a fines de enero](http://www.gfk.com/fileadmin/user_upload/dyna_content/PE/GfK_OP_Enero_2016_-_Gobierno_y_Lima.pdf). Vemos sin embargo que luego de esa gran crecida se ha estancado un poco, lo cual indica que no debiera tener un crecimiento similar para las encuestas del próximo fin de semana. Creo que va crecer, pero no tanto. Mi pronóstico es un 12%, quedando ya claramente como segundo.
+1. Julio Guzmán tuvo un gran crecimiento en el número de seguidores en la primera quincena de enero, y eso se vio reflejado en su gran subida en la intención de voto a 10% en [la encuesta de GFK de fines de enero](http://www.gfk.com/fileadmin/user_upload/dyna_content/PE/GfK_OP_Enero_2016_-_Gobierno_y_Lima.pdf). Su crecimiento en Twitter sigue fuerte pero ya no tanto como en la primera quincena de enero, por lo que no debiera tener un crecimiento similar en su intención de voto para las encuestas del próximo fin de semana. Creo que va crecer, pero no tanto.
 2. El efecto de los plagios de Acuña también es claro en el gráfico. Acuña iba creciendo bien en Twitter, y ya estaba por alcanzar a Julio Guzmán, hasta que salió el asunto de los plagios a inicios de febrero. Mi pronóstico para las próximas encuestas es que esto le debe costar un par de puntos, y que debe estar por debajo del 10%.
-3. Barnechea, el candidato que arrancó tarde, recién apareció en la [última encuesta de GFK con un tímido 0.5%](http://www.gfk.com/fileadmin/user_upload/dyna_content/PE/GfK_OP_Enero_2016_-_Gobierno_y_Lima.pdf). Vemos un crecimiento notable en sus seguidores en Twitter, con lo que me arriesgo a predecirle un 3% en las encuestas del próximo fin de semana.
+3. Barnechea, el candidato que arrancó tarde, recién apareció en la [última encuesta de GFK con un tímido 0.5%](http://www.gfk.com/fileadmin/user_upload/dyna_content/PE/GfK_OP_Enero_2016_-_Gobierno_y_Lima.pdf). Vemos un crecimiento notable en sus seguidores en Twitter, con lo que me arriesgo a predecirle un 3% en las encuestas del próximo fin de semana. Así como el número de seguidores en Twitter nos puede ayudar para anticipar lo que va a ocurrir en las encuestas, el resultado de las encuestas también nos puede ayudar para anticipar lo que va a ocurrir en Twitter. Ahora Barnechea está en carrera, tiene opciones, y esto va a hacer que el interés en el candidato aumente por lo que su número de seguidores en Twitter debiera dispararse en los próximos días.
 4. La ola de memes que dejó la participación de Verónika Mendoza el domingo en Frecuencia Latina, gracias a las geniales participaciones de Aldo Mariátegui y Mijael Garrido Lecca le hicieron un favor en el número de seguidores en Twitter que se ha disparado en lo que va de la semana. Sin embargo, si esto tiene o no un efecto en su intención de voto solo se verá en los sondeos de fin de mes pues las encuestas para los sondeos de este fin de semana ya habían sido hechas antes del domingo.

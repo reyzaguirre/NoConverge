@@ -88,3 +88,23 @@ qp <- qplot(candidato, p * 100, data = datos, position = position_jitter(w = 0.0
             color = candidato, xlab = "Candidato", ylab = "Intención de voto (%)")
 qp + theme(legend.position = "none")
 ```
+
+[Simulacro de votación de Datum - Encuestas del 5 al 8 de febrero del 2016](http://cde.peru21.pe/ima/0/0/3/5/2/352448.jpg)
+
+```{r fig.height=6, fig.width=10}
+set.seed(1)
+y <- c(375, 193, 133, 85, 48, 36, 24, 24, 12, 12, 12, 12, 243)
+x <- t(array(rgamma(13000, y, 1), c(13, 1000)))
+p <- x / apply(x, 1, sum)
+p <- sapply(t(p[, 1:12]), c)
+
+candidato <- rep(c("KF", "JG", "PPK", "CA", "AG", "AB", "VM", "AT", "DU", "RR", "NGG", "GS"), 1000)
+candidato <- factor(candidato, levels = c("KF", "JG", "PPK", "CA", "AG", "AB", "VM", "AT",
+                                          "DU", "RR", "NGG", "GS"))
+
+datos <- data.frame(p = p, candidato = candidato)
+
+qp <- qplot(candidato, p * 100, data = datos, position = position_jitter(w = 0.05), alpha = I(1/8),
+            color = candidato, xlab = "Candidato", ylab = "Intención de voto (%)")
+qp + theme(legend.position = "none")
+```
