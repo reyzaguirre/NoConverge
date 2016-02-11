@@ -1,0 +1,83 @@
+---
+title: "Evolución de encuestas presidenciales"
+author: "Raul Eyzaguirre"
+output: html_document
+---
+
+```{r}
+library(ggplot2)
+set.seed(1)
+candidato <- c("C.Acuña", "A.Barnechea", "A.García", "J.Guzmán", "K.Fujimori", "P.Kuchinsky")
+
+sims <- function(y){
+  x <- t(array(rgamma(7000, y, 1), c(7, 1000)))
+  p <- x / apply(x, 1, sum) * 100
+  p <- sapply(t(p[, 1:6]), c)
+}
+
+# Resultados de encuestas
+
+fecha <- as.Date("2015-12-15")
+y <- c(101, 0, 63, 25, 380, 139, 559)
+p <- sims(y)
+dran <- data.frame(p = p, candidato = candidato, fecha = fecha)
+dpun <- data.frame(p = y[1:6] / sum(y) * 100, candidato = candidato, fecha = fecha)
+
+fecha <- as.Date("2016-01-14")
+y <- c(238, 0, 146, 92, 604, 238, 513)
+p <- sims(y)
+temp <- data.frame(p = p, candidato = candidato, fecha = fecha)
+dran <- rbind(dran, temp)
+temp <- data.frame(p = y[1:6] / sum(y) * 100, candidato = candidato, fecha = fecha)
+dpun <- rbind(dpun, temp)
+
+fecha <- as.Date("2016-01-26")
+y <- c(156, 6, 102, 163, 510, 148, 478)
+p <- sims(y)
+temp <- data.frame(p = p, candidato = candidato, fecha = fecha)
+dran <- rbind(dran, temp)
+temp <- data.frame(p = y[1:6] / sum(y) * 100, candidato = candidato, fecha = fecha)
+dpun <- rbind(dpun, temp)
+
+fecha <- as.Date("2016-02-08")
+y <- c(85, 36, 48, 193, 375, 133, 339)
+p <- sims(y)
+temp <- data.frame(p = p, candidato = candidato, fecha = fecha)
+dran <- rbind(dran, temp)
+temp <- data.frame(p = y[1:6] / sum(y) * 100, candidato = candidato, fecha = fecha)
+dpun <- rbind(dpun, temp)
+
+# Orden
+
+orden <- c("K.Fujimori", "J.Guzmán", "P.Kuchinsky", "C.Acuña", "A.García", "A.Barnechea")
+dran$candidato <- factor(dran$candidato, levels = orden)
+dpun$candidato <- factor(dpun$candidato, levels = orden)
+```
+
+### Primeros tres
+
+```{r fig.height=6, fig.width=10}
+sdran <- subset(dran, candidato %in% orden[1:3])
+sdpun <- subset(dpun, candidato %in% orden[1:3])
+
+qp <- qplot(fecha, p, data = sdran, colour = candidato,
+            position = position_jitter(w = 0.1), alpha = I(1/8),
+            main = "Evolución de intención de voto",
+            xlab = "Fecha", ylab = "Intención de voto (%)")
+qp + geom_line(data = sdpun, aes(x = fecha, y = p, group = candidato, colour = candidato),
+               show_guide = TRUE)
+```
+
+### Siguientes tres
+
+```{r fig.height=6, fig.width=10}
+sdran <- subset(dran, candidato %in% orden[4:6])
+sdpun <- subset(dpun, candidato %in% orden[4:6])
+
+qp <- qplot(fecha, p, data = sdran, colour = candidato,
+            position = position_jitter(w = 0.05), alpha = I(1/8),
+            main = "Evolución de intención de voto",
+            xlab = "Fecha", ylab = "Intención de voto (%)")
+qp + geom_line(data = sdpun, aes(x = fecha, y = p, group = candidato, colour = candidato),
+               show_guide = TRUE)
+```

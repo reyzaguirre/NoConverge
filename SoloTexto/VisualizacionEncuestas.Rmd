@@ -15,6 +15,7 @@ output: html_document
 * AT: Alejandro Toledo
 * CA: César Acuña
 * DU: Daniel Urresti
+* FO: Fernando Olivera
 * GS: Gregorio Santos
 * JG: Julio Guzmán
 * KF: Keiko Fujimori
@@ -27,24 +28,28 @@ output: html_document
 * VM: Verónika Mendoza
 * YS: Yehude Simon 
 
-[Encuesta nacional urbano rural de GFK - Encuestas del 11 al 15 de Diciembre del 2015](http://www.gfk.com/fileadmin/user_upload/dyna_content/PE/GfK_OP_Diciembre_2015_-_Gobierno_y_Lima.pdf)
-
-```{r fig.height=6, fig.width=10}
+```{r}
 library(ggplot2)
 
 set.seed(1)
+
+sims <- function(y, n){
+  x <- t(array(rgamma(n*1000, y, 1), c(n, 1000)))
+  p <- x / apply(x, 1, sum) * 100
+  p <- sapply(t(p[, 1:(n-1)]), c)
+}
+```
+
+[Encuesta nacional urbano rural de GFK - Encuestas del 11 al 15 de Diciembre del 2015](http://www.gfk.com/fileadmin/user_upload/dyna_content/PE/GfK_OP_Diciembre_2015_-_Gobierno_y_Lima.pdf)
+
+```{r fig.height=6, fig.width=10}
 y <- c(380, 139, 101, 63, 38, 25, 25, 25, 13, 8, 5, 3, 3, 439)
-x <- t(array(rgamma(14000, y, 1), c(14, 1000)))
-p <- x / apply(x, 1, sum)
-p <- sapply(t(p[, 1:13]), c)
-
-candidato <- rep(c("KF", "PPK", "CA", "AG", "AT", "JG", "DU", "VM", "RR", "NGG", "RB", "AF", "MH"), 1000)
-candidato <- factor(candidato, levels = c("KF", "PPK", "CA", "AG", "AT", "JG", "DU", "VM", "RR",
-                                          "NGG", "RB", "AF", "MH"))
-
+p <- sims(y, 14)
+candidato <- c("KF", "PPK", "CA", "AG", "AT", "JG", "DU", "VM", "RR", "NGG", "RB", "AF", "MH")
+candidato <- factor(candidato, levels = candidato)
 datos <- data.frame(p = p, candidato = candidato)
 
-qp <- qplot(candidato, p * 100, data = datos, position = position_jitter(w = 0.05), alpha = I(1/8),
+qp <- qplot(candidato, p, data = datos, position = position_jitter(w = 0.05), alpha = I(1/8),
             color = candidato, xlab = "Candidato", ylab = "Intención de voto (%)")
 qp + theme(legend.position = "none")
 ```
@@ -52,18 +57,13 @@ qp + theme(legend.position = "none")
 [Encuesta nacional urbano rural de Ipsos - Encuestas del 12 al 14 de enero del 2016](http://www.ipsos.pe/sites/default/files/opinion_data/Opinion%20Data%20Enero%202016.pdf)
 
 ```{r fig.height=6, fig.width=10}
-set.seed(1)
 y <- c(604, 238, 238, 146, 92, 55, 37, 37, 37, 37, 310)
-x <- t(array(rgamma(11000, y, 1), c(11, 1000)))
-p <- x / apply(x, 1, sum)
-p <- sapply(t(p[, 1:10]), c)
-
-candidato <- rep(c("KF", "CA", "PPK", "AG", "JG", "AT", "VM", "DU", "RR", "NGG"), 1000)
-candidato <- factor(candidato, levels = c("KF", "CA", "PPK", "AG", "JG", "AT", "VM", "DU", "RR", "NGG"))
-
+p <- sims(y, 11)
+candidato <- c("KF", "CA", "PPK", "AG", "JG", "AT", "VM", "DU", "RR", "NGG")
+candidato <- factor(candidato, levels = candidato)
 datos <- data.frame(p = p, candidato = candidato)
 
-qp <- qplot(candidato, p * 100, data = datos, position = position_jitter(w = 0.05), alpha = I(1/8),
+qp <- qplot(candidato, p, data = datos, position = position_jitter(w = 0.05), alpha = I(1/8),
             color = candidato, xlab = "Candidato", ylab = "Intención de voto (%)")
 qp + theme(legend.position = "none")
 ```
@@ -71,20 +71,14 @@ qp + theme(legend.position = "none")
 [Encuesta nacional urbano rural de GFK - Encuestas del 22 al 26 de enero del 2016](http://www.gfk.com/fileadmin/user_upload/dyna_content/PE/GfK_OP_Enero_2016_-_Gobierno_y_Lima.pdf)
 
 ```{r fig.height=6, fig.width=10}
-set.seed(1)
 y <- c(510, 163, 156, 148, 102, 42, 30, 22, 14, 9, 8, 6, 5, 2, 2, 344)
-x <- t(array(rgamma(16000, y, 1), c(16, 1000)))
-p <- x / apply(x, 1, sum)
-p <- sapply(t(p[, 1:15]), c)
-
-candidato <- rep(c("KF", "JG", "CA", "PPK", "AG", "AT", "VM", "RR", "DU", "GS", "AB", "VC", "NGG",
-                   "AF", "YS"), 1000)
-candidato <- factor(candidato, levels = c("KF", "JG", "CA", "PPK", "AG", "AT", "VM", "RR", "DU",
-                                          "GS", "AB", "VC", "NGG", "AF", "YS"))
-
+p <- sims(y, 16)
+candidato <- c("KF", "JG", "CA", "PPK", "AG", "AT", "VM", "RR", "DU", "GS", "AB", "VC",
+               "NGG", "AF", "YS")
+candidato <- factor(candidato, levels = candidato)
 datos <- data.frame(p = p, candidato = candidato)
 
-qp <- qplot(candidato, p * 100, data = datos, position = position_jitter(w = 0.05), alpha = I(1/8),
+qp <- qplot(candidato, p, data = datos, position = position_jitter(w = 0.05), alpha = I(1/8),
             color = candidato, xlab = "Candidato", ylab = "Intención de voto (%)")
 qp + theme(legend.position = "none")
 ```
@@ -92,19 +86,14 @@ qp + theme(legend.position = "none")
 [Simulacro de votación de Datum - Encuestas del 5 al 8 de febrero del 2016](http://cde.peru21.pe/ima/0/0/3/5/2/352448.jpg)
 
 ```{r fig.height=6, fig.width=10}
-set.seed(1)
-y <- c(375, 193, 133, 85, 48, 36, 24, 24, 12, 12, 12, 12, 243)
-x <- t(array(rgamma(13000, y, 1), c(13, 1000)))
-p <- x / apply(x, 1, sum)
-p <- sapply(t(p[, 1:12]), c)
-
-candidato <- rep(c("KF", "JG", "PPK", "CA", "AG", "AB", "VM", "AT", "DU", "RR", "NGG", "GS"), 1000)
-candidato <- factor(candidato, levels = c("KF", "JG", "PPK", "CA", "AG", "AB", "VM", "AT",
-                                          "DU", "RR", "NGG", "GS"))
-
+y <- c(375, 193, 133, 85, 48, 36, 24, 24, 12, 12, 12, 12, 5, 2, 1, 1, 1, 233)
+p <- sims(y, 18)
+candidato <- c("KF", "JG", "PPK", "CA", "AG", "AB", "VM", "AT", "DU", "RR", "NGG", "GS", "FO",
+               "VC", "MH", "AF", "YS")
+candidato <- factor(candidato, levels = candidato)
 datos <- data.frame(p = p, candidato = candidato)
 
-qp <- qplot(candidato, p * 100, data = datos, position = position_jitter(w = 0.05), alpha = I(1/8),
+qp <- qplot(candidato, p, data = datos, position = position_jitter(w = 0.05), alpha = I(1/8),
             color = candidato, xlab = "Candidato", ylab = "Intención de voto (%)")
 qp + theme(legend.position = "none")
 ```
