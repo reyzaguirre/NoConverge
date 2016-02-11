@@ -16,7 +16,7 @@ keep <- c('Vero_Mendoza_F', 'julioguzmanperu', 'CesarAcunaP', 'renzoreggiardo',
 temp <- subset(datos, candidato %in% keep)
 ```
 
-Ahora sí, con los que quedan se pueden ver algunas cosas que nos permiten hacer algunos comentarios. Este  fin de semana salen varias encuestas ([ya hoy salió el simulacro de votación de Datum](http://cde.peru21.pe/ima/0/0/3/5/2/352448.jpg)) y ahí confirmaremos si dimos en el clavo o no. Primero el gráfico:
+Ahora sí, con los que quedan se pueden ver algunas cosas que nos permiten hacer algunos comentarios. Este  fin de semana salen varias encuestas ([ya hoy salió el simulacro de votación de Datum](http://www.datum.com.pe/pdf/SIM10216.pdf)) y ahí confirmaremos si dimos en el clavo o no. Primero el gráfico:
 
 ```{r fig.height=6, fig.width=10}
 library(ggplot2)
