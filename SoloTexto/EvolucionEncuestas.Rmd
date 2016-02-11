@@ -1,5 +1,5 @@
 ---
-title: "Evolución de encuestas presidenciales"
+title: "Evolución de encuestas presidenciales - primera vuelta"
 author: "Raul Eyzaguirre"
 output: html_document
 ---
@@ -54,21 +54,17 @@ dran$candidato <- factor(dran$candidato, levels = orden)
 dpun$candidato <- factor(dpun$candidato, levels = orden)
 ```
 
-### Primeros tres
-
 ```{r fig.height=6, fig.width=10}
 sdran <- subset(dran, candidato %in% orden[1:3])
 sdpun <- subset(dpun, candidato %in% orden[1:3])
 
 qp <- qplot(fecha, p, data = sdran, colour = candidato,
             position = position_jitter(w = 0.1), alpha = I(1/8),
-            main = "Evolución de intención de voto",
+            main = "Evolución de intención de voto - Primeros tres",
             xlab = "Fecha", ylab = "Intención de voto (%)")
 qp + geom_line(data = sdpun, aes(x = fecha, y = p, group = candidato, colour = candidato),
                show_guide = TRUE)
 ```
-
-### Siguientes tres
 
 ```{r fig.height=6, fig.width=10}
 sdran <- subset(dran, candidato %in% orden[4:6])
@@ -76,7 +72,7 @@ sdpun <- subset(dpun, candidato %in% orden[4:6])
 
 qp <- qplot(fecha, p, data = sdran, colour = candidato,
             position = position_jitter(w = 0.05), alpha = I(1/8),
-            main = "Evolución de intención de voto",
+            main = "Evolución de intención de voto - Siguientes tres",
             xlab = "Fecha", ylab = "Intención de voto (%)")
 qp + geom_line(data = sdpun, aes(x = fecha, y = p, group = candidato, colour = candidato),
                show_guide = TRUE)
