@@ -1,8 +1,10 @@
 ---
-title: "Evolución de encuestas presidenciales - primera vuelta"
+title: "Evolución de intención de voto presidencial - primera vuelta"
 author: "Raul Eyzaguirre"
 output: html_document
 ---
+
+En los siguientes gráficos se puede visualizar la evolución en la intención de voto junto con el margen de error correspondiente a cada encuesta para los seis candidatos con mayor intención de voto. He elegido a estos seis porque creo que van a seguir siendo los seis primeros hasta el día de las elecciones. El detalle de cada una de las encuestas consideradas se puede consultar aquí. 
 
 ```{r}
 library(ggplot2)
