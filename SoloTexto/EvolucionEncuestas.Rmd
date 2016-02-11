@@ -9,7 +9,7 @@ En los siguientes gráficos se puede visualizar la evolución en la intención de v
 ```{r}
 library(ggplot2)
 set.seed(1)
-candidato <- c("C.Acuña", "A.Barnechea", "A.García", "J.Guzmán", "K.Fujimori", "P.Kuchinsky")
+candidato <- c("C.Acuña", "A.Barnechea", "A.García", "J.Guzmán", "K.Fujimori", "P.Kuczynski")
 
 sims <- function(y){
   x <- t(array(rgamma(7000, y, 1), c(7, 1000)))
@@ -51,7 +51,7 @@ dpun <- rbind(dpun, temp)
 
 # Orden
 
-orden <- c("K.Fujimori", "J.Guzmán", "P.Kuchinsky", "C.Acuña", "A.García", "A.Barnechea")
+orden <- c("K.Fujimori", "J.Guzmán", "P.Kuczynski", "C.Acuña", "A.García", "A.Barnechea")
 dran$candidato <- factor(dran$candidato, levels = orden)
 dpun$candidato <- factor(dpun$candidato, levels = orden)
 ```
