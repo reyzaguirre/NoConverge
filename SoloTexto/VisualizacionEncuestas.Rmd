@@ -19,6 +19,7 @@ output: html_document
 * GS: Gregorio Santos
 * JG: Julio Guzmán
 * KF: Keiko Fujimori
+* MH: Miguel Hilario
 * NGG: Nano Guerra García
 * PPK: Pedro Pablo Kuczynski
 * RB: Ricardo Belmont
@@ -42,9 +43,9 @@ sims <- function(y, n){
 [Encuesta nacional urbano rural de GFK - Encuestas del 11 al 15 de Diciembre del 2015](http://www.gfk.com/fileadmin/user_upload/dyna_content/PE/GfK_OP_Diciembre_2015_-_Gobierno_y_Lima.pdf)
 
 ```{r fig.height=6, fig.width=10}
-y <- c(380, 139, 101, 63, 38, 25, 25, 25, 13, 8, 5, 3, 442)
-p <- sims(y, 13)
-candidato <- c("KF", "PPK", "CA", "AG", "AT", "JG", "DU", "VM", "RR", "NGG", "RB", "AF")
+y <- c(380, 139, 101, 63, 38, 25, 25, 25, 13, 8, 5, 3, 3, 439)
+p <- sims(y, 14)
+candidato <- c("KF", "PPK", "CA", "AG", "AT", "JG", "DU", "VM", "RR", "NGG", "RB", "AF", "MH")
 candidato <- factor(candidato, levels = candidato)
 datos <- data.frame(p = p, candidato = candidato)
 
@@ -85,10 +86,10 @@ qp + theme(legend.position = "none")
 [Simulacro de votación de Datum - Encuestas del 5 al 8 de febrero del 2016](http://cde.peru21.pe/ima/0/0/3/5/2/352448.jpg)
 
 ```{r fig.height=6, fig.width=10}
-y <- c(375, 193, 133, 85, 48, 36, 24, 24, 12, 12, 12, 12, 5, 2, 1, 1, 234)
-p <- sims(y, 17)
+y <- c(375, 193, 133, 85, 48, 36, 24, 24, 12, 12, 12, 12, 5, 2, 1, 1, 1, 233)
+p <- sims(y, 18)
 candidato <- c("KF", "JG", "PPK", "CA", "AG", "AB", "VM", "AT", "DU", "RR", "NGG", "GS", "FO",
-               "VC", "AF", "YS")
+               "VC", "MH", "AF", "YS")
 candidato <- factor(candidato, levels = candidato)
 datos <- data.frame(p = p, candidato = candidato)
 
