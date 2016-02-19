@@ -1,0 +1,31 @@
+---
+title: "Margen de error en la estimación de la intención de voto"
+author: "Raul Eyzaguirre"
+date: "19 de febrero del 2016"
+output: html_document
+---
+
+En épocas electorales los estudios para estimar la intención de voto por los distintos candidatos están a la orden del día. Un componente importante es estos estudios es el llamado margen de error, que es reportado muchas veces por los medios de comunicación cuando muestran los resultados de las encuestas, pero sin lugar a dudas poco comprendido por la mayoría.
+
+Empecemos por definir qué es el error en una estimación. En este contexto el error en una estimación es la diferencia entre la proporción observada en la muestra y la proporción poblacional desconocida. Así, si el 30% de la población quiere votar por el candidato A y en una muestra se observa que el 27% quiere votar por dicho candidato, entonces el error de estimación para esa muestra es de 3%. Este error puede descomponerse en dos partes: un error muestral y uno no muestral. El error muestral es el que tiene sus raíces en la condición aleatoria de la muestra, esto es, el que tiene que ver con las diferencias que uno podría encontrar al pasar de una muestra a otra. El error no muestral es todo lo demás, incluidos errores en el sentido más literal de la palabra (por ejemplo cuando el entrevistador se equivoca y marca al candidato A en lugar del B).
+
+El error muestral es una variable aleatoria ya que su valor depende de la muestra. Al ser una variable se le puede asignar una distribución de probabilidades. Con muestras grandes se puede usar como aproximación una distribución normal, que es lo que comúnmente se hace. Esta aproximación es bastante buena por lo que podemos despreocuparnos de ella. Cuando se reporta un margen de error, lo que se está reportando es el valor que podría tomar el error muestral bajo ciertos supuestos:
+
+1. que la muestra se obtuvo utilizando un muestreo aleatorio simple,
+2. que la varianza del estimador es máxima, lo cual ocurre cuando la proporción poblacional a estimar es igual a 0.5 (o 50%),
+
+y bajo una condición muy particular: una confianza del 95% para la estimación, lo que en términos bayesianos (si no sabe qué significa esto de los bayesianos no se preocupe, no importa) significa que hay una probabilidad del 5% de que el error muestral obtenido sea incluso mayor que este margen de error reportado.
+
+Para estimar la intención de voto presidencial las empresas de investigación suelen usar muestras de entre 1000 y 2000 personas, con lo que, bajo los supuestos y condición anteriores, el margen de error reportado está entre 2.2% y 3.1%. Estos números son adecuados porque la relación entre el tamaño de muestra y el margen de error no es lineal. Por ejemplo pasar de 1000 a 10000 entrevistas disminuye el margen de error de 3% a 1% con lo que aunque el tamaño de muestra se ha multiplicado por 10, el margen de error solo se ha dividido entre 3. En el siguiente gráfico vemos la relación entre el tamaño de la muestra y el margen de error donde queda claro que a partir de 1000 o 2000 encuestas, el esfuerzo y costo extra de tomar muestras más grandes ya no paga muchos frutos.
+
+```{r fig.height=6, fig.width=6}
+n <- seq(10, 10000, 10)
+e <- 0.5 / sqrt(n) * qnorm(0.975) * 100
+plot(n, e, type = "l", xlab = "Tamaño de muestra", ylab = "Margen de error (%)")
+```
+
+El error muestral no es el mismo para todos los candidatos. Es mayor para los que están más cerca al 50% (recuerde el supuesto número 2) y menor para los que están más cerca a 0. Eso se ve con claridad en los gráficos de esta entrada. El error muestral para un candidato con una intención de voto de 33%, con una muestra de 1500 personas, es de 2.4%, mientras que para uno con 3% de intención de voto es 0.9%.
+
+Los supuestos, ya lo sabemos, nunca se cumplen. Las empresas de investigación nunca hacen un muestreo aleatorio simple, sino que utilizan otros métodos, digamos pseudoaleatorios, que les permiten obtener, al menos a las empresas que conocen bien su trabajo, mejores resultados que los que obtendrían con el muestreo aleatorio simple. Por lo tanto, por lo dicho en este párrafo sobre el supuesto 1 y en el párrafo anterior sobre el supuesto 2, podríamos considerar que esta estimación del margen de error es algo así como un límite superior para el verdadero error muestral de cada candidato.
+
+Por último, y ya para terminar, no nos olvidemos del error no muestral. En el párrafo anterior hay una precisión importante que dice: "las empresas que conocen bien su trabajo". Cuando las empresas conocen bien su trabajo el error no muestral no es un problema, pero para empresas con poca experiencia podría ser un factor a considerar.
