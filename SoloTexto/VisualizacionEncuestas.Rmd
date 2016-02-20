@@ -41,7 +41,7 @@ sims <- function(y, n){
 gg <- function(datos, candidato, p){
   ggplot(datos, aes(candidato, p), xlab = "Candidato", ylab = "Intención de voto (%)") +
     geom_jitter(width = 0.1, aes(color = candidato), alpha = I(0.05)) +
-    theme(legend.position = "none")  
+    theme(legend.position = "none")
 }
 ```
 
@@ -53,7 +53,7 @@ p <- sims(y, length(y))
 candidato <- c("KF", "PPK", "CA", "AG", "AT", "JG", "DU", "VM", "NGG", "RB", "AF", "MH")
 candidato <- factor(candidato, levels = candidato)
 datos <- data.frame(p = p, candidato = candidato)
-gg(datos, candidato, p)  
+gg(datos, candidato, p)
 ```
 
 [Encuesta nacional urbano rural de Ipsos - Encuestas del 12 al 14 de enero del 2016](http://www.ipsos.pe/sites/default/files/opinion_data/Opinion%20Data%20Enero%202016.pdf)
@@ -64,7 +64,7 @@ p <- sims(y, length(y))
 candidato <- c("KF", "CA", "PPK", "AG", "JG", "AT", "VM", "DU", "NGG")
 candidato <- factor(candidato, levels = candidato)
 datos <- data.frame(p = p, candidato = candidato)
-gg(datos, candidato, p)  
+gg(datos, candidato, p)
 ```
 
 [Encuesta nacional urbano rural de GFK - Encuestas del 22 al 26 de enero del 2016](http://www.gfk.com/fileadmin/user_upload/dyna_content/PE/GfK_OP_Enero_2016_-_Gobierno_y_Lima.pdf)
@@ -76,7 +76,7 @@ candidato <- c("KF", "JG", "CA", "PPK", "AG", "AT", "VM", "DU", "GS", "AB", "VC"
                "NGG", "AF", "YS")
 candidato <- factor(candidato, levels = candidato)
 datos <- data.frame(p = p, candidato = candidato)
-gg(datos, candidato, p)  
+gg(datos, candidato, p)
 ```
 
 [Simulacro de votación de Datum - Encuestas del 5 al 8 de febrero del 2016](http://cde.peru21.pe/ima/0/0/3/5/2/352448.jpg)
