@@ -90,3 +90,14 @@ candidato <- factor(candidato, levels = candidato)
 datos <- data.frame(p = p, candidato = candidato)
 gg(datos, candidato, p)
 ```
+
+[Encuesta nacional urbano rural de Ipsos - Encuestas del 13 al 18 de febrero del 2016](http://rpp.pe/politica/elecciones/ipsos-keiko-fujimori-baja-3-puntos-y-julio-guzman-se-consolida-como-segundo-noticia-939875)
+
+```{r fig.height=6, fig.width=10}
+y <- c(545, 327, 163, 109, 91, 73, 73, 36, 398)
+p <- sims(y, length(y))
+candidato <- c("KF", "JG", "PPK", "CA", "AG", "AB", "VM", "AT")
+candidato <- factor(candidato, levels = candidato)
+datos <- data.frame(p = p, candidato = candidato)
+gg(datos, candidato, p)
+```

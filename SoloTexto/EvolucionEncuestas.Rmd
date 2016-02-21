@@ -8,7 +8,9 @@ En los siguientes gráficos se puede visualizar la evolución en la intención de v
 
 ```{r}
 library(ggplot2)
+
 set.seed(1)
+
 candidato <- c("C.Acuña", "A.Barnechea", "A.García", "J.Guzmán", "K.Fujimori", "P.Kuczynski")
 
 sims <- function(y){
@@ -49,6 +51,15 @@ dran <- rbind(dran, temp)
 temp <- data.frame(p = y[1:6] / sum(y) * 100, candidato = candidato, fecha = fecha)
 dpun <- rbind(dpun, temp)
 
+fecha <- as.Date("2016-02-18")
+candidato <- c("C.Acuña", "A.Barnechea", "A.García", "J.Guzmán", "K.Fujimori", "P.Kuczynski")
+y <- c(109, 73, 91, 327, 545, 163, 507)
+p <- sims(y)
+temp <- data.frame(p = p, candidato = candidato, fecha = fecha)
+dran <- rbind(dran, temp)
+temp <- data.frame(p = y[1:6] / sum(y) * 100, candidato = candidato, fecha = fecha)
+dpun <- rbind(dpun, temp)
+
 # Orden
 
 orden <- c("K.Fujimori", "J.Guzmán", "P.Kuczynski", "C.Acuña", "A.García", "A.Barnechea")
@@ -60,22 +71,20 @@ dpun$candidato <- factor(dpun$candidato, levels = orden)
 sdran <- subset(dran, candidato %in% orden[1:3])
 sdpun <- subset(dpun, candidato %in% orden[1:3])
 
-qp <- qplot(fecha, p, data = sdran, colour = candidato,
-            position = position_jitter(w = 0.1), alpha = I(1/8),
-            main = "Evolución de intención de voto - Primeros tres",
-            xlab = "Fecha", ylab = "Intención de voto (%)")
-qp + geom_line(data = sdpun, aes(x = fecha, y = p, group = candidato, colour = candidato),
-               show_guide = TRUE)
+ggplot(sdran, aes(fecha, p), xlab = "Fecha", ylab = "Intención de voto (%)",
+       main = "Evolución de intención de voto - Primeros tres") +
+  geom_jitter(width = 0.2, aes(color = candidato), alpha = I(0.05)) +
+  geom_line(data = sdpun, aes(x = fecha, y = p, group = candidato, colour = candidato),
+            show.legend = TRUE)
 ```
 
 ```{r fig.height=6, fig.width=10}
 sdran <- subset(dran, candidato %in% orden[4:6])
 sdpun <- subset(dpun, candidato %in% orden[4:6])
 
-qp <- qplot(fecha, p, data = sdran, colour = candidato,
-            position = position_jitter(w = 0.05), alpha = I(1/8),
-            main = "Evolución de intención de voto - Siguientes tres",
-            xlab = "Fecha", ylab = "Intención de voto (%)")
-qp + geom_line(data = sdpun, aes(x = fecha, y = p, group = candidato, colour = candidato),
-               show_guide = TRUE)
+ggplot(sdran, aes(fecha, p), xlab = "Fecha", ylab = "Intención de voto (%)",
+       main = "Evolución de intención de voto - Siguientes tres") +
+  geom_jitter(width = 0.2, aes(color = candidato), alpha = I(0.05)) +
+  geom_line(data = sdpun, aes(x = fecha, y = p, group = candidato, colour = candidato),
+            show.legend = TRUE)
 ```
