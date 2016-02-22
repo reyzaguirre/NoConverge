@@ -39,7 +39,8 @@ sims <- function(y, n){
 }
 
 gg <- function(datos, candidato, p){
-  ggplot(datos, aes(candidato, p), xlab = "Candidato", ylab = "Intención de voto (%)") +
+  ggplot(datos, aes(candidato, p)) +
+    labs(x = "Candidato", y = "Intención de voto (%)") +
     geom_jitter(width = 0.1, aes(color = candidato), alpha = I(0.05)) +
     theme(legend.position = "none")
 }
