@@ -10,12 +10,13 @@ output: html_document
 ¿Cómo visualizar entonces el resultado de una encuesta junto con su correspondiente margen de error? Una forma es calcular un intervalo de confianza. Otra forma, y la que me permito mostrar aquí, podría ser mostrando una posible distribución de los resultados que podrían obtenerse si se repitiera la encuesta muchas veces, en el supuesto, claro está, de que la única encuesta que sí se hizo, se hizo bien. La idea es, a partir de los resultados de la encuesta que sí se hizo, simular resultados de otras posibles encuestas para poder visualizar el famoso margen de error. Los resultados de estas simulaciones se pueden graficar de varias maneras: en este caso he escogido un gráfico de puntos. Abajo puede ver los resultados obtenidos con la simulación de 1000 encuestas. Las abreviaturas usadas en los gráficos son las siguientes:
 
 * AB: Alfredo Barnechea
-* AF: Antero Flores
+* AFA: Antero Flores Aráoz
 * AG: Alan García
 * AT: Alejandro Toledo
 * CA: César Acuña
 * DU: Daniel Urresti
 * FO: Fernando Olivera
+* FDC: Francisco Diez Canseco
 * GS: Gregorio Santos
 * JG: Julio Guzmán
 * KF: Keiko Fujimori
@@ -51,7 +52,7 @@ gg <- function(datos, candidato, p){
 ```{r fig.height=6, fig.width=10}
 y <- c(380, 139, 101, 63, 38, 25, 25, 25, 8, 5, 3, 3, 452)
 p <- sims(y, length(y))
-candidato <- c("KF", "PPK", "CA", "AG", "AT", "JG", "DU", "VM", "NGG", "RB", "AF", "MH")
+candidato <- c("KF", "PPK", "CA", "AG", "AT", "JG", "DU", "VM", "NGG", "RB", "AFA", "MH")
 candidato <- factor(candidato, levels = candidato)
 datos <- data.frame(p = p, candidato = candidato)
 gg(datos, candidato, p)
@@ -60,9 +61,10 @@ gg(datos, candidato, p)
 [Encuesta nacional urbano rural de Ipsos - Encuestas del 12 al 14 de enero del 2016](http://www.ipsos.pe/sites/default/files/opinion_data/Opinion%20Data%20Enero%202016.pdf)
 
 ```{r fig.height=6, fig.width=10}
-y <- c(604, 238, 238, 146, 92, 55, 37, 37, 37, 347)
+y <- c(590, 240, 237, 146, 103, 55, 42, 36, 27, 15, 7, 6, 5, 5, 4, 3, 3, 307)
 p <- sims(y, length(y))
-candidato <- c("KF", "CA", "PPK", "AG", "JG", "AT", "VM", "DU", "NGG")
+candidato <- c("KF", "PPK", "CA", "AG", "JG", "AT", "VM", "DU", "NGG", "GS", "VC", "FDC",
+               "MH", "AB", "FO", "YS", "AFA")
 candidato <- factor(candidato, levels = candidato)
 datos <- data.frame(p = p, candidato = candidato)
 gg(datos, candidato, p)
@@ -74,7 +76,7 @@ gg(datos, candidato, p)
 y <- c(510, 163, 156, 148, 102, 42, 30, 14, 9, 8, 6, 5, 2, 2, 366)
 p <- sims(y, length(y))
 candidato <- c("KF", "JG", "CA", "PPK", "AG", "AT", "VM", "DU", "GS", "AB", "VC",
-               "NGG", "AF", "YS")
+               "NGG", "AFA", "YS")
 candidato <- factor(candidato, levels = candidato)
 datos <- data.frame(p = p, candidato = candidato)
 gg(datos, candidato, p)
@@ -86,18 +88,19 @@ gg(datos, candidato, p)
 y <- c(375, 193, 133, 85, 48, 36, 24, 24, 12, 12, 12, 5, 2, 1, 1, 1, 245)
 p <- sims(y, length(y))
 candidato <- c("KF", "JG", "PPK", "CA", "AG", "AB", "VM", "AT", "DU", "NGG", "GS", "FO",
-               "VC", "MH", "AF", "YS")
+               "VC", "MH", "AFA", "YS")
 candidato <- factor(candidato, levels = candidato)
 datos <- data.frame(p = p, candidato = candidato)
 gg(datos, candidato, p)
 ```
 
-[Encuesta nacional urbano rural de Ipsos - Encuestas del 13 al 18 de febrero del 2016](http://rpp.pe/politica/elecciones/ipsos-keiko-fujimori-baja-3-puntos-y-julio-guzman-se-consolida-como-segundo-noticia-939875)
+[Encuesta nacional urbano rural de Ipsos - Encuestas del 13 al 18 de febrero del 2016](http://www.ipsos.pe/sites/default/files/opinion_data/Opinion%20Data%20Febrero%202016.pdf)
 
 ```{r fig.height=6, fig.width=10}
-y <- c(545, 327, 163, 109, 91, 73, 73, 36, 398)
+y <- c(537, 337, 156, 102, 94, 80, 70, 32, 19, 16, 10, 5, 5, 2, 2, 1, 1, 346)
 p <- sims(y, length(y))
-candidato <- c("KF", "JG", "PPK", "CA", "AG", "AB", "VM", "AT")
+candidato <- c("KF", "JG", "PPK", "CA", "AG", "VM", "AB", "AT", "DU", "GS", "NGG", "VC", "AFA",
+               "FDC", "YS", "FO", "MH")
 candidato <- factor(candidato, levels = candidato)
 datos <- data.frame(p = p, candidato = candidato)
 gg(datos, candidato, p)

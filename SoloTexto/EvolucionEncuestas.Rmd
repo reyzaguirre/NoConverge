@@ -22,21 +22,21 @@ sims <- function(y){
 
 # Resultados de encuestas
 
-fecha <- as.Date("2015-12-15")
+fecha <- as.Date("2015-12-15") # GFK: 11-15 Dic
 y <- c(101, 0, 380, 63, 25, 139, 25, 38, 496)
 p <- sims(y)
 dran <- data.frame(p = p, candidato = candidato, fecha = fecha)
 dpun <- data.frame(p = y[1:8] / sum(y) * 100, candidato = candidato, fecha = fecha)
 
-fecha <- as.Date("2016-01-14")
-y <- c(238, 0, 604, 146, 92, 238, 37, 55, 421)
+fecha <- as.Date("2016-01-14") # Ipsos: 12-14 Ene
+y <- c(237, 5, 590, 146, 103, 240, 42, 55, 413)
 p <- sims(y)
 temp <- data.frame(p = p, candidato = candidato, fecha = fecha)
 dran <- rbind(dran, temp)
 temp <- data.frame(p = y[1:8] / sum(y) * 100, candidato = candidato, fecha = fecha)
 dpun <- rbind(dpun, temp)
 
-fecha <- as.Date("2016-01-26")
+fecha <- as.Date("2016-01-26") # GFK: 22-26 Ene
 y <- c(156, 8, 510, 102, 163, 148, 30, 42, 404)
 p <- sims(y)
 temp <- data.frame(p = p, candidato = candidato, fecha = fecha)
@@ -44,7 +44,7 @@ dran <- rbind(dran, temp)
 temp <- data.frame(p = y[1:8] / sum(y) * 100, candidato = candidato, fecha = fecha)
 dpun <- rbind(dpun, temp)
 
-fecha <- as.Date("2016-02-08")
+fecha <- as.Date("2016-02-08") # Datum: 05-08 Feb
 y <- c(85, 36, 375, 48, 193, 133, 24, 24, 291)
 p <- sims(y)
 temp <- data.frame(p = p, candidato = candidato, fecha = fecha)
@@ -52,8 +52,8 @@ dran <- rbind(dran, temp)
 temp <- data.frame(p = y[1:8] / sum(y) * 100, candidato = candidato, fecha = fecha)
 dpun <- rbind(dpun, temp)
 
-fecha <- as.Date("2016-02-18")
-y <- c(109, 73, 545, 91, 327, 163, 73, 36, 398)
+fecha <- as.Date("2016-02-18") # Ipsos: 13-18 Feb
+y <- c(102, 70, 537, 94, 337, 156, 80, 32, 407)
 p <- sims(y)
 temp <- data.frame(p = p, candidato = candidato, fecha = fecha)
 dran <- rbind(dran, temp)
