@@ -15,8 +15,8 @@ output: html_document
 * AT: Alejandro Toledo
 * CA: César Acuña
 * DU: Daniel Urresti
-* FO: Fernando Olivera
 * FDC: Francisco Diez Canseco
+* FO: Fernando Olivera
 * GS: Gregorio Santos
 * JG: Julio Guzmán
 * KF: Keiko Fujimori
@@ -47,7 +47,7 @@ gg <- function(datos, candidato, p){
 }
 ```
 
-[Encuesta nacional urbano rural de GFK - Encuestas del 11 al 15 de Diciembre del 2015](http://www.gfk.com/fileadmin/user_upload/dyna_content/PE/GfK_OP_Diciembre_2015_-_Gobierno_y_Lima.pdf)
+####[Encuesta nacional urbano rural de GFK - Encuestas del 11 al 15 de Diciembre del 2015](http://www.gfk.com/fileadmin/user_upload/dyna_content/PE/GfK_OP_Diciembre_2015_-_Gobierno_y_Lima.pdf)
 
 ```{r fig.height=6, fig.width=10}
 y <- c(380, 139, 101, 63, 38, 25, 25, 25, 8, 5, 3, 3, 452)
@@ -58,7 +58,7 @@ datos <- data.frame(p = p, candidato = candidato)
 gg(datos, candidato, p)
 ```
 
-[Encuesta nacional urbano rural de Ipsos - Encuestas del 12 al 14 de enero del 2016](http://www.ipsos.pe/sites/default/files/opinion_data/Opinion%20Data%20Enero%202016.pdf)
+####[Encuesta nacional urbano rural de Ipsos - Encuestas del 12 al 14 de enero del 2016](http://www.ipsos.pe/sites/default/files/opinion_data/Opinion%20Data%20Enero%202016.pdf)
 
 ```{r fig.height=6, fig.width=10}
 y <- c(590, 240, 237, 146, 103, 55, 42, 36, 27, 15, 7, 6, 5, 5, 4, 3, 3, 307)
@@ -70,7 +70,7 @@ datos <- data.frame(p = p, candidato = candidato)
 gg(datos, candidato, p)
 ```
 
-[Encuesta nacional urbano rural de GFK - Encuestas del 22 al 26 de enero del 2016](http://www.gfk.com/fileadmin/user_upload/dyna_content/PE/GfK_OP_Enero_2016_-_Gobierno_y_Lima.pdf)
+####[Encuesta nacional urbano rural de GFK - Encuestas del 22 al 26 de enero del 2016](http://www.gfk.com/fileadmin/user_upload/dyna_content/PE/GfK_OP_Enero_2016_-_Gobierno_y_Lima.pdf)
 
 ```{r fig.height=6, fig.width=10}
 y <- c(510, 163, 156, 148, 102, 42, 30, 14, 9, 8, 6, 5, 2, 2, 366)
@@ -82,7 +82,7 @@ datos <- data.frame(p = p, candidato = candidato)
 gg(datos, candidato, p)
 ```
 
-[Simulacro de votación de Datum - Encuestas del 5 al 8 de febrero del 2016](http://cde.peru21.pe/ima/0/0/3/5/2/352448.jpg)
+####[Simulacro de votación de Datum - Encuestas del 5 al 8 de febrero del 2016](http://cde.peru21.pe/ima/0/0/3/5/2/352448.jpg)
 
 ```{r fig.height=6, fig.width=10}
 y <- c(375, 193, 133, 85, 48, 36, 24, 24, 12, 12, 12, 5, 2, 1, 1, 1, 245)
@@ -94,13 +94,13 @@ datos <- data.frame(p = p, candidato = candidato)
 gg(datos, candidato, p)
 ```
 
-[Encuesta nacional urbano rural de Ipsos - Encuestas del 13 al 18 de febrero del 2016](http://www.ipsos.pe/sites/default/files/opinion_data/Opinion%20Data%20Febrero%202016.pdf)
+####[Encuesta nacional urbano rural de Ipsos - Encuestas del 13 al 18 de febrero del 2016](http://www.ipsos.pe/sites/default/files/opinion_data/Opinion%20Data%20Febrero%202016.pdf)
 
 ```{r fig.height=6, fig.width=10}
 y <- c(537, 337, 156, 102, 94, 80, 70, 32, 19, 16, 10, 5, 5, 2, 2, 1, 1, 346)
 p <- sims(y, length(y))
-candidato <- c("KF", "JG", "PPK", "CA", "AG", "VM", "AB", "AT", "DU", "GS", "NGG", "VC", "AFA",
-               "FDC", "YS", "FO", "MH")
+candidato <- c("KF", "JG", "PPK", "CA", "AG", "VM", "AB", "AT", "DU", "GS", "NGG", "VC",
+               "AFA", "FDC", "YS", "FO", "MH")
 candidato <- factor(candidato, levels = candidato)
 datos <- data.frame(p = p, candidato = candidato)
 gg(datos, candidato, p)
