@@ -63,7 +63,7 @@ dpun <- rbind(dpun, temp)
 # Orden
 
 orden <- c("K.Fujimori", "J.Guzmán", "P.Kuczynski", "C.Acuña",
-           "A.García", "A.Barnechea", "V.Mendoza", "A.Toledo")
+           "A.García", "V.Mendoza", "A.Barnechea", "A.Toledo")
 dran$candidato <- factor(dran$candidato, levels = orden)
 dpun$candidato <- factor(dpun$candidato, levels = orden)
 ```
