@@ -106,12 +106,12 @@ datos <- data.frame(p = p, candidato = candidato)
 gg(datos, candidato, p)
 ```
 
-####[Encuesta nacional urbano rural de GFK - Encuestas del 27 de febrero al 01 de marzo del 2016](http://larepublica.pe/politica/746568-encuesta-gfk-consolida-julio-guzman-en-segundo-lugar-y-muestra-gran-avance-de-barnechea)
+####[Encuesta nacional urbano rural de GFK - Encuestas del 27 de febrero al 01 de marzo del 2016](http://www.gfk.com/fileadmin/user_upload/dyna_content/PE/GfK_OP_Febrero_2016_-_Gobierno_y_Lima_6.pdf)
 
 ```{r fig.height=6, fig.width=10}
-y <- c(537, 258, 107, 79, 67, 57, 56, 25, 366)
+y <- c(537, 258, 107, 79, 67, 57, 56, 25, 17, 11, 5, 5, 2, 326)
 p <- sims(y, length(y))
-candidato <- c("KF", "JG", "PPK", "AB", "AG", "VM", "CA", "AT")
+candidato <- c("KF", "JG", "PPK", "AB", "AG", "VM", "CA", "AT", "GS", "DU", "NGG", "VC", "MH")
 candidato <- factor(candidato, levels = candidato)
 datos <- data.frame(p = p, candidato = candidato)
 gg(datos, candidato, p)
