@@ -4,98 +4,114 @@ author: "Raul Eyzaguirre"
 output: html_document
 ---
 
-En los siguientes gráficos se puede visualizar la evolución en la intención de voto junto con el margen de error correspondiente a cada encuesta para los ocho candidatos con mayor intención de voto. He elegido a estos ocho porque creo que van a seguir siendo los ocho primeros hasta el día de las elecciones. El detalle de cada una de las encuestas consideradas se puede consultar [aquí](https://reyzaguirre.wordpress.com/2015/12/20/visualizacion-de-encuestas-presidenciales/). 
+En los siguientes gráficos se puede visualizar la evolución en la intención de voto junto con el margen de error correspondiente a cada encuesta para los candidatos con mayor intención de voto. El detalle de cada una de las encuestas consideradas se puede consultar [aquí](https://reyzaguirre.wordpress.com/2015/12/20/visualizacion-de-encuestas-presidenciales/).
 
 ```{r}
 library(ggplot2)
 
 set.seed(1)
 
-candidato <- c("C.Acuña", "A.Barnechea", "K.Fujimori", "A.García",
-               "J.Guzmán", "P.Kuczynski", "V.Mendoza", "A.Toledo")
+candidato <- c("A.Barnechea", "K.Fujimori", "A.García",
+               "J.Guzmán", "P.Kuczynski", "V.Mendoza")
 
 sims <- function(y){
-  x <- t(array(rgamma(9000, y, 1), c(9, 1000)))
+  x <- t(array(rgamma(7000, y, 1), c(7, 1000)))
   p <- x / apply(x, 1, sum) * 100
-  p <- sapply(t(p[, 1:8]), c)
+  p <- sapply(t(p[, 1:6]), c)
 }
 
 # Resultados de encuestas
 
 fecha <- as.Date("2015-12-15") # GFK: 11-15 Dic
-y <- c(101, 0, 380, 63, 25, 139, 25, 38, 496)
+y <- c(0, 380, 63, 25, 139, 25, 635)
 p <- sims(y)
 dran <- data.frame(p = p, candidato = candidato, fecha = fecha)
-dpun <- data.frame(p = y[1:8] / sum(y) * 100, candidato = candidato, fecha = fecha)
+dpun <- data.frame(p = y[1:6] / sum(y) * 100, candidato = candidato, fecha = fecha)
 
 fecha <- as.Date("2016-01-14") # Ipsos: 12-14 Ene
-y <- c(237, 5, 590, 146, 103, 240, 42, 55, 413)
+y <- c(5, 590, 146, 103, 240, 42, 705)
 p <- sims(y)
 temp <- data.frame(p = p, candidato = candidato, fecha = fecha)
 dran <- rbind(dran, temp)
-temp <- data.frame(p = y[1:8] / sum(y) * 100, candidato = candidato, fecha = fecha)
+temp <- data.frame(p = y[1:6] / sum(y) * 100, candidato = candidato, fecha = fecha)
 dpun <- rbind(dpun, temp)
 
 fecha <- as.Date("2016-01-26") # GFK: 22-26 Ene
-y <- c(156, 8, 510, 102, 163, 148, 30, 42, 404)
+y <- c(8, 510, 102, 163, 148, 30, 602)
 p <- sims(y)
 temp <- data.frame(p = p, candidato = candidato, fecha = fecha)
 dran <- rbind(dran, temp)
-temp <- data.frame(p = y[1:8] / sum(y) * 100, candidato = candidato, fecha = fecha)
+temp <- data.frame(p = y[1:6] / sum(y) * 100, candidato = candidato, fecha = fecha)
 dpun <- rbind(dpun, temp)
 
 fecha <- as.Date("2016-02-08") # Datum: 05-08 Feb
-y <- c(85, 36, 375, 48, 193, 133, 24, 24, 291)
+y <- c(36, 375, 48, 193, 133, 24, 400)
 p <- sims(y)
 temp <- data.frame(p = p, candidato = candidato, fecha = fecha)
 dran <- rbind(dran, temp)
-temp <- data.frame(p = y[1:8] / sum(y) * 100, candidato = candidato, fecha = fecha)
+temp <- data.frame(p = y[1:6] / sum(y) * 100, candidato = candidato, fecha = fecha)
 dpun <- rbind(dpun, temp)
 
 fecha <- as.Date("2016-02-18") # Ipsos: 13-18 Feb
-y <- c(102, 70, 537, 94, 337, 156, 80, 32, 407)
+y <- c(70, 537, 94, 337, 156, 80, 541)
 p <- sims(y)
 temp <- data.frame(p = p, candidato = candidato, fecha = fecha)
 dran <- rbind(dran, temp)
-temp <- data.frame(p = y[1:8] / sum(y) * 100, candidato = candidato, fecha = fecha)
+temp <- data.frame(p = y[1:6] / sum(y) * 100, candidato = candidato, fecha = fecha)
 dpun <- rbind(dpun, temp)
 
 fecha <- as.Date("2016-03-01") # GFK: 27-01 Mar
-y <- c(56, 79, 537, 67, 258, 107, 57, 25, 404)
+y <- c(79, 537, 67, 258, 107, 57, 485)
 p <- sims(y)
 temp <- data.frame(p = p, candidato = candidato, fecha = fecha)
 dran <- rbind(dran, temp)
-temp <- data.frame(p = y[1:8] / sum(y) * 100, candidato = candidato, fecha = fecha)
+temp <- data.frame(p = y[1:6] / sum(y) * 100, candidato = candidato, fecha = fecha)
 dpun <- rbind(dpun, temp)
+
+fecha <- as.Date("2016-03-07") # Datum: 04-07 Mar
+# Con Acuña y Guzman
+y <- c(84, 396, 72, 204, 120, 60, 264)
+p <- sims(y)
+temp <- data.frame(p = p, candidato = candidato, fecha = fecha)
+dran1 <- rbind(dran, temp)
+temp <- data.frame(p = y[1:6] / sum(y) * 100, candidato = candidato, fecha = fecha)
+dpun1 <- rbind(dpun, temp)
+# Sin Acuña y Guzman
+y <- c(108, 444, 84, 0, 168, 96, 300)
+p <- sims(y)
+temp <- data.frame(p = p, candidato = candidato, fecha = fecha)
+dran2 <- rbind(dran, temp)
+temp <- data.frame(p = y[1:6] / sum(y) * 100, candidato = candidato, fecha = fecha)
+dpun2 <- rbind(dpun, temp)
 
 # Orden
 
 orden <- c("K.Fujimori", "J.Guzmán", "P.Kuczynski", "A.Barnechea",
-           "A.García", "V.Mendoza", "C.Acuña", "A.Toledo")
-dran$candidato <- factor(dran$candidato, levels = orden)
-dpun$candidato <- factor(dpun$candidato, levels = orden)
+           "A.García", "V.Mendoza")
+dran1$candidato <- factor(dran1$candidato, levels = orden)
+dpun1$candidato <- factor(dpun1$candidato, levels = orden)
 ```
 
 ```{r fig.height=6, fig.width=10}
-sdran <- subset(dran, candidato %in% orden[1:4])
-sdpun <- subset(dpun, candidato %in% orden[1:4])
-
-ggplot(sdran, aes(fecha, p)) +
+ggplot(dran1, aes(fecha, p)) +
   labs(x = "Fecha", y = "Intención de voto (%)",
-       title = "Evolución de intención de voto - Primeros cuatro") +
+       title = "Evolución de intención de voto - Con Acuña y Guzmán") +
   geom_jitter(width = 0.4, aes(color = candidato), alpha = I(0.03)) +
-  geom_line(data = sdpun, aes(x = fecha, y = p, group = candidato, colour = candidato),
+  geom_line(data = dpun1, aes(x = fecha, y = p, group = candidato, colour = candidato),
             show.legend = TRUE)
 ```
 
 ```{r fig.height=6, fig.width=10}
-sdran <- subset(dran, candidato %in% orden[5:8])
-sdpun <- subset(dpun, candidato %in% orden[5:8])
-
-ggplot(sdran, aes(fecha, p)) +
+dran2 <- subset(dran2, candidato != "J.Guzmán")
+dpun2 <- subset(dpun2, candidato != "J.Guzmán")
+orden <- c("K.Fujimori", "P.Kuczynski", "A.Barnechea",
+           "V.Mendoza", "A.García")
+dran2$candidato <- factor(dran2$candidato, levels = orden)
+dpun2$candidato <- factor(dpun2$candidato, levels = orden)
+ggplot(dran2, aes(fecha, p)) +
   labs(x = "Fecha", y = "Intención de voto (%)",
-       title = "Evolución de intención de voto - Siguientes cuatro") +
+       title = "Evolución de intención de voto - Sin Acuña y Guzmán") +
   geom_jitter(width = 0.4, aes(color = candidato), alpha = I(0.03)) +
-  geom_line(data = sdpun, aes(x = fecha, y = p, group = candidato, colour = candidato),
+  geom_line(data = dpun2, aes(x = fecha, y = p, group = candidato, colour = candidato),
             show.legend = TRUE)
 ```

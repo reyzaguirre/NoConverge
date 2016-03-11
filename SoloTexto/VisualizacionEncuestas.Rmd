@@ -106,12 +106,34 @@ datos <- data.frame(p = p, candidato = candidato)
 gg(datos, candidato, p)
 ```
 
-####[Encuesta nacional urbano rural de GFK - Encuestas del 27 de febrero al 01 de marzo del 2016](http://www.gfk.com/fileadmin/user_upload/dyna_content/PE/GfK_OP_Febrero_2016_-_Gobierno_y_Lima_6.pdf)
+####[Encuesta nacional urbano rural de GFK - Encuestas del 27 de febrero al 1 de marzo del 2016](http://www.gfk.com/fileadmin/user_upload/dyna_content/PE/GfK_OP_Febrero_2016_-_Gobierno_y_Lima_6.pdf)
 
 ```{r fig.height=6, fig.width=10}
 y <- c(537, 258, 107, 79, 67, 57, 56, 25, 17, 11, 5, 5, 2, 326)
 p <- sims(y, length(y))
 candidato <- c("KF", "JG", "PPK", "AB", "AG", "VM", "CA", "AT", "GS", "DU", "NGG", "VC", "MH")
+candidato <- factor(candidato, levels = candidato)
+datos <- data.frame(p = p, candidato = candidato)
+gg(datos, candidato, p)
+```
+
+####[Encuesta nacional de Datum - Encuestas del 4 al 7 de marzo del 2016](http://peru21.pe/multimedia/imagen/t-357972)
+#### Con Acuña y Guzmán:
+```{r fig.height=6, fig.width=10}
+y <- c(396, 204, 120, 84, 72, 60, 48, 216)
+p <- sims(y, length(y))
+candidato <- c("KF", "JG", "PPK", "AB", "AG", "VM", "CA")
+candidato <- factor(candidato, levels = candidato)
+datos <- data.frame(p = p, candidato = candidato)
+gg(datos, candidato, p)
+```
+
+#### Sin Acuña y Guzmán:
+```{r fig.height=6, fig.width=10}
+y <- c(444, 168, 108, 96, 84, 17, 16, 14, 7, 7, 4, 4, 1, 1, 229)
+p <- sims(y, length(y))
+candidato <- c("KF", "PPK", "AB", "VM", "AG", "AT", "DU", "GS", "NGG", "VC", "AFA",
+               "FO", "MH", "YS")
 candidato <- factor(candidato, levels = candidato)
 datos <- data.frame(p = p, candidato = candidato)
 gg(datos, candidato, p)
