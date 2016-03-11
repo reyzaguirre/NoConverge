@@ -24,6 +24,7 @@ output: html_document
 * NGG: Nano Guerra García
 * PPK: Pedro Pablo Kuczynski
 * RB: Ricardo Belmont
+* RR: Renzo Reggiardo
 * VC: Vladimir Cerrón
 * VM: Verónika Mendoza
 * YS: Yehude Simon 
@@ -50,9 +51,10 @@ gg <- function(datos, candidato, p){
 ####[Encuesta nacional urbano rural de GFK - Encuestas del 11 al 15 de Diciembre del 2015](http://www.gfk.com/fileadmin/user_upload/dyna_content/PE/GfK_OP_Diciembre_2015_-_Gobierno_y_Lima_3.pdf)
 
 ```{r fig.height=6, fig.width=10}
-y <- c(380, 139, 101, 63, 38, 25, 25, 25, 8, 5, 3, 3, 452)
+y <- c(380, 139, 101, 63, 38, 25, 25, 25, 13, 8, 5, 3, 3, 439)
 p <- sims(y, length(y))
-candidato <- c("KF", "PPK", "CA", "AG", "AT", "JG", "DU", "VM", "NGG", "RB", "AFA", "MH")
+candidato <- c("KF", "PPK", "CA", "AG", "AT", "VM", "JG", "DU", "RR", "NGG",
+               "RB", "AFA", "MH")
 candidato <- factor(candidato, levels = candidato)
 datos <- data.frame(p = p, candidato = candidato)
 gg(datos, candidato, p)
@@ -61,10 +63,10 @@ gg(datos, candidato, p)
 ####[Encuesta nacional urbano rural de Ipsos - Encuestas del 12 al 14 de enero del 2016](http://www.ipsos.pe/sites/default/files/opinion_data/Opinion%20Data%20Enero%202016.pdf)
 
 ```{r fig.height=6, fig.width=10}
-y <- c(590, 240, 237, 146, 103, 55, 42, 36, 27, 15, 7, 6, 5, 5, 4, 3, 3, 307)
+y <- c(590, 240, 237, 146, 103, 55, 42, 36, 31, 27, 15, 7, 6, 5, 5, 4, 3, 3, 276)
 p <- sims(y, length(y))
-candidato <- c("KF", "PPK", "CA", "AG", "JG", "AT", "VM", "DU", "NGG", "GS", "VC", "FDC",
-               "MH", "AB", "FO", "YS", "AFA")
+candidato <- c("KF", "PPK", "CA", "AG", "JG", "AT", "VM", "DU", "RR", "NGG",
+               "GS", "VC", "FDC", "MH", "AB", "FO", "YS", "AFA")
 candidato <- factor(candidato, levels = candidato)
 datos <- data.frame(p = p, candidato = candidato)
 gg(datos, candidato, p)
@@ -73,10 +75,10 @@ gg(datos, candidato, p)
 ####[Encuesta nacional urbano rural de GFK - Encuestas del 22 al 26 de enero del 2016](http://www.gfk.com/fileadmin/user_upload/dyna_content/PE/Enero_2016_-_GfK_opinion_publica.pdf)
 
 ```{r fig.height=6, fig.width=10}
-y <- c(510, 163, 156, 148, 102, 42, 30, 14, 9, 8, 6, 5, 2, 2, 366)
+y <- c(510, 163, 156, 148, 102, 42, 30, 22, 14, 9, 8, 6, 5, 2, 2, 344)
 p <- sims(y, length(y))
-candidato <- c("KF", "JG", "CA", "PPK", "AG", "AT", "VM", "DU", "GS", "AB", "VC",
-               "NGG", "AFA", "YS")
+candidato <- c("KF", "JG", "CA", "PPK", "AG", "AT", "VM", "RR", "DU", "GS",
+               "AB", "VC", "NGG", "AFA", "YS")
 candidato <- factor(candidato, levels = candidato)
 datos <- data.frame(p = p, candidato = candidato)
 gg(datos, candidato, p)
@@ -85,10 +87,10 @@ gg(datos, candidato, p)
 ####[Simulacro de votación de Datum - Encuestas del 5 al 8 de febrero del 2016](http://cde.peru21.pe/ima/0/0/3/5/2/352448.jpg)
 
 ```{r fig.height=6, fig.width=10}
-y <- c(375, 193, 133, 85, 48, 36, 24, 24, 12, 12, 12, 5, 2, 1, 1, 1, 245)
+y <- c(375, 193, 133, 85, 48, 36, 24, 24, 12, 12, 12, 12, 5, 2, 1, 1, 1, 233)
 p <- sims(y, length(y))
-candidato <- c("KF", "JG", "PPK", "CA", "AG", "AB", "VM", "AT", "DU", "NGG", "GS", "FO",
-               "VC", "MH", "AFA", "YS")
+candidato <- c("KF", "JG", "PPK", "CA", "AG", "AB", "VM", "AT", "DU", "RR",
+               "NGG", "GS", "FO", "VC", "MH", "AFA", "YS")
 candidato <- factor(candidato, levels = candidato)
 datos <- data.frame(p = p, candidato = candidato)
 gg(datos, candidato, p)
@@ -97,10 +99,10 @@ gg(datos, candidato, p)
 ####[Encuesta nacional urbano rural de Ipsos - Encuestas del 13 al 18 de febrero del 2016](http://www.ipsos.pe/sites/default/files/opinion_data/Opinion%20Data%20Febrero%202016.pdf)
 
 ```{r fig.height=6, fig.width=10}
-y <- c(537, 337, 156, 102, 94, 80, 70, 32, 19, 16, 10, 5, 5, 2, 2, 1, 1, 346)
+y <- c(537, 337, 156, 102, 94, 80, 70, 32, 28, 19, 16, 10, 5, 5, 2, 2, 1, 1, 318)
 p <- sims(y, length(y))
-candidato <- c("KF", "JG", "PPK", "CA", "AG", "VM", "AB", "AT", "DU", "GS", "NGG", "VC",
-               "AFA", "FDC", "YS", "FO", "MH")
+candidato <- c("KF", "JG", "PPK", "CA", "AG", "VM", "AB", "AT", "RR", "DU",
+               "GS", "NGG", "VC", "AFA", "FDC", "YS", "FO", "MH")
 candidato <- factor(candidato, levels = candidato)
 datos <- data.frame(p = p, candidato = candidato)
 gg(datos, candidato, p)
@@ -109,9 +111,10 @@ gg(datos, candidato, p)
 ####[Encuesta nacional urbano rural de GFK - Encuestas del 27 de febrero al 1 de marzo del 2016](http://www.gfk.com/fileadmin/user_upload/dyna_content/PE/GfK_OP_Febrero_2016_-_Gobierno_y_Lima_6.pdf)
 
 ```{r fig.height=6, fig.width=10}
-y <- c(537, 258, 107, 79, 67, 57, 56, 25, 17, 11, 5, 5, 2, 326)
+y <- c(537, 258, 107, 79, 67, 57, 56, 25, 17, 11, 5, 5, 5, 2, 326)
 p <- sims(y, length(y))
-candidato <- c("KF", "JG", "PPK", "AB", "AG", "VM", "CA", "AT", "GS", "DU", "NGG", "VC", "MH")
+candidato <- c("KF", "JG", "PPK", "AB", "AG", "VM", "CA", "AT", "GS", "DU",
+               "NGG", "RR", "VC", "MH")
 candidato <- factor(candidato, levels = candidato)
 datos <- data.frame(p = p, candidato = candidato)
 gg(datos, candidato, p)
@@ -130,10 +133,10 @@ gg(datos, candidato, p)
 
 #### Sin Acuña y Guzmán:
 ```{r fig.height=6, fig.width=10}
-y <- c(444, 168, 108, 96, 84, 17, 16, 14, 7, 7, 4, 4, 1, 1, 229)
+y <- c(444, 168, 108, 96, 84, 17, 16, 14, 7, 7, 5, 4, 4, 1, 1, 229)
 p <- sims(y, length(y))
-candidato <- c("KF", "PPK", "AB", "VM", "AG", "AT", "DU", "GS", "NGG", "VC", "AFA",
-               "FO", "MH", "YS")
+candidato <- c("KF", "PPK", "AB", "VM", "AG", "AT", "DU", "GS", "NGG", "RR",
+               "VC", "AFA", "FO", "MH", "YS")
 candidato <- factor(candidato, levels = candidato)
 datos <- data.frame(p = p, candidato = candidato)
 gg(datos, candidato, p)
