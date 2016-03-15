@@ -141,3 +141,24 @@ candidato <- factor(candidato, levels = candidato)
 datos <- data.frame(p = p, candidato = candidato)
 gg(datos, candidato, p)
 ```
+
+####[Encuesta nacional urbano rural de Ipsos - Encuestas del 5 al 10 de marzo del 2016](http://www.ipsos.pe/sites/default/files/opinion_data/Opinion%20Data%20Marzo%202016.pdf)
+#### Con Acuña y Guzmán:
+```{r fig.height=6, fig.width=10}
+y <- c(574, 296, 167, 130, 111, 93, 56, 424)
+p <- sims(y, length(y))
+candidato <- c("KF", "JG", "PPK", "AB", "AG", "VM", "CA")
+candidato <- factor(candidato, levels = candidato)
+datos <- data.frame(p = p, candidato = candidato)
+gg(datos, candidato, p)
+```
+
+#### Sin Acuña y Guzmán:
+```{r fig.height=6, fig.width=10}
+y <- c(592, 259, 167, 167, 111, 37, 518)
+p <- sims(y, length(y))
+candidato <- c("KF", "PPK", "AB", "VM", "AG", "AT")
+candidato <- factor(candidato, levels = candidato)
+datos <- data.frame(p = p, candidato = candidato)
+gg(datos, candidato, p)
+```
