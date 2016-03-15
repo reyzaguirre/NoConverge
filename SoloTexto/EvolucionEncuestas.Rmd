@@ -84,6 +84,22 @@ dran2 <- rbind(dran, temp)
 temp <- data.frame(p = y[1:6] / sum(y) * 100, candidato = candidato, fecha = fecha)
 dpun2 <- rbind(dpun, temp)
 
+fecha <- as.Date("2016-03-10") # Ipsos: 05-10 Mar
+# Con Acuña y Guzman
+y <- c(130, 574, 111, 296, 167, 93, 480)
+p <- sims(y)
+temp <- data.frame(p = p, candidato = candidato, fecha = fecha)
+dran1 <- rbind(dran1, temp)
+temp <- data.frame(p = y[1:6] / sum(y) * 100, candidato = candidato, fecha = fecha)
+dpun1 <- rbind(dpun1, temp)
+# Sin Acuña y Guzman
+y <- c(167, 592, 111, 0, 259, 167, 555)
+p <- sims(y)
+temp <- data.frame(p = p, candidato = candidato, fecha = fecha)
+dran2 <- rbind(dran2, temp)
+temp <- data.frame(p = y[1:6] / sum(y) * 100, candidato = candidato, fecha = fecha)
+dpun2 <- rbind(dpun2, temp)
+
 # Orden
 
 orden <- c("K.Fujimori", "J.Guzmán", "P.Kuczynski", "A.Barnechea",
