@@ -6,7 +6,7 @@ output: html_document
 
 En los siguientes gráficos se puede visualizar la evolución en la intención de voto junto con el margen de error correspondiente a cada encuesta para los candidatos con mayor intención de voto. El detalle de cada una de las encuestas consideradas se puede consultar [aquí](https://reyzaguirre.wordpress.com/2015/12/20/visualizacion-de-encuestas-presidenciales/).
 
-```{r}
+```{r fig.height=6, fig.width=10}
 library(ggplot2)
 
 set.seed(1)
@@ -69,65 +69,51 @@ temp <- data.frame(p = y[1:6] / sum(y) * 100, candidato = candidato, fecha = fec
 dpun <- rbind(dpun, temp)
 
 fecha <- as.Date("2016-03-07") # Datum: 04-07 Mar
-# Con Acuña y Guzman
-y <- c(84, 396, 72, 204, 120, 60, 264)
-p <- sims(y)
-temp <- data.frame(p = p, candidato = candidato, fecha = fecha)
-dran1 <- rbind(dran, temp)
-temp <- data.frame(p = y[1:6] / sum(y) * 100, candidato = candidato, fecha = fecha)
-dpun1 <- rbind(dpun, temp)
-# Sin Acuña y Guzman
 y <- c(108, 444, 84, 0, 168, 96, 300)
 p <- sims(y)
 temp <- data.frame(p = p, candidato = candidato, fecha = fecha)
-dran2 <- rbind(dran, temp)
+dran <- rbind(dran, temp)
 temp <- data.frame(p = y[1:6] / sum(y) * 100, candidato = candidato, fecha = fecha)
-dpun2 <- rbind(dpun, temp)
+dpun <- rbind(dpun, temp)
 
 fecha <- as.Date("2016-03-10") # Ipsos: 05-10 Mar
-# Con Acuña y Guzman
-y <- c(130, 574, 111, 296, 167, 93, 480)
-p <- sims(y)
-temp <- data.frame(p = p, candidato = candidato, fecha = fecha)
-dran1 <- rbind(dran1, temp)
-temp <- data.frame(p = y[1:6] / sum(y) * 100, candidato = candidato, fecha = fecha)
-dpun1 <- rbind(dpun1, temp)
-# Sin Acuña y Guzman
 y <- c(167, 592, 111, 0, 259, 167, 555)
 p <- sims(y)
 temp <- data.frame(p = p, candidato = candidato, fecha = fecha)
-dran2 <- rbind(dran2, temp)
+dran <- rbind(dran, temp)
 temp <- data.frame(p = y[1:6] / sum(y) * 100, candidato = candidato, fecha = fecha)
-dpun2 <- rbind(dpun2, temp)
+dpun <- rbind(dpun, temp)
+
+fecha <- as.Date("2016-03-15") # GFK: 11-15 Mar
+y <- c(190, 544, 93, 0, 256, 120, 408)
+p <- sims(y)
+temp <- data.frame(p = p, candidato = candidato, fecha = fecha)
+dran <- rbind(dran, temp)
+temp <- data.frame(p = y[1:6] / sum(y) * 100, candidato = candidato, fecha = fecha)
+dpun <- rbind(dpun, temp)
+
+fecha <- as.Date("2016-03-17") # Ipsos: 15-17 Mar
+y <- c(210, 552, 125, 0, 271, 202, 432)
+p <- sims(y)
+temp <- data.frame(p = p, candidato = candidato, fecha = fecha)
+dran <- rbind(dran, temp)
+temp <- data.frame(p = y[1:6] / sum(y) * 100, candidato = candidato, fecha = fecha)
+dpun <- rbind(dpun, temp)
 
 # Orden
 
-orden <- c("K.Fujimori", "J.Guzmán", "P.Kuczynski", "A.Barnechea",
-           "A.García", "V.Mendoza")
-dran1$candidato <- factor(dran1$candidato, levels = orden)
-dpun1$candidato <- factor(dpun1$candidato, levels = orden)
-```
+dran <- subset(dran, candidato != "J.Guzmán")
+dpun <- subset(dpun, candidato != "J.Guzmán")
+orden <- c("K.Fujimori", "P.Kuczynski", "A.Barnechea", "V.Mendoza", "A.García")
+dran$candidato <- factor(dran$candidato, levels = orden)
+dpun$candidato <- factor(dpun$candidato, levels = orden)
 
-```{r fig.height=6, fig.width=10}
-ggplot(dran1, aes(fecha, p)) +
-  labs(x = "Fecha", y = "Intención de voto (%)",
-       title = "Evolución de intención de voto - Con Acuña y Guzmán") +
-  geom_jitter(width = 0.4, aes(color = candidato), alpha = I(0.03)) +
-  geom_line(data = dpun1, aes(x = fecha, y = p, group = candidato, colour = candidato),
-            show.legend = TRUE)
-```
+# Grafico
 
-```{r fig.height=6, fig.width=10}
-dran2 <- subset(dran2, candidato != "J.Guzmán")
-dpun2 <- subset(dpun2, candidato != "J.Guzmán")
-orden <- c("K.Fujimori", "P.Kuczynski", "A.Barnechea",
-           "V.Mendoza", "A.García")
-dran2$candidato <- factor(dran2$candidato, levels = orden)
-dpun2$candidato <- factor(dpun2$candidato, levels = orden)
-ggplot(dran2, aes(fecha, p)) +
+ggplot(dran, aes(fecha, p)) +
   labs(x = "Fecha", y = "Intención de voto (%)",
-       title = "Evolución de intención de voto - Sin Acuña y Guzmán") +
+       title = "Evolución de intención de voto") +
   geom_jitter(width = 0.4, aes(color = candidato), alpha = I(0.03)) +
-  geom_line(data = dpun2, aes(x = fecha, y = p, group = candidato, colour = candidato),
+  geom_line(data = dpun, aes(x = fecha, y = p, group = candidato, colour = candidato),
             show.legend = TRUE)
 ```

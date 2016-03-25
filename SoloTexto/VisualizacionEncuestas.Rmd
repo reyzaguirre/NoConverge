@@ -162,3 +162,26 @@ candidato <- factor(candidato, levels = candidato)
 datos <- data.frame(p = p, candidato = candidato)
 gg(datos, candidato, p)
 ```
+
+####[Encuesta nacional urbano rural de GFK - Encuestas del 11 al 15 de marzo del 2016](http://www.gfk.com/fileadmin/user_upload/dyna_content/PE/GfK_OP_Marzo_2016_-_Intencion_de_voto_medios.pdf)
+
+```{r fig.height=6, fig.width=10}
+y <- c(544, 256, 190, 120, 93, 29, 26, 8, 5, 3, 3, 3, 2, 304)
+p <- sims(y, length(y))
+candidato <- c("KF", "PPK", "AB", "VM", "AG", "AT", "GS", "NGG",
+               "VC", "RR", "DU", "AFA", "FO")
+candidato <- factor(candidato, levels = candidato)
+datos <- data.frame(p = p, candidato = candidato)
+gg(datos, candidato, p)
+```
+
+####[Encuesta nacional urbano rural de Ipsos - Encuestas del 15 al 17 de marzo del 2016](http://www.ipsos.pe/sites/default/files/opinion_data/Opinion%20Data%20Marzo%20II%202016.pdf)
+
+```{r fig.height=6, fig.width=10}
+y <- c(552, 271, 210, 202, 125, 20, 18, 16, 11, 367)
+p <- sims(y, length(y))
+candidato <- c("KF", "PPK", "AB", "VM", "AG", "AT", "NGG", "GS", "FO")
+candidato <- factor(candidato, levels = candidato)
+datos <- data.frame(p = p, candidato = candidato)
+gg(datos, candidato, p)
+```
