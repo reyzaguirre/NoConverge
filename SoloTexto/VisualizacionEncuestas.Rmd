@@ -185,3 +185,14 @@ candidato <- factor(candidato, levels = candidato)
 datos <- data.frame(p = p, candidato = candidato)
 gg(datos, candidato, p)
 ```
+
+####[Encuesta nacional urbano rural de Ipsos - Encuestas del 22 al 24 de marzo del 2016](http://www.ipsos.pe/sites/default/files/opinion_data/6180516_INF_V3_28Mar16%28OD%29.pdf)
+
+```{r fig.height=6, fig.width=10}
+y <- c(575, 287, 217, 199, 111, 36, 18, 16, 332)
+p <- sims(y, length(y))
+candidato <- c("KF", "PPK", "VM", "AB", "AG", "AT", "GS", "NGG")
+candidato <- factor(candidato, levels = candidato)
+datos <- data.frame(p = p, candidato = candidato)
+gg(datos, candidato, p)
+```

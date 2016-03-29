@@ -100,11 +100,19 @@ dran <- rbind(dran, temp)
 temp <- data.frame(p = y[1:6] / sum(y) * 100, candidato = candidato, fecha = fecha)
 dpun <- rbind(dpun, temp)
 
+fecha <- as.Date("2016-03-24") # Ipsos: 22-24 Mar
+y <- c(199, 575, 111, 0, 287, 217, 402)
+p <- sims(y)
+temp <- data.frame(p = p, candidato = candidato, fecha = fecha)
+dran <- rbind(dran, temp)
+temp <- data.frame(p = y[1:6] / sum(y) * 100, candidato = candidato, fecha = fecha)
+dpun <- rbind(dpun, temp)
+
 # Orden
 
 dran <- subset(dran, candidato != "J.Guzmán")
 dpun <- subset(dpun, candidato != "J.Guzmán")
-orden <- c("K.Fujimori", "P.Kuczynski", "A.Barnechea", "V.Mendoza", "A.García")
+orden <- c("K.Fujimori", "P.Kuczynski", "V.Mendoza", "A.Barnechea", "A.García")
 dran$candidato <- factor(dran$candidato, levels = orden)
 dpun$candidato <- factor(dpun$candidato, levels = orden)
 
