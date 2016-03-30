@@ -7,30 +7,25 @@ datos <- read.xlsx(file = "MatRumNam3614/resultados.xlsx",
 # Simulaciones
 
 source("MatRumNam3614/simula.R")
+load("MatRumNam3614/simulaciones.RData")
 
 set.seed(1)
-nelim <- 100000
-resu <- simula(nelim)
+sim18 <- simula(nelim) # simulaciones considerando resultados hasta la ultima fecha 2018
 
 # Guardar simulaciones
 
-color <- "darkorange1"
-
-save(resu, nelim, color, file = "MatRumNam3614/simulaciones.RData") # considera resultados hasta 2014
-save(resu, nelim, color, file = "MatRumNam3614/simulaciones2.RData") # considera resultados hasta la ultima fecha
+save(sim14, sim18, nelim, color, file = "MatRumNam3614/simulaciones.RData")
 
 # Probabilidad de clasificar
 
-load("MatRumNam3614/simulaciones.RData")
-
-pclas <- sort(table(c(resu[[2]][, 1], resu[[2]][, 2], resu[[2]][, 3], resu[[2]][, 4], resu[[2]][, 5])),
-              decreasing = TRUE) / nelim
+pclas <- sort(table(c(sim14[[2]][, 1], sim14[[2]][, 2], sim14[[2]][, 3], sim14[[2]][, 4],
+                      sim14[[2]][, 5])), decreasing = TRUE) / nelim
 
 ddd <- data.frame(pais = c("Argentina", "Brasil", "Paraguay", "Colombia", "Ecuador",
                            "Uruguay", "Chile", "Perú", "Venezuela", "Bolivia"),
                   pclas = pclas)
 
-# Grafico (950 x 600)
+# Graficos (950 x 600)
 
 barplot(ddd$pclas, space = 0.8, names.arg = ddd$pais, ylim = c(0, 1),
         col = c(rep(color, 7), 'red', rep(color, 2)))
@@ -56,20 +51,20 @@ mtext("AR: 0.944, BR: 0.894, PA: 0.666, CO: 0.645, EC: 0.625, UR: 0.520, CH: 0.4
 
 # Probabilidad de quedar primero, segundo, etc
 
-sort(table(resu[[2]][, 1])) / nelim
-sort(table(resu[[2]][, 2])) / nelim
-sort(table(resu[[2]][, 3])) / nelim
-sort(table(resu[[2]][, 4])) / nelim
-sort(table(resu[[2]][, 5])) / nelim
-sort(table(resu[[2]][, 6])) / nelim
-sort(table(resu[[2]][, 7])) / nelim
-sort(table(resu[[2]][, 8])) / nelim
-sort(table(resu[[2]][, 9])) / nelim
-sort(table(resu[[2]][, 10])) / nelim
+sort(table(sim14[[2]][, 1])) / nelim
+sort(table(sim14[[2]][, 2])) / nelim
+sort(table(sim14[[2]][, 3])) / nelim
+sort(table(sim14[[2]][, 4])) / nelim
+sort(table(sim14[[2]][, 5])) / nelim
+sort(table(sim14[[2]][, 6])) / nelim
+sort(table(sim14[[2]][, 7])) / nelim
+sort(table(sim14[[2]][, 8])) / nelim
+sort(table(sim14[[2]][, 9])) / nelim
+sort(table(sim14[[2]][, 10])) / nelim
 
 ddd <- data.frame(pais = c("Argentina", "Brasil", "Paraguay", "Colombia", "Ecuador",
                            "Uruguay", "Chile", "Venezuela", "Perú", "Bolivia"),
-                  pprim = sort(table(resu[[2]][, 1]), decreasing = TRUE) / nelim)
+                  pprim = sort(table(sim14[[2]][, 1]), decreasing = TRUE) / nelim)
 
 barplot(ddd$pprim, space = 0.8, names.arg = ddd$pais,
         col = c(rep(color, 8), 'red', color))
@@ -79,27 +74,25 @@ mtext("AR: 0.455, BR: 0.254, PA: 0.080, CO: 0.075, EC: 0.052, UR: 0.042, CH: 0.0
 
 # Media de puntos por pais
 
-apply(resu[[1]], 2, mean)
+apply(sim14[[1]], 2, mean)
 
 # 95% de confianza para puntos de peru
 
-quantile(resu[[1]][, 8], probs = c(0.025, 0.975), type = 7)
+quantile(sim14[[1]][, 8], probs = c(0.025, 0.975), type = 7)
 
 # Grafico incluyendo resultados Rusia 2018
 
-load("MatRumNam3614/simulaciones2.RData")
+pclas <- sort(table(c(sim18[[2]][, 1], sim18[[2]][, 2], sim18[[2]][, 3], sim18[[2]][, 4],
+                      sim18[[2]][, 5])), decreasing = TRUE) / nelim
 
-pclas <- sort(table(c(resu[[2]][, 1], resu[[2]][, 2], resu[[2]][, 3], resu[[2]][, 4], resu[[2]][, 5])),
-              decreasing = TRUE) / nelim
-
-ddd <- data.frame(pais = c("Argentina", "Brasil", "Ecuador", "Paraguay", "Colombia",
+ddd <- data.frame(pais = c("Argentina", "Brasil", "Ecuador", "Colombia", "Paraguay",
                            "Uruguay", "Chile", "Perú", "Venezuela", "Bolivia"),
                   pclas = pclas)
 
 barplot(ddd$pclas, space = 0.8, names.arg = ddd$pais, ylim = c(0, 1),
         col = c(rep(color, 7), 'red', rep(color, 2)))
 title(main = "Probabilidad de clasificar a Qatar 2022", font.main = 4)
-mtext("(El modelo incluye hasta los resultados de la fecha 4 de la clasificatoria Rusia 2018)",
+mtext("(El modelo incluye hasta los resultados de la fecha 6 de la clasificatoria Rusia 2018)",
       side = 3, line = 0.4, cex = 0.9)
-mtext("AR: 0.930, BR: 0.891, EC: 0.680, PA: 0.657, CO: 0.625, UR: 0.534, CH: 0.507, PE: 0.077, VE: 0.055, BO: 0.044",
+mtext("AR: 0.936, BR: 0.891, EC: 0.658, CO: 0.651, PA: 0.646, UR: 0.550, CH: 0.504, PE: 0.069, VE: 0.055, BO: 0.040",
       side = 1, line = 3, cex = 0.9)
