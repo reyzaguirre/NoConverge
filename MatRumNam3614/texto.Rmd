@@ -19,15 +19,15 @@ El tercer paso es definir el modelo. Aquí vienen unos detalles un poquito técnic
 * Usé estas proporciones para estimar la probabilidad de que el local gane, empate o pierda con el visitante en el futuro. Como en algunos casos la proporción es cero, esto implicaría una probabilidad nula para dicho resultado. Esto no tiene mucho sentido pues siempre hay una probabilidad de ganar, empetar o perder (ahí reside gran parte del negocio del fútbol, la venta de ilusiones), así que para no cerrar posibilidades, asumí, desde una perspectiva Bayesiana, una priori uniforme para estas proporciones. Esto es equivalente a sumarle un triunfo, un empate y una derrota a cada uno.
 * Con las probabilidades en mano simulé resultados y calculé las tablas de posiciones. No me preocupé por el asunto de los goles porque si bien pueden ser decisivos en una clasificatoria en particular, a la larga no creo que sean fundamentales en la proporción de clasificatorias en las que un equipo clasifica; esto es, a veces nos favorecerán, a veces no, y a la larga los efectos se compensan. Entonces para romper empates por puntos utilicé el viejo truco de lanzar una moneda.
 * Corrí el modelo 100 000 veces. Con esas 100 000 clasificatorias simuladas estimé la probabilidad de que cada uno de los equipos vaya al mundial.
-* Como buen peruano y mejor padre de familia lo que más me preocupa es si mis hijos, que ya llevo varios, verán o no a Perú en un mundial (o quizá mis nietos). Entonces una cantidad de interés es el número esperado de clasificatorias para que Perú clasifique. Para estos cálculos usamos una distribución geométrica.
+* Como buen peruano y mejor padre de familia lo que más me preocupa es si mis hijos verán o no a Perú en un mundial (o quizá mis nietos). Entonces una cantidad de interés es el número esperado de clasificatorias para que Perú clasifique. Para estos cálculos usamos una distribución geométrica.
 
 El cuarto paso es correr el modelo y evaluar sus resultados. La priori uniforme resultó ser muy bondadosa con los equipos chicos y les dio probabilidades algo altas de clasificar, e incluso alguna probabilidad de terminar primeros en la clasificatoria. Decidí entonces bajar el peso de la priori a un tercio y correr el modelo de nuevo. Los resultados obtenidos me parecieron más realistas y se los cuento a continuación.
 
 ```{r echo=FALSE, fig.height=6, fig.width=10}
 load("simulaciones.RData")
 
-pclas <- sort(table(c(resu[[2]][, 1], resu[[2]][, 2], resu[[2]][, 3], resu[[2]][, 4], resu[[2]][, 5])),
-              decreasing = TRUE) / nelim
+pclas <- sort(table(c(sim14[[2]][, 1], sim14[[2]][, 2], sim14[[2]][, 3], sim14[[2]][, 4],
+                      sim14[[2]][, 5])), decreasing = TRUE) / nelim
 ddd <- data.frame(pais = c("Argentina", "Brasil", "Paraguay", "Colombia", "Ecuador",
                            "Uruguay", "Chile", "Perú", "Venezuela", "Bolivia"),
                   pclas = pclas)
@@ -42,7 +42,7 @@ mtext("AR: 0.944, BR: 0.894, PA: 0.666, CO: 0.645, EC: 0.625, UR: 0.520, CH: 0.4
 ```{r echo=FALSE, fig.height=6, fig.width=10}
 ddd <- data.frame(pais = c("Argentina", "Brasil", "Paraguay", "Colombia", "Ecuador",
                            "Uruguay", "Chile", "Venezuela", "Perú", "Bolivia"),
-                  pprim = sort(table(resu[[2]][, 1]), decreasing = TRUE) / nelim)
+                  pprim = sort(table(sim14[[2]][, 1]), decreasing = TRUE) / nelim)
 
 barplot(ddd$pprim, space = 0.8, names.arg = ddd$pais,
         col = c(rep(color, 8), 'red', color))
@@ -63,20 +63,18 @@ Ciertamente todo modelo se puede mejorar y este no es una excepción, y prometo m
 Nota final: Dado que ya se está jugando la clasificatoria a Rusia 2018, podríamos incluir los resultados de los partidos ya jugados para ir pensando en Qatar 2022:
 
 ```{r echo=FALSE, fig.height=6, fig.width=10}
-load("simulaciones2.RData")
+pclas <- sort(table(c(sim18[[2]][, 1], sim18[[2]][, 2], sim18[[2]][, 3], sim18[[2]][, 4],
+                      sim18[[2]][, 5])), decreasing = TRUE) / nelim
 
-pclas <- sort(table(c(resu[[2]][, 1], resu[[2]][, 2], resu[[2]][, 3], resu[[2]][, 4], resu[[2]][, 5])),
-              decreasing = TRUE) / nelim
-
-ddd <- data.frame(pais = c("Argentina", "Brasil", "Ecuador", "Paraguay", "Colombia",
+ddd <- data.frame(pais = c("Argentina", "Brasil", "Ecuador", "Colombia", "Paraguay",
                            "Uruguay", "Chile", "Perú", "Venezuela", "Bolivia"),
                   pclas = pclas)
 
 barplot(ddd$pclas, space = 0.8, names.arg = ddd$pais, ylim = c(0, 1),
         col = c(rep(color, 7), 'red', rep(color, 2)))
 title(main = "Probabilidad de clasificar a Qatar 2022", font.main = 4)
-mtext("(El modelo incluye hasta los resultados de la fecha 4 de la clasificatoria Rusia 2018)",
+mtext("(El modelo incluye hasta los resultados de la fecha 6 de la clasificatoria Rusia 2018)",
       side = 3, line = 0.4, cex = 0.9)
-mtext("AR: 0.930, BR: 0.891, EC: 0.680, PA: 0.657, CO: 0.625, UR: 0.534, CH: 0.507, PE: 0.077, VE: 0.055, BO: 0.044",
+mtext("AR: 0.936, BR: 0.891, EC: 0.658, CO: 0.651, PA: 0.646, UR: 0.550, CH: 0.504, PE: 0.069, VE: 0.055, BO: 0.040",
       side = 1, line = 3, cex = 0.9)
 ```
