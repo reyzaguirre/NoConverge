@@ -2,7 +2,7 @@
 
 library(xlsx)
 datos <- read.xlsx(file = "MatRumNam3614/resultados.xlsx",
-                   sheetIndex = 1, rowIndex = 1:91, colIndex = 13:17)
+                   sheetIndex = 1, rowIndex = 1:91, colIndex = 14:17)
 
 # Simulaciones
 
