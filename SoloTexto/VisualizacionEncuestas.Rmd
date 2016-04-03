@@ -84,7 +84,7 @@ datos <- data.frame(p = p, candidato = candidato)
 gg(datos, candidato, p)
 ```
 
-####[Simulacro de votación de Datum - Encuestas del 5 al 8 de febrero del 2016](http://cde.peru21.pe/ima/0/0/3/5/2/352448.jpg)
+####[Simulacro de votación de Datum - Encuestas del 5 al 8 de febrero del 2016](http://www.datum.com.pe/pdf/SIM10216.pdf)
 
 ```{r fig.height=6, fig.width=10}
 y <- c(375, 193, 133, 85, 48, 36, 24, 24, 12, 12, 12, 12, 5, 2, 1, 1, 1, 233)
@@ -120,7 +120,7 @@ datos <- data.frame(p = p, candidato = candidato)
 gg(datos, candidato, p)
 ```
 
-####[Encuesta nacional de Datum - Encuestas del 4 al 7 de marzo del 2016](http://peru21.pe/multimedia/imagen/t-357972)
+####[Encuesta nacional de Datum - Encuestas del 4 al 7 de marzo del 2016](http://www.datum.com.pe/pdf/PUL0316.pdf)
 #### Con Acuña y Guzmán:
 ```{r fig.height=6, fig.width=10}
 y <- c(396, 204, 120, 84, 72, 60, 48, 216)
@@ -186,12 +186,46 @@ datos <- data.frame(p = p, candidato = candidato)
 gg(datos, candidato, p)
 ```
 
+####[Simulacro de votación de Datum - Encuestas del 17 al 20 de marzo del 2016](http://www.datum.com.pe/pdf/SIM03216.pdf)
+
+```{r fig.height=6, fig.width=10}
+y <- c(413, 208, 164, 126, 50, 16, 13, 10, 8, 6, 2, 1, 1, 182)
+p <- sims(y, length(y))
+candidato <- c("KF", "PPK", "AB", "VM", "AG", "GS", "NGG", "AT", "FO", "VC",
+               "AFA", "FDC", "YS")
+candidato <- factor(candidato, levels = candidato)
+datos <- data.frame(p = p, candidato = candidato)
+gg(datos, candidato, p)
+```
+
 ####[Encuesta nacional urbano rural de Ipsos - Encuestas del 22 al 24 de marzo del 2016](http://www.ipsos.pe/sites/default/files/opinion_data/6180516_INF_V3_28Mar16%28OD%29.pdf)
 
 ```{r fig.height=6, fig.width=10}
 y <- c(575, 287, 217, 199, 111, 36, 18, 16, 332)
 p <- sims(y, length(y))
 candidato <- c("KF", "PPK", "VM", "AB", "AG", "AT", "GS", "NGG")
+candidato <- factor(candidato, levels = candidato)
+datos <- data.frame(p = p, candidato = candidato)
+gg(datos, candidato, p)
+```
+
+####[Simulacro de votación de GFK - Encuestas del 28 al 30 de marzo del 2016](http://www.gfk.com/fileadmin/user_upload/dyna_content/PE/GfK_OP_Marzo_II_2016_-_Intencion_de_voto_4.pdf)
+
+```{r fig.height=6, fig.width=10}
+y <- c(678, 276, 274, 185, 108, 57, 15, 13, 4, 2, 216)
+p <- sims(y, length(y))
+candidato <- c("KF", "PPK", "VM", "AB", "AG", "GS", "AT", "FO", "AFA", "MH")
+candidato <- factor(candidato, levels = candidato)
+datos <- data.frame(p = p, candidato = candidato)
+gg(datos, candidato, p)
+```
+
+####[Simulacro de votación de Ipsos - Encuestas del 30 de marzo al 1 de abril del 2016](http://rpp.pe/politica/elecciones/ipsos-da-empate-tecnico-en-el-segundo-lugar-entre-ppk-y-mendoza-noticia-950573)
+
+```{r fig.height=6, fig.width=10}
+y <- c(594, 288, 270, 144, 90, 36, 378)
+p <- sims(y, length(y))
+candidato <- c("KF", "PPK", "VM", "AB", "AG", "GS")
 candidato <- factor(candidato, levels = candidato)
 datos <- data.frame(p = p, candidato = candidato)
 gg(datos, candidato, p)
