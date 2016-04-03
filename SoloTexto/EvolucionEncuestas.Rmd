@@ -125,7 +125,7 @@ temp <- data.frame(p = y[1:6] / sum(y) * 100, candidato = candidato, fecha = fec
 dpun <- rbind(dpun, temp)
 
 fecha <- as.Date("2016-04-01") # Ipsos: 30-01 Abr
-y <- c(144, 594, 90, 0, 288, 270, 414)
+y <- c(144, 619, 95, 0, 302, 279, 361)
 p <- sims(y)
 temp <- data.frame(p = p, candidato = candidato, fecha = fecha)
 dran <- rbind(dran, temp)

@@ -220,10 +220,10 @@ datos <- data.frame(p = p, candidato = candidato)
 gg(datos, candidato, p)
 ```
 
-####[Simulacro de votación de Ipsos - Encuestas del 30 de marzo al 1 de abril del 2016](http://rpp.pe/politica/elecciones/ipsos-da-empate-tecnico-en-el-segundo-lugar-entre-ppk-y-mendoza-noticia-950573)
+####[Simulacro de votación de Ipsos - Encuestas del 30 de marzo al 1 de abril del 2016](https://magic.piktochart.com/output/12610060-opinion-data-express-simulacro-copy-abril-3)
 
 ```{r fig.height=6, fig.width=10}
-y <- c(594, 288, 270, 144, 90, 36, 378)
+y <- c(619, 302, 279, 144, 95, 34, 327)
 p <- sims(y, length(y))
 candidato <- c("KF", "PPK", "VM", "AB", "AG", "GS")
 candidato <- factor(candidato, levels = candidato)
