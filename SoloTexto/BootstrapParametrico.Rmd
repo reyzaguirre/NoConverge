@@ -1,0 +1,75 @@
+---
+title: "Bootstrap paramétrico para calcular valores de probabilidad"
+author: "Raul Eyzaguirre"
+date: "11/08/2016"
+output: html_document
+---
+
+En ciertos casos no es posible calcular un valor de probabilidad con exactitud debido a que no se conoce la distribución de probabilidades del estadístico de prueba. Aun cuando seguramente se cuente con alguna aproximación, suele suceder que bajo ciertas circunstancias dicha aproximación podría no ser del todo buena. En estos casos una alternativa para el cálculo del valor de probabilidad puede ser el bootstrap paramétrico. La idea es simple:
+
+1. Ajuste el modelo con los datos y calcule el estadístico de prueba.
+2. Ajuste el modelo bajo el supuesto de la hipótesis nula.
+3. Con el modelo ajustado en 2 simule n conjuntos de datos (n grande por supuesto).
+4. Calcule el estadístico de prueba para cada muestra simulada en 3.
+5. Calcula la proporción en la que los estadísticos calculados en 4 resultaron más extremos que el calculado en 1.
+
+Puede ver un par de ejemplos muy sencillos a continuación:
+
+
+```{r}
+# Ejemplo 1: Supongamos que tenemos una muestra de 20 valores desde una población
+# N(0.1, 1) y que queremos evaluar si hay evidencia de que la media es mayor a 0.
+
+set.seed(1)
+datos <- rnorm(20, 0.1, 1)
+
+# Con estos datos el estadístico es
+
+tnul <- (mean(datos) - 0) / sd(datos) * 20^.5
+tnul
+
+# que sabemos que tiene distribución t por lo que el valor p es
+
+pt(tnul, 19, lower.tail = FALSE)
+
+# Pero, ¿y si no se conoce la distribución?
+
+# Simulemos 10000 conjuntos de datos bajo H0 y calculemos el estadístico
+
+ttest <- numeric(10000)
+for(i in 1:10000){
+  y <- rnorm(20, 0, sd(datos))
+  ttest[i] <- (mean(y) - 0) / sd(y) * 20^.5
+}
+
+# La proporción de valores que resultaron mayores que el estadístico es
+
+mean(ttest > tnul)
+
+# Ejemplo 2: Supongamos un modelo de regresión lineal simple con
+# pendiente 2 y errores N(0, 1) y que tenemos una muestra de tamaño 20.
+
+set.seed(1)
+x <- runif(20)
+y <- 2 + 2*x + rnorm(20)
+
+# Con estos datos el estadístico es 0.305 y el valor p 0.5876
+
+model <- lm(y ~ x)
+anova(model)
+fnul <- anova(model)[1, 4]
+
+# Simulemos 10000 conjuntos de datos bajo H0 y calculemos el estadístico
+
+modelnul <- lm(y ~ 1)
+
+ftest <- numeric(10000)
+for(i in 1:10000){
+  y <- unlist(simulate(modelnul))
+  model <- lm(y ~ x)
+  ftest[i] <- anova(model)[1, 4]
+}
+
+mean(ftest > fnul)
+```
+
