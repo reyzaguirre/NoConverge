@@ -7,11 +7,10 @@ output: html_document
 
 En ciertos casos no es posible calcular un valor de probabilidad con exactitud debido a que no se conoce la distribución de probabilidades del estadístico de prueba. Aun cuando seguramente se cuente con alguna aproximación, suele suceder que bajo ciertas circunstancias dicha aproximación podría no ser del todo buena. En estos casos una alternativa para el cálculo del valor de probabilidad puede ser el bootstrap paramétrico. La idea es simple:
 
-1. Ajuste el modelo con los datos y calcule el estadístico de prueba.
-2. Ajuste el modelo bajo el supuesto de la hipótesis nula.
-3. Con el modelo ajustado en 2 simule n conjuntos de datos (n grande por supuesto).
-4. Calcule el estadístico de prueba para cada muestra simulada en 3.
-5. Calcula la proporción en la que los estadísticos calculados en 4 resultaron más extremos que el calculado en 1.
+1. Calcule el estadístico de prueba.
+2. Simule $n$ conjuntos de datos ($n$ grande por supuesto) bajo el supuesto de la hipótesis nula.
+3. Calcule el estadístico de prueba para cada muestra simulada en 2.
+4. Calcule la proporción en la que los estadísticos calculados en 3 resultaron más extremos que el calculado en 1.
 
 Puede ver un par de ejemplos muy sencillos a continuación:
 
@@ -69,6 +68,8 @@ for(i in 1:10000){
   model <- lm(y ~ x)
   ftest[i] <- anova(model)[1, 4]
 }
+
+# La proporción de valores que resultaron mayores que el estadístico es
 
 mean(ftest > fnul)
 ```
