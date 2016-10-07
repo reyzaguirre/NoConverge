@@ -66,15 +66,15 @@ Nota final: Dado que ya se está jugando la clasificatoria a Rusia 2018, podríamo
 pclas <- sort(table(c(sim18[[2]][, 1], sim18[[2]][, 2], sim18[[2]][, 3], sim18[[2]][, 4],
                       sim18[[2]][, 5])), decreasing = TRUE) / nelim
 
-ddd <- data.frame(pais = c("Argentina", "Brasil", "Ecuador", "Colombia", "Paraguay",
+ddd <- data.frame(pais = c("Argentina", "Brasil", "Colombia", "Paraguay", "Ecuador",
                            "Uruguay", "Chile", "Perú", "Venezuela", "Bolivia"),
                   pclas = pclas)
 
 barplot(ddd$pclas, space = 0.8, names.arg = ddd$pais, ylim = c(0, 1),
         col = c(rep(color, 7), 'red', rep(color, 2)))
 title(main = "Probabilidad de clasificar a Qatar 2022", font.main = 4)
-mtext("(El modelo incluye hasta los resultados de la fecha 6 de la clasificatoria Rusia 2018)",
+mtext("(El modelo incluye hasta los resultados de la fecha 9 de la clasificatoria Rusia 2018)",
       side = 3, line = 0.4, cex = 0.9)
-mtext("AR: 0.936, BR: 0.891, EC: 0.658, CO: 0.651, PA: 0.646, UR: 0.550, CH: 0.504, PE: 0.069, VE: 0.055, BO: 0.040",
+mtext("AR: 0.934, BR: 0.920, CO: 0.664, PA: 0.641, EC: 0.612, UR: 0.589, CH: 0.471, PE: 0.077, VE: 0.050, BO: 0.042",
       side = 1, line = 3, cex = 0.9)
 ```

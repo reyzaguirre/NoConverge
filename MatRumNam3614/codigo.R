@@ -23,14 +23,14 @@ pclas <- sort(table(c(sim14[[2]][, 1], sim14[[2]][, 2], sim14[[2]][, 3], sim14[[
 
 ddd <- data.frame(pais = c("Argentina", "Brasil", "Paraguay", "Colombia", "Ecuador",
                            "Uruguay", "Chile", "Perú", "Venezuela", "Bolivia"),
-                  pclas = pclas)
+                  pclas = as.vector(pclas))
 
-# Graficos (950 x 600)
+# MRN_fig01.png (950 x 600)
 
 barplot(ddd$pclas, space = 0.8, names.arg = ddd$pais, ylim = c(0, 1),
         col = c(rep(color, 7), 'red', rep(color, 2)))
 title(main = "Probabilidad de clasificar a un mundial", font.main = 4)
-mtext("AR: 0.944, BR: 0.894, PA: 0.666, CO: 0.645, EC: 0.625, UR: 0.520, CH: 0.480, PE: 0.100, VE: 0.073, BO: 0.052",
+mtext("AR: 0.944,  BR: 0.894,  PA: 0.666,  CO: 0.645,  EC: 0.625,  UR: 0.520,  CH: 0.480,  PE: 0.100,  VE: 0.073,  BO: 0.052",
       side = 1, line = 3, cex = 0.9)
 
 # Numero esperado de clasificatorias para ir al mundial
@@ -64,12 +64,14 @@ sort(table(sim14[[2]][, 10])) / nelim
 
 ddd <- data.frame(pais = c("Argentina", "Brasil", "Paraguay", "Colombia", "Ecuador",
                            "Uruguay", "Chile", "Venezuela", "Perú", "Bolivia"),
-                  pprim = sort(table(sim14[[2]][, 1]), decreasing = TRUE) / nelim)
+                  pprim = sort(as.vector(table(sim14[[2]][, 1])), decreasing = TRUE) / nelim)
+
+# MRN_fig02.png (950 x 600)
 
 barplot(ddd$pprim, space = 0.8, names.arg = ddd$pais,
         col = c(rep(color, 8), 'red', color))
 title(main = "Probabilidad de quedar primero en la clasificatoria", font.main = 4)
-mtext("AR: 0.455, BR: 0.254, PA: 0.080, CO: 0.075, EC: 0.052, UR: 0.042, CH: 0.039, VE: 0.002, PE: 0.002, BO: 0.001",
+mtext("AR: 0.455,  BR: 0.254,  PA: 0.080,  CO: 0.075,  EC: 0.052,  UR: 0.042,  CH: 0.039,  VE: 0.002,  PE: 0.002,  BO: 0.001",
       side = 1, line = 3, cex = 0.9)
 
 # Media de puntos por pais
@@ -85,14 +87,16 @@ quantile(sim14[[1]][, 8], probs = c(0.025, 0.975), type = 7)
 pclas <- sort(table(c(sim18[[2]][, 1], sim18[[2]][, 2], sim18[[2]][, 3], sim18[[2]][, 4],
                       sim18[[2]][, 5])), decreasing = TRUE) / nelim
 
-ddd <- data.frame(pais = c("Argentina", "Brasil", "Ecuador", "Colombia", "Paraguay",
+ddd <- data.frame(pais = c("Argentina", "Brasil", "Colombia", "Paraguay", "Ecuador",
                            "Uruguay", "Chile", "Perú", "Venezuela", "Bolivia"),
-                  pclas = pclas)
+                  pclas = as.vector(pclas))
+
+# MRN_fig03.png (950 x 600)
 
 barplot(ddd$pclas, space = 0.8, names.arg = ddd$pais, ylim = c(0, 1),
         col = c(rep(color, 7), 'red', rep(color, 2)))
 title(main = "Probabilidad de clasificar a Qatar 2022", font.main = 4)
-mtext("(El modelo incluye hasta los resultados de la fecha 6 de la clasificatoria Rusia 2018)",
+mtext("(El modelo incluye hasta los resultados de la fecha 9 de la clasificatoria Rusia 2018)",
       side = 3, line = 0.4, cex = 0.9)
-mtext("AR: 0.936, BR: 0.891, EC: 0.658, CO: 0.651, PA: 0.646, UR: 0.550, CH: 0.504, PE: 0.069, VE: 0.055, BO: 0.040",
+mtext("AR: 0.934,  BR: 0.920,  CO: 0.664,  PA: 0.641,  EC: 0.612,  UR: 0.589,  CH: 0.471,  PE: 0.077,  VE: 0.050,  BO: 0.042",
       side = 1, line = 3, cex = 0.9)
