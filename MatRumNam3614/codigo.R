@@ -87,7 +87,7 @@ quantile(sim14[[1]][, 8], probs = c(0.025, 0.975), type = 7)
 pclas <- sort(table(c(sim18[[2]][, 1], sim18[[2]][, 2], sim18[[2]][, 3], sim18[[2]][, 4],
                       sim18[[2]][, 5])), decreasing = TRUE) / nelim
 
-ddd <- data.frame(pais = c("Argentina", "Brasil", "Colombia", "Paraguay", "Ecuador",
+ddd <- data.frame(pais = c("Argentina", "Brasil", "Paraguay", "Colombia", "Ecuador",
                            "Uruguay", "Chile", "Perú", "Venezuela", "Bolivia"),
                   pclas = as.vector(pclas))
 
@@ -96,7 +96,7 @@ ddd <- data.frame(pais = c("Argentina", "Brasil", "Colombia", "Paraguay", "Ecuad
 barplot(ddd$pclas, space = 0.8, names.arg = ddd$pais, ylim = c(0, 1),
         col = c(rep(color, 7), 'red', rep(color, 2)))
 title(main = "Probabilidad de clasificar a Qatar 2022", font.main = 4)
-mtext("(El modelo incluye hasta los resultados de la fecha 9 de la clasificatoria Rusia 2018)",
+mtext("(El modelo incluye hasta los resultados de la fecha 10 de la clasificatoria Rusia 2018)",
       side = 3, line = 0.4, cex = 0.9)
-mtext("AR: 0.934,  BR: 0.920,  CO: 0.664,  PA: 0.641,  EC: 0.612,  UR: 0.589,  CH: 0.471,  PE: 0.077,  VE: 0.050,  BO: 0.042",
+mtext("AR: 0.928,  BR: 0.923,  PA: 0.663,  CO: 0.649,  EC: 0.602,  UR: 0.593,  CH: 0.477,  PE: 0.075,  VE: 0.049,  BO: 0.042",
       side = 1, line = 3, cex = 0.9)
