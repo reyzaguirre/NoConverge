@@ -96,7 +96,7 @@ ddd <- data.frame(pais = c("Argentina", "Brasil", "Paraguay", "Colombia", "Ecuad
 barplot(ddd$pclas, space = 0.8, names.arg = ddd$pais, ylim = c(0, 1),
         col = c(rep(color, 7), 'red', rep(color, 2)))
 title(main = "Probabilidad de clasificar a Qatar 2022", font.main = 4)
-mtext("(El modelo incluye hasta los resultados de la fecha 10 de la clasificatoria Rusia 2018)",
+mtext("(El modelo incluye hasta los resultados de la fecha 12 de la clasificatoria Rusia 2018)",
       side = 3, line = 0.4, cex = 0.9)
-mtext("AR: 0.928,  BR: 0.923,  PA: 0.663,  CO: 0.649,  EC: 0.602,  UR: 0.593,  CH: 0.477,  PE: 0.075,  VE: 0.049,  BO: 0.042",
+mtext("AR: 0.936,  BR: 0.929,  PA: 0.638,  CO: 0.629,  EC: 0.606,  UR: 0.591,  CH: 0.494,  PE: 0.086,  VE: 0.048,  BO: 0.042",
       side = 1, line = 3, cex = 0.9)
