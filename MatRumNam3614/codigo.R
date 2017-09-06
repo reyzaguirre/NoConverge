@@ -1,8 +1,7 @@
 # Datos
 
-library(xlsx)
-datos <- read.xlsx(file = "MatRumNam3614/resultados.xlsx",
-                   sheetIndex = 1, rowIndex = 1:91, colIndex = 14:17)
+library(readxl)
+datos <- read_excel("MatRumNam3614/resultados.xlsx", 1, "N1:Q91")
 
 # Simulaciones
 
@@ -87,8 +86,8 @@ quantile(sim14[[1]][, 8], probs = c(0.025, 0.975), type = 7)
 pclas <- sort(table(c(sim18[[2]][, 1], sim18[[2]][, 2], sim18[[2]][, 3], sim18[[2]][, 4],
                       sim18[[2]][, 5])), decreasing = TRUE) / nelim
 
-ddd <- data.frame(pais = c("Brasil", "Argentina", "Colombia", "Paraguay", "Ecuador",
-                           "Uruguay", "Chile", "Perú", "Bolivia", "Venezuela"),
+ddd <- data.frame(pais = c("Brasil", "Argentina", "Colombia", "Paraguay", "Uruguay",
+                           "Ecuador", "Chile", "Perú", "Bolivia", "Venezuela"),
                   pclas = as.vector(pclas))
 
 # MRN_fig03.png (950 x 600)
@@ -96,7 +95,7 @@ ddd <- data.frame(pais = c("Brasil", "Argentina", "Colombia", "Paraguay", "Ecuad
 barplot(ddd$pclas, space = 0.8, names.arg = ddd$pais, ylim = c(0, 1),
         col = c(rep(color, 7), 'red', rep(color, 2)))
 title(main = "Probabilidad de clasificar a Qatar 2022", font.main = 4)
-mtext("(El modelo incluye hasta los resultados de la fecha 14 de la clasificatoria Rusia 2018)",
+mtext("(El modelo incluye hasta los resultados de la fecha 16 de la clasificatoria Rusia 2018)",
       side = 3, line = 0.4, cex = 0.9)
-mtext("BR: 0.946,  AR: 0.930,  CO: 0.666,  PA: 0.630,  EC: 0.586,  UR: 0.555,  CH: 0.504,  PE: 0.094,  BO: 0.046,  VE: 0.043",
+mtext("BR: 0.948,  AR: 0.926,  CO: 0.674,  PA: 0.629,  UR: 0.584,  EC: 0.557,  CH: 0.466,  PE: 0.120,  BO: 0.053,  VE: 0.044",
       side = 1, line = 3, cex = 0.9)
