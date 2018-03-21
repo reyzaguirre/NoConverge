@@ -1,0 +1,33 @@
+---
+title: "Tenis - Ranking por país"
+author: "Raul Eyzaguirre"
+date: "20/03/2018"
+output: html_document
+---
+
+Estaba el domingo viendo ese espectacular partido entre Federer y Del Potro cuando me surgió una primera pregunta, qué país tiene el mejor tenis. Y digo una primera pregunta porque ahí no más surgió la segunda que es, y cómo se puede medir eso. Entonces se me ocurrió que se podía comparar a los países sumando los puntos ATP que tienen todos sus tenistas. Para eso felizmente en la web de la ATP sale el ranking con todos los tenistas profesionales, unos 5000, que en total pertenecen a 97 países. Entonces el asunto consiste en descargar los puntos, sumarlos por país y listo. ¿Qué salió? Pues según esta medida España tiene el mejor tenis con 27514 puntos seguida por USA con 21249 puntos y luego por Francia con 20267 puntos, pero para no hablar tanto mejor les dejo este gráfico con el top 10 de países. Por cierto, también se me ocurrió por dónde andará mi querido Perú. Pues no muy bien, anda en el puesto 60 con 157 puntos.
+
+```{r}
+library(st4gi)
+library(rvest)
+
+url <- 'http://www.atpworldtour.com/es/rankings/singles?rankDate=2018-03-19&rankRange=1-5000'
+webpage <- read_html(url)
+
+puntos <- html_nodes(webpage,'.points-cell')
+puntos <- html_text(puntos)
+puntos <- sub(",", "", puntos)
+puntos <- as.numeric(puntos)
+
+pais <- html_nodes(webpage,'.country-item')
+pais <- as.character(pais)
+pais <- substr(pais, 71, 73)
+
+ddd <- data.frame(pais = pais, puntos = puntos)
+ddd <- docomp('sum', 'puntos', 'pais', data = ddd)
+ddd <- ddd[sort(ddd$puntos, decreasing = TRUE, index.return = T)$ix, ]
+rownames(ddd) <- 1:dim(ddd)[1]
+
+barplot(ddd[1:10, 2], names.arg = ddd[1:10, 1],
+        main = "Total de puntos ATP por país \n Individual masculino al 19/03/2018")
+```
