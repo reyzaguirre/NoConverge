@@ -31,3 +31,12 @@ rownames(ddd) <- 1:dim(ddd)[1]
 barplot(ddd[1:10, 2], names.arg = ddd[1:10, 1],
         main = "Total de puntos ATP por país \n Individual masculino al 19/03/2018")
 ```
+
+Y además, por si a alguien se lo pregunta, este es el top 10 de paises por número de tenistas (en este caso Perú está en el puesto 46 con 8 tenistas).
+
+```{r}
+temp <- data.frame(sort(table(pais), decreasing = TRUE))
+
+barplot(temp[1:10, 2], names.arg = temp[1:10, 1],
+        main = "Número de tenistas profesionales por país \n Individual masculino al 19/03/2018")
+```
