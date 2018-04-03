@@ -23,9 +23,9 @@ pais <- html_nodes(webpage,'.country-item')
 pais <- as.character(pais)
 pais <- substr(pais, 71, 73)
 
-ddd <- data.frame(pais = pais, puntos = puntos)
-ddd <- docomp('sum', 'puntos', 'pais', data = ddd)
-ddd <- ddd[sort(ddd$puntos, decreasing = TRUE, index.return = T)$ix, ]
+ddd <- data.frame(pais = pais, puntos190318 = puntos)
+ddd <- docomp('sum', 'puntos190318', 'pais', data = ddd)
+ddd <- ddd[sort(ddd$puntos190318, decreasing = TRUE, index.return = T)$ix, ]
 rownames(ddd) <- 1:dim(ddd)[1]
 
 barplot(ddd[1:10, 2], names.arg = ddd[1:10, 1],
@@ -40,3 +40,27 @@ temp <- data.frame(sort(table(pais), decreasing = TRUE))
 barplot(temp[1:10, 2], names.arg = temp[1:10, 1],
         main = "Número de tenistas profesionales por país \n Individual masculino al 19/03/2018")
 ```
+
+
+#### Aumentar datos
+```{r}
+url <- 'http://www.atpworldtour.com/es/rankings/singles?rankDate=2018-04-02&rankRange=1-5000'
+webpage <- read_html(url)
+
+puntos <- html_nodes(webpage,'.points-cell')
+puntos <- html_text(puntos)
+puntos <- sub(",", "", puntos)
+puntos <- as.numeric(puntos)
+
+pais <- html_nodes(webpage,'.country-item')
+pais <- as.character(pais)
+pais <- substr(pais, 71, 73)
+
+temp <- data.frame(pais = pais, puntos020418 = puntos)
+temp <- docomp('sum', 'puntos020418', 'pais', data = temp)
+ddd <- merge(ddd, temp, all = T)
+
+save(ddd, file = 'tenisdata.rda')
+
+```
+
