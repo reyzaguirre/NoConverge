@@ -66,6 +66,7 @@ temp <- docomp('sum', 'puntos160418', 'pais', data = temp)
 ddd <- merge(ddd, temp, all = T)
 
 ddd <- ddd[sort(ddd$puntos160418, decreasing = TRUE, index.return = T, na.last = T)$ix, ]
+rownames(ddd) <- 1:dim(ddd)[1]
 
 save(ddd, file = 'tenisdata.rda')
 
