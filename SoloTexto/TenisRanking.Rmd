@@ -49,7 +49,7 @@ library(rvest)
 
 load('tenisdata.rda')
 
-url <- 'http://www.atpworldtour.com/es/rankings/singles?rankDate=2018-04-30&rankRange=1-5000'
+url <- 'http://www.atpworldtour.com/es/rankings/singles?rankDate=2018-05-14&rankRange=1-5000'
 webpage <- read_html(url)
 
 puntos <- html_nodes(webpage,'.points-cell')
@@ -61,11 +61,11 @@ pais <- html_nodes(webpage,'.country-item')
 pais <- as.character(pais)
 pais <- substr(pais, 71, 73)
 
-temp <- data.frame(pais = pais, puntos300418 = puntos)
-temp <- docomp('sum', 'puntos300418', 'pais', data = temp)
+temp <- data.frame(pais = pais, puntos140518 = puntos)
+temp <- docomp('sum', 'puntos140518', 'pais', data = temp)
 ddd <- merge(ddd, temp, all = T)
 
-ddd <- ddd[sort(ddd$puntos300418, decreasing = TRUE, index.return = T, na.last = T)$ix, ]
+ddd <- ddd[sort(ddd$puntos140518, decreasing = TRUE, index.return = T, na.last = T)$ix, ]
 rownames(ddd) <- 1:dim(ddd)[1]
 
 save(ddd, file = 'tenisdata.rda')
