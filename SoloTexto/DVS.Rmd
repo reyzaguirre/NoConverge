@@ -59,22 +59,22 @@ plot(X[, "peso"], X[, "talla"], xlab = "Peso", ylab = "Talla", pch = 19, col = "
 abline(h = mean(X[, "talla"]), v = mean(X[, "peso"]), col = "green", lty = 2)
 ```
 
-La varianza de los pesos se calcula a partir de la suma de los cuadrados de las distancias con respecto a la media sobre el eje horizontal. Lo que importa entonces no es la ubicación del punto en el plano sino solo su proyección sobre la horizontal.
-
-```{r fig.height=5, fig.width=5}
-plot(X[, "peso"], X[, "talla"], xlab = "Peso", ylab = "Talla", pch = 19, col = "blue", asp = 1)
-abline(h = mean(X[, "talla"]), v = mean(X[, "peso"]), col = "green", lty = 2)
-for (i in 1:10)
-  lines(c(X[i, "peso"], X[i, "peso"]), c(mean(X[, "talla"]), X[i, "talla"]), col = "red", lty = 3)
-```
-
-Lo mismo para el cálculo de la varianza de las tallas. Lo que importa no es la ubicación del punto sobre el plano sino las proyecciones sobre la vertical.
+La varianza de los pesos se calcula a partir de la suma de los cuadrados de las distancias con respecto a la media (línea verde vertical). Lo que importa entonces no es la ubicación del punto en el plano sino solo su proyección sobre la vertical.
 
 ```{r fig.height=5, fig.width=5}
 plot(X[, "peso"], X[, "talla"], xlab = "Peso", ylab = "Talla", pch = 19, col = "blue", asp = 1)
 abline(h = mean(X[, "talla"]), v = mean(X[, "peso"]), col = "green", lty = 2)
 for (i in 1:10)
   lines(c(mean(X[, "peso"]), X[i, "peso"]), c(X[i, "talla"], X[i, "talla"]), col = "red", lty = 3)
+```
+
+Lo mismo para el cálculo de la varianza de las tallas. Lo que importa no es la ubicación del punto sobre el plano sino las proyecciones sobre la horizontal.
+
+```{r fig.height=5, fig.width=5}
+plot(X[, "peso"], X[, "talla"], xlab = "Peso", ylab = "Talla", pch = 19, col = "blue", asp = 1)
+abline(h = mean(X[, "talla"]), v = mean(X[, "peso"]), col = "green", lty = 2)
+for (i in 1:10)
+  lines(c(X[i, "peso"], X[i, "peso"]), c(mean(X[, "talla"]), X[i, "talla"]), col = "red", lty = 3)
 ```
 
 Noten que con una simple rotación de los ejes podríamos hacer dos cosas:
@@ -96,20 +96,7 @@ a2 <- mean(X[, "talla"]) - b2 * mean(X[, "peso"])
 abline(c(a2, b2), col = "green", lty = 2)
 ```
 
-Si calculamos la varianza de los datos considerando las distancias sobre el primer eje (vea las proyecciones en el siguiente gráfico)
-
-```{r fig.height=5, fig.width=5}
-plot(X[, "peso"], X[, "talla"], xlab = "Peso", ylab = "Talla", pch = 19, col = "blue", asp = 1)
-abline(c(a1, b1), col = "green", lty = 2)
-abline(c(a2, b2), col = "green", lty = 2)
-for (i in 1:10){
-  x <- (mean(X[, "peso"]) * b1 - X[i, "peso"] * b2 + X[i, "talla"] - mean(X[, "talla"])) / (b1 - b2)
-  y <- b2 * (x - X[i, "peso"]) + X[i, "talla"]
-  lines(c(X[i, "peso"], x), c(X[i, "talla"], y), col = "red", lty = 3)
-}  
-```
-
-obtenemos 144.1 que corresponde al 92.7% (144.1/155.48 = 0.927) de la varianza total. Si calculamos la varianza de los datos considerando las distancias sobre el segundo eje (vea las proyecciones en el siguiente gráfico)
+Si calculamos la varianza de los datos con respecto al eje donde las distancias son más grandes (vea las proyecciones en el siguiente gráfico)
 
 ```{r fig.height=5, fig.width=5}
 plot(X[, "peso"], X[, "talla"], xlab = "Peso", ylab = "Talla", pch = 19, col = "blue", asp = 1)
@@ -118,6 +105,19 @@ abline(c(a2, b2), col = "green", lty = 2)
 for (i in 1:10){
   x <- (mean(X[, "peso"]) * b2 - X[i, "peso"] * b1 + X[i, "talla"] - mean(X[, "talla"])) / (b2 - b1)
   y <- b1 * (x - X[i, "peso"]) + X[i, "talla"]
+  lines(c(X[i, "peso"], x), c(X[i, "talla"], y), col = "red", lty = 3)
+}  
+```
+
+obtenemos 144.1 que corresponde al 92.7% (144.1/155.48 = 0.927) de la varianza total. Si calculamos la varianza de los datos considerando las distancias sobre el otro eje (vea las proyecciones en el siguiente gráfico)
+
+```{r fig.height=5, fig.width=5}
+plot(X[, "peso"], X[, "talla"], xlab = "Peso", ylab = "Talla", pch = 19, col = "blue", asp = 1)
+abline(c(a1, b1), col = "green", lty = 2)
+abline(c(a2, b2), col = "green", lty = 2)
+for (i in 1:10){
+  x <- (mean(X[, "peso"]) * b1 - X[i, "peso"] * b2 + X[i, "talla"] - mean(X[, "talla"])) / (b1 - b2)
+  y <- b2 * (x - X[i, "peso"]) + X[i, "talla"]
   lines(c(X[i, "peso"], x), c(X[i, "talla"], y), col = "red", lty = 3)
 }  
 ```
